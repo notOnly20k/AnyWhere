@@ -1,0 +1,66 @@
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    // Bmob**兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        applicationId "com.jzdtl.anywhere"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //图片加载Glide
+    //Rxjava和BmobSDK有冲突
+    //RxAndroid和BmobSDK有冲突
+    //retrofit
+    //gson转换器
+    //rx适配器 和BmobSDK有冲突
+    //Design
+    //CardView
+    //Recyclerview
+    //eventbus
+    //圆形图片
+    //pickview
+    //查看图片的框架
+    //配置ButterKnife
+    //配置greendao
+    compile files('src/main/jniLibs/BaiduLBS_Android.jar')
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'io.reactivex:rxjava:1.2.3'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:cardview-v7:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.bigkoo:pickerview:2.1.1'
+    compile 'com.github.chrisbanes:PhotoView:1.3.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'org.greenrobot:greendao:3.2.0'
+    compile 'org.greenrobot:greendao-generator:3.2.0'
+    compile 'com.android.support:support-v4:25.1.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+}
