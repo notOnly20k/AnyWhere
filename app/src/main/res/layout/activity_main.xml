@@ -5,75 +5,104 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+        <RelativeLayout
+                android:id="@+id/relative_main_register"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_view_head"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:civ_border_width="1dp"
+                        app:civ_border_color="@color/white_fffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_launcher"/>
+                <TextView
+                        android:id="@+id/text_view_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="16sp"
+                        android:layout_below="@id/image_view_head"
+                        android:textColor="@color/white_fffffff"
+                        tools:text="名字"/>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/text_view_name">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:textColor="@color/white_fffffff"
+                            tools:text="5关注"/>
+                    <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/white_fffffff"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:textColor="@color/white_fffffff"
+                            tools:text="4粉丝"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+        <com.jzdtl.anywhere.views.ItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_src="@mipmap/ic_launcher"
+                app:item_name="类型1"
+                app:item_tip="1"/>
+        <com.jzdtl.anywhere.views.ItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_src="@mipmap/ic_launcher"
+                app:item_name="类型2"
+                app:item_tip="2"/>
+        <com.jzdtl.anywhere.views.ItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_src="@mipmap/ic_launcher"
+                app:item_name="类型3"
+                app:item_tip="3"/>
+        <com.jzdtl.anywhere.views.ItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:item_src="@mipmap/ic_launcher"
+                app:item_name="类型3"
+                app:item_tip="4"/>
+    </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/colorPrimary">
-
-    </LinearLayout>
-    <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
             android:orientation="vertical">
+
+        <include layout="@layout/base_tool_bar"/>
+
         <FrameLayout
+                android:id="@+id/fragment_laout_for_replace"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-            <android.support.design.widget.CoordinatorLayout
-
-                    android:id="@+id/activity_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:context="com.jzdtl.anywhere.activity.MainActivity">
-
-                <android.support.design.widget.AppBarLayout
-                        android:id="@+id/abl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <android.support.design.widget.CollapsingToolbarLayout
-                            android:id="@+id/ctl"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:contentScrim="@color/colorPrimary"
-                            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                        <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                app:layout_collapseMode="parallax"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/bg"/>
-
-                        <android.support.v7.widget.Toolbar
-                                android:id="@+id/tool_bar"
-                                android:layout_width="match_parent"
-                                android:layout_height="?actionBarSize">
-                        </android.support.v7.widget.Toolbar>
-                    </android.support.design.widget.CollapsingToolbarLayout>
-                </android.support.design.widget.AppBarLayout>
-
-                <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-            </android.support.design.widget.CoordinatorLayout>
-
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize">
-                <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_centerVertical="true"
-                        android:padding="10dp"
-                        android:src="@mipmap/menu"/>
-            </RelativeLayout>
-
-        </FrameLayout>
+                android:layout_weight="1"/>
         <RadioGroup
                 android:id="@+id/group_view_guide"
                 android:layout_width="match_parent"
@@ -81,6 +110,7 @@
                 android:gravity="center"
                 android:background="@color/white_fffffff"
                 android:orientation="horizontal">
+
             <RadioButton
                     android:id="@+id/radio_button_home"
                     android:layout_width="0dp"
@@ -91,6 +121,7 @@
                     android:drawableTop="@drawable/selector_guide_home"
                     android:button="@null"
                     android:text="首页"/>
+
             <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -100,6 +131,7 @@
                     android:drawableTop="@drawable/selector_guide_activities"
                     android:button="@null"
                     android:text="游记"/>
+
             <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -110,6 +142,6 @@
                     android:button="@null"
                     android:text="发现"/>
         </RadioGroup>
-        </LinearLayout>
+    </LinearLayout>
 
 </android.support.v4.widget.SlidingPaneLayout>

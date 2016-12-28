@@ -1,59 +1,37 @@
 package com.jzdtl.anywhere.activity;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.jzdtl.anywhere.R;
-import com.jzdtl.anywhere.adapter.MyAdaoter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.jzdtl.anywhere.utils.ActivityManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
-    @BindView(R.id.tool_bar)
-    Toolbar toolBar;
-    @BindView(R.id.activity_main)
-    CoordinatorLayout activityMain;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    @BindView(R.id.ctl)
-    CollapsingToolbarLayout ctl;
-    @BindView(R.id.abl)
-    AppBarLayout abl;
     @BindView(R.id.group_view_guide)
     RadioGroup groupViewGuide;
     @BindView(R.id.radio_button_home)
     RadioButton radioButtonHome;
+    @BindView(R.id.relative_main_register)
+    RelativeLayout relativeMainRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolBar);
-        ctl.setTitle("标题");
-        ctl.setCollapsedTitleTextColor(Color.WHITE);
-        ctl.setCollapsedTitleGravity(Gravity.CENTER);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            data.add("数据" + i);
-        }
-        recyclerView.setAdapter(new MyAdaoter(this, data));
         groupViewGuide.setOnCheckedChangeListener(this);
         radioButtonHome.setChecked(true);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -66,5 +44,27 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 rb.setTextColor(getResources().getColor(R.color.gray_bfbfbf));
             }
         }
+    }
+
+    @OnClick(R.id.relative_main_register)
+    public void onClick() {
+        ActivityManager.startActivity(this,new Intent(this,RegisterActivity.class));
+////打开注册页面
+//        RegisterPage registerPage = new RegisterPage();
+//        registerPage.setRegisterCallback(new EventHandler() {
+//            public void afterEvent(int event, int result, Object data) {
+//// 解析注册结果
+//                if (result == SMSSDK.RESULT_COMPLETE) {
+//                    @SuppressWarnings("unchecked")
+//                    HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+//                    String country = (String) phoneMap.get("country");
+//                    String phone = (String) phoneMap.get("phone");
+//
+//// 提交用户信息（此方法可以不调用）
+////                    registerUser(country, phone);
+//                }
+//            }
+//        });
+//        registerPage.show(this);
     }
 }

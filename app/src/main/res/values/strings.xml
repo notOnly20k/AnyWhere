@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Anywhere</string>
+    <string name="app_name">云途</string>
     <string name="user_login">登录</string>
     <string name="user_register">注册</string>
     <string name="register_psw">密码</string>
