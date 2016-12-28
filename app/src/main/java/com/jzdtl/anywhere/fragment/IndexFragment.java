@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple { @link Fragment} subclass.
  */
 public class IndexFragment extends Fragment {
 
