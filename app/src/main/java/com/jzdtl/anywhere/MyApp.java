@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
 
+import cn.smssdk.SMSSDK;
+
 /**
  * Created by chenzd on 2016/12/23.
  */
@@ -13,5 +15,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         SDKInitializer.initialize(getApplicationContext());
+        SMSSDK.initSDK(this, "1a563f659fd8f", "4ba95726495b8009827d93eb53af8a58");
     }
 }

@@ -85,4 +85,12 @@ public class Constant {
      *  例子：http://q.chanyouji.com/api/v1/comments.json?type=UserActivity&id=64157&page=1
      */
     public static final String YUNYOU_USER_COMMENT = "api/v1/comments.json";
+    
+    public static final String YUNYOU_EMAIL_FORMAT = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+
+    public static final String YUNYOU_PHONE_FORMAT = "^1[3|4|5|7|8][0-9]\\d{8}$";
+
+    public static final String YUNYOU_INVALID_FORMAT = "^[A-Za-z0-9]+$";
+
+    public static final String YUNYOU_LENGTH_FORMAT = "[\\u4e00-\\u9fa5_a-zA-Z0-9_]{3,16}";
 }
