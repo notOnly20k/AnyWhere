@@ -52,7 +52,6 @@ public class IndexFragment extends Fragment {
         IndexAdapter adapter=new IndexAdapter(context,list);
         LinearLayoutManager manager=new LinearLayoutManager(context);
         recyclerView.setLayoutManager(manager);
-
         recyclerView.setAdapter(adapter);
     }
 
