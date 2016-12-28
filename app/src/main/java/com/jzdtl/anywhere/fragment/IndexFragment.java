@@ -14,7 +14,6 @@ import com.jzdtl.anywhere.R;
  */
 public class IndexFragment extends Fragment {
 
-
     public IndexFragment() {
         // Required empty public constructor
     }
