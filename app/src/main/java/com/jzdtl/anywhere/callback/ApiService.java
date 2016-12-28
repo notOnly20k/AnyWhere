@@ -75,7 +75,7 @@ public interface ApiService {
     Observable<UserGroupWithActivitiesResult> getUserGroupWithActivitiesResult();
 
     /**
-     * 获得按组查询的结果，只有图片
+     * 获得按组查询的结 果，只有图片
      * @return
      */
     @GET(Constant.YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE)
