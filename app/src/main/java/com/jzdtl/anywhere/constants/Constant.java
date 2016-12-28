@@ -3,7 +3,6 @@ package com.jzdtl.anywhere.constants;
 /**
  * 常量
  */
-
 public class Constant {
     /**
      * 上传图片最大高度
