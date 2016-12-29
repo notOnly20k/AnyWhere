@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.jzdtl.anywhere.activity.SettingActivity">
+
+    <include layout="@layout/base_tool_bar"/>
+
+    <RelativeLayout
+            android:id="@+id/layout_setting_push"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:background="@color/white_fffffff">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:text="设置推送"/>
+
+        <CheckBox
+                android:id="@+id/layout_setting_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/layout_setting_clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:background="@color/white_fffffff">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:text="清理缓存"/>
+
+        <TextView
+                android:id="@+id/layout_setting_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:layout_marginRight="20dp"
+                android:text="5M"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/layout_setting_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:background="@color/white_fffffff">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:text="检查更新"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/layout_setting_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:background="@color/white_fffffff">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/red_f00"
+                android:padding="5dp"
+                android:textSize="16sp"
+                android:text="退出账户"/>
+    </RelativeLayout>
+</LinearLayout>

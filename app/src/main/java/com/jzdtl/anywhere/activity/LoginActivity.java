@@ -15,6 +15,8 @@ import com.jzdtl.anywhere.db.UserEntity;
 import com.jzdtl.anywhere.db.UserEntityDao;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,7 +82,15 @@ public class LoginActivity extends BaseActivity {
                         else
                             userEntity = listByUser.get(0);
                         spUtils.putBoolean("login",true);
-                        Snackbar.make(buttonLoginSubmit, "Success:" + userEntity.toString(), Snackbar.LENGTH_SHORT).show();
+                        spUtils.putString("head",userEntity.getHead());
+                        spUtils.putString("nickname",userEntity.getNickName());
+                        spUtils.putString("username",userEntity.getUserName());
+                        spUtils.putString("userid",userEntity.getUserId());
+                        spUtils.putString("phone",userEntity.getPhoneNumber());
+                        spUtils.putString("sex",userEntity.getSex());
+                        spUtils.putString("email",userEntity.getEmail());
+                        EventBus.getDefault().post(userEntity);
+                        ActivityManager.finishActivity(this);
                     }
                 } else {
                     Snackbar.make(buttonLoginSubmit, "用户名或密码错误！", Snackbar.LENGTH_SHORT).show();

@@ -13,10 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.db.UserEntity;
@@ -25,6 +24,7 @@ import com.jzdtl.anywhere.utils.ActivityManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity implements OptionsPickerView.OnOptionsSelectListener {
     private static final String TAG = "RegisterActivity";
     @BindView(R.id.image_register_head)
     CircleImageView imageRegisterHead;
@@ -44,8 +44,6 @@ public class RegisterActivity extends BaseActivity {
     TextInputEditText textRegisterPassword;
     @BindView(R.id.text_register_email)
     TextInputEditText textRegisterEmail;
-    @BindView(R.id.radio_register_sex)
-    RadioGroup radioRegisterSex;
     @BindView(R.id.text_register_phone)
     TextInputEditText textRegisterPhone;
     @BindView(R.id.text_register_code)
@@ -60,6 +58,8 @@ public class RegisterActivity extends BaseActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.text_register_sex)
+    TextView textRegisterSex;
     private EventHandler eh;
     private UserEntityDao userEntityDao;
     private Handler handler = new Handler() {
@@ -76,6 +76,8 @@ public class RegisterActivity extends BaseActivity {
             }
         }
     };
+    private OptionsPickerView mOptionsPickerView;
+    private ArrayList<String> options1Items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +86,25 @@ public class RegisterActivity extends BaseActivity {
         initDatas();
         initEvents();
         smsRegister();
+        initSexPicker();
+    }
+
+    private void initSexPicker() {
+        //选项选择器
+        mOptionsPickerView = new OptionsPickerView(this);
+        //选项
+        options1Items.add("男");
+        options1Items.add("女");
+        mOptionsPickerView.setPicker(options1Items);
+        mOptionsPickerView.setCyclic(false);
+        mOptionsPickerView.setOnoptionsSelectListener(this);
     }
 
     private void initDatas() {
         userEntityDao = mDaoSession.getUserEntityDao();
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("注册");
-        toolbarSubtitle.setText("提交");
+        toolbarSubtitle.setText("确认");
     }
 
     private void initEvents() {
@@ -189,7 +203,7 @@ public class RegisterActivity extends BaseActivity {
             public void onClick(View v) {
                 boolean phoneError = (textRegisterPhone.getError() == null)
                         && (textRegisterNick.getText().toString().trim().length() != 0);
-                if (phoneError){
+                if (phoneError) {
                     SMSSDK.getVerificationCode("86", textRegisterPhone.getText().toString());
                     new CountDownTimer(60000, 1000) {
                         @Override
@@ -206,7 +220,7 @@ public class RegisterActivity extends BaseActivity {
                             textRegisterCode.setEnabled(true);
                         }
                     }.start();
-                }else {
+                } else {
                     Snackbar.make(toolbarSubtitle, "手机号码有误，请检查", Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -276,19 +290,7 @@ public class RegisterActivity extends BaseActivity {
         userEntity.setNickName(textRegisterNick.getText().toString());
         userEntity.setPassword(textRegisterPassword.getText().toString());
         userEntity.setEmail(textRegisterEmail.getText().toString());
-        String sex = "";
-        for (int i = 0; i < radioRegisterSex.getChildCount(); i++) {
-            RadioButton rb = (RadioButton) radioRegisterSex.getChildAt(i);
-            if (rb.isChecked()) {
-                if (i == 0) {
-                    sex = "男";
-                } else {
-                    sex = "女";
-                }
-                break;
-            }
-        }
-        userEntity.setSex(sex);
+        userEntity.setSex(textRegisterSex.getText().toString());
         userEntity.setPhoneNumber(textRegisterPhone.getText().toString());
         userEntity.setUserId(textRegisterPhone.getText().toString());
         userEntityDao.insert(userEntity);
@@ -331,5 +333,10 @@ public class RegisterActivity extends BaseActivity {
         boolean phoneError = (textRegisterPhone.getError() == null)
                 && (textRegisterNick.getText().toString().trim().length() != 0);
         return nickError && userError && passwordError && emailError && phoneError;
+    }
+
+    @Override
+    public void onOptionsSelect(int options1, int option2, int options3) {
+        textRegisterSex.setText(options1Items.get(options1));
     }
 }

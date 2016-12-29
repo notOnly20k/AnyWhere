@@ -13,6 +13,10 @@ import com.jzdtl.anywhere.db.DaoMaster;
 import com.jzdtl.anywhere.db.DaoSession;
 import com.jzdtl.anywhere.utils.SPUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 /**
  * Created by gcy on 2016/12/27.
  */
@@ -43,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             //设置默认的标题不显示
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        EventBus.getDefault().register(this);
     }
 
     protected void initViews(){
@@ -139,6 +144,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.v(TAG, "onDestroy...");
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetLoginInfo(Object object) {
 
     }
 }

@@ -17,6 +17,11 @@ public class ActivityManager {
         activityList.add(activity);
     }
 
+    public static void startActivityForResult(Activity activity,Intent intent,int requestCode){
+        activity.startActivityForResult(intent,requestCode);
+        activityList.add(activity);
+    }
+
     public static void finishActivity(Activity activity){
         activity.finish();
         activityList.remove(activity);
