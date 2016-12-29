@@ -89,7 +89,7 @@ public class Constant {
 
     public static final String YUNYOU_PHONE_FORMAT = "^1[3|4|5|7|8][0-9]\\d{8}$";
 
-    public static final String YUNYOU_INVALID_FORMAT = "^[A-Za-z0-9]+$";
+    public static final String YUNYOU_INVALID_FORMAT = "[\\u4e00-\\u9fa5_a-zA-Z0-9_]{0,1000}";
 
     public static final String YUNYOU_LENGTH_FORMAT = "[\\u4e00-\\u9fa5_a-zA-Z0-9_]{3,16}";
 }

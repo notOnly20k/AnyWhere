@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <include layout="@layout/base_tool_bar"/>
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:counterMaxLength="16"
+            app:counterEnabled="true"
+            app:passwordToggleTint="@color/gray_bfbfbf">
 
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/text_login_user"
+                style="@style/TextInputStyle"
+                android:inputType="text"
+                android:hint="用户名或手机号"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterMaxLength="16"
+            app:counterEnabled="true"
+            app:passwordToggleTint="@color/gray_bfbfbf"
+            app:passwordToggleEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/text_login_password"
+                style="@style/TextInputStyle"
+                android:inputType="textPassword"
+                android:hint="密码"/>
+    </android.support.design.widget.TextInputLayout>
+    <Button
+            android:id="@+id/button_login_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/white_fffffff"
+            android:background="@drawable/shape_button_register"
+            android:text="登录"/>
 </LinearLayout>

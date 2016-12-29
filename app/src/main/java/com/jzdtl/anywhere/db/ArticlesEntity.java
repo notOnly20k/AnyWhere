@@ -12,25 +12,24 @@ public class ArticlesEntity {
     //表的id 用户id 标题 内容 发布时间 目的地 图片
     @Id
     private Long _id;
-    private String mUserId;
-    private String mArticleId;
-    private String mTitle;
-    private String mContent;
-    private String mSendTime;
-    private String mDesstination;
-    private String mImage;
-    @Generated(hash = 1733600515)
-    public ArticlesEntity(Long _id, String mUserId, String mArticleId,
-            String mTitle, String mContent, String mSendTime, String mDesstination,
-            String mImage) {
+    private String userId;
+    private String articleId;
+    private String title;
+    private String content;
+    private String sendTime;
+    private String desstination;
+    private String image;
+    @Generated(hash = 1035281838)
+    public ArticlesEntity(Long _id, String userId, String articleId, String title,
+            String content, String sendTime, String desstination, String image) {
         this._id = _id;
-        this.mUserId = mUserId;
-        this.mArticleId = mArticleId;
-        this.mTitle = mTitle;
-        this.mContent = mContent;
-        this.mSendTime = mSendTime;
-        this.mDesstination = mDesstination;
-        this.mImage = mImage;
+        this.userId = userId;
+        this.articleId = articleId;
+        this.title = title;
+        this.content = content;
+        this.sendTime = sendTime;
+        this.desstination = desstination;
+        this.image = image;
     }
     @Generated(hash = 935861421)
     public ArticlesEntity() {
@@ -41,46 +40,46 @@ public class ArticlesEntity {
     public void set_id(Long _id) {
         this._id = _id;
     }
-    public String getMUserId() {
-        return this.mUserId;
+    public String getUserId() {
+        return this.userId;
     }
-    public void setMUserId(String mUserId) {
-        this.mUserId = mUserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-    public String getMArticleId() {
-        return this.mArticleId;
+    public String getArticleId() {
+        return this.articleId;
     }
-    public void setMArticleId(String mArticleId) {
-        this.mArticleId = mArticleId;
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
-    public String getMTitle() {
-        return this.mTitle;
+    public String getTitle() {
+        return this.title;
     }
-    public void setMTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public String getMContent() {
-        return this.mContent;
+    public String getContent() {
+        return this.content;
     }
-    public void setMContent(String mContent) {
-        this.mContent = mContent;
+    public void setContent(String content) {
+        this.content = content;
     }
-    public String getMSendTime() {
-        return this.mSendTime;
+    public String getSendTime() {
+        return this.sendTime;
     }
-    public void setMSendTime(String mSendTime) {
-        this.mSendTime = mSendTime;
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
     }
-    public String getMDesstination() {
-        return this.mDesstination;
+    public String getDesstination() {
+        return this.desstination;
     }
-    public void setMDesstination(String mDesstination) {
-        this.mDesstination = mDesstination;
+    public void setDesstination(String desstination) {
+        this.desstination = desstination;
     }
-    public String getMImage() {
-        return this.mImage;
+    public String getImage() {
+        return this.image;
     }
-    public void setMImage(String mImage) {
-        this.mImage = mImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

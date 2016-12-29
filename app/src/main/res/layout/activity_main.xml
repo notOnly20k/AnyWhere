@@ -27,69 +27,35 @@
                         app:civ_border_width="1dp"
                         app:civ_border_color="@color/white_fffffff"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher"/>
-                <TextView
-                        android:id="@+id/text_view_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_centerHorizontal="true"
-                        android:textSize="16sp"
-                        android:layout_below="@id/image_view_head"
-                        android:textColor="@color/white_fffffff"
-                        tools:text="名字"/>
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:layout_below="@id/text_view_name">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="@color/white_fffffff"
-                            tools:text="5关注"/>
-                    <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@color/white_fffffff"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="@color/white_fffffff"
-                            tools:text="4粉丝"/>
-                </LinearLayout>
+                        android:src="@mipmap/yuntu_logo"/>
+                <include layout="@layout/sliding_login_true"/>
+                <include layout="@layout/sliding_login_false"/>
             </RelativeLayout>
         </RelativeLayout>
         <com.jzdtl.anywhere.views.ItemView
+                android:id="@+id/image_main_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_src="@mipmap/ic_launcher"
-                app:item_name="类型1"
-                app:item_tip="1"/>
+                app:item_src="@mipmap/my_activity"
+                app:item_name="我的游记"/>
         <com.jzdtl.anywhere.views.ItemView
+                android:id="@+id/image_main_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_src="@mipmap/ic_launcher"
-                app:item_name="类型2"
-                app:item_tip="2"/>
+                app:item_src="@mipmap/my_like"
+                app:item_name="我的收藏"/>
         <com.jzdtl.anywhere.views.ItemView
+                android:id="@+id/image_main_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_src="@mipmap/ic_launcher"
-                app:item_name="类型3"
-                app:item_tip="3"/>
+                app:item_src="@mipmap/my_feedback"
+                app:item_name="我的反馈"/>
         <com.jzdtl.anywhere.views.ItemView
+                android:id="@+id/image_main_set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:item_src="@mipmap/ic_launcher"
-                app:item_name="类型3"
-                app:item_tip="4"/>
+                app:item_src="@mipmap/my_set"
+                app:item_name="设置"/>
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"

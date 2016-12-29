@@ -7,142 +7,157 @@
         android:orientation="vertical">
 
     <include layout="@layout/base_tool_bar"/>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_centerInParent="true">
+
             <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_register_head"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/white_fffffff"
                     android:scaleType="centerCrop"
                     android:layout_centerInParent="true"
                     android:src="@mipmap/yuntu_logo"/>
-            <LinearLayout
+
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_button_register">
-                <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputEditText
-                            android:id="@+id/text_register_nick"
-                            style="@style/TextInputStyle"
-                            android:inputType="text"
-                            android:hint="昵称"/>
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
+                    app:counterMaxLength="16"
+                    app:counterEnabled="true"
+                    app:hintAnimationEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_register_nick"
+                        style="@style/TextInputStyle"
+                        android:inputType="text"
+                        android:hint="昵称"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_button_register">
-                <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputEditText
-                            android:id="@+id/text_register_user"
-                            style="@style/TextInputStyle"
-                            android:inputType="textPersonName"
-                            android:hint="用户名"/>
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
+                    app:counterMaxLength="16"
+                    app:counterEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_register_user"
+                        style="@style/TextInputStyle"
+                        android:inputType="textPersonName"
+                        android:hint="用户名"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_button_register">
-                <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputEditText
-                            android:id="@+id/text_register_password"
-                            style="@style/TextInputStyle"
-                            android:inputType="textPassword"
-                            android:hint="密码"/>
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-            <LinearLayout
+                    app:counterMaxLength="16"
+                    app:counterEnabled="true"
+                    app:passwordToggleTint="@color/gray_bfbfbf"
+                    app:passwordToggleEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_register_password"
+                        style="@style/TextInputStyle"
+                        android:inputType="textPassword"
+                        android:hint="密码"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_button_register">
-                <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputEditText
-                            android:id="@+id/text_register_email"
-                            style="@style/TextInputStyle"
-                            android:inputType="textEmailAddress"
-                            android:hint="邮箱"/>
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_register_email"
+                        style="@style/TextInputStyle"
+                        android:inputType="textEmailAddress"
+                        android:hint="邮箱"/>
+            </android.support.design.widget.TextInputLayout>
+
             <RadioGroup
                     android:id="@+id/radio_register_sex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/shape_button_register"
-                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
                     android:orientation="horizontal">
+
                 <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
+                        android:textColor="@color/gray_bfbfbf"
+                        android:buttonTint="@color/gray_bfbfbf"
                         android:text="男"/>
+
                 <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
+                        android:textColor="@color/gray_bfbfbf"
+                        android:buttonTint="@color/gray_bfbfbf"
                         android:text="女"/>
             </RadioGroup>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_bfbfbf"/>
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_register_phone"
+                        style="@style/TextInputStyle"
+                        android:inputType="phone"
+                        android:hint="手机号码"/>
+            </android.support.design.widget.TextInputLayout>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:background="@drawable/shape_button_register"
                     android:orientation="horizontal">
-                <android.support.design.widget.TextInputLayout
-                        android:layout_marginTop="10dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                    <android.support.design.widget.TextInputEditText
-                            android:id="@+id/text_register_phone"
-                            style="@style/TextInputStyle"
+
+                    <EditText
+                            android:id="@+id/text_register_check"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:padding = "5dp"
+                            android:textSize="14sp"
+                            android:singleLine="true"
+                            android:background="@null"
                             android:inputType="phone"
-                            android:hint="手机号码"/>
-                </android.support.design.widget.TextInputLayout>
-                <Button
-                        android:id="@+id/button_register_code"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                            android:hint="验证码"/>
+
+                <TextView
+                        android:id="@+id/text_register_code"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_margin="2dp"
                         android:text="获得验证码"
                         android:textColor="@color/white_fffffff"
-                        android:background="@color/colorPrimary"/>
+                        android:background="@drawable/shape_backgroud_corners"/>
             </LinearLayout>
-            <Button
-                    android:id="@+id/button_register_reg"
+            <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/shape_button_register"
-                    android:text="注册"/>
+                    android:layout_height="1dp"
+                    android:background="@color/gray_bfbfbf"/>
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>

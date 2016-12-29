@@ -2,29 +2,38 @@ package com.jzdtl.anywhere.activity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.constants.Constant;
+import com.jzdtl.anywhere.db.UserEntity;
+import com.jzdtl.anywhere.db.UserEntityDao;
+import com.jzdtl.anywhere.utils.ActivityManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
 public class RegisterActivity extends BaseActivity {
     private static final String TAG = "RegisterActivity";
-    @BindView(R.id.button_register_reg)
-    Button btnRegister;
     @BindView(R.id.image_register_head)
     CircleImageView imageRegisterHead;
     @BindView(R.id.text_register_nick)
@@ -39,16 +48,49 @@ public class RegisterActivity extends BaseActivity {
     RadioGroup radioRegisterSex;
     @BindView(R.id.text_register_phone)
     TextInputEditText textRegisterPhone;
-    @BindView(R.id.button_register_code)
-    Button buttonRegisterCode;
+    @BindView(R.id.text_register_code)
+    TextView textRegisterCode;
+    @BindView(R.id.text_register_check)
+    EditText textRegisterCheck;
+    @BindView(R.id.toolbar_subtitle)
+    TextView toolbarSubtitle;
+    @BindView(R.id.toolbar_image)
+    ImageView toolbarImage;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private EventHandler eh;
+    private UserEntityDao userEntityDao;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                if (msg.arg1 == 0) {
+                    Snackbar.make(toolbarSubtitle, "用户名或者手机号已经存在！", Snackbar.LENGTH_SHORT).show();
+                } else if (msg.arg1 == 1) {
+                    Snackbar.make(toolbarSubtitle, "注册成功！", Snackbar.LENGTH_SHORT).show();
+                } else if (msg.arg1 == 2) {
+                    Snackbar.make(toolbarSubtitle, "验证失败！", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        initDatas();
         initEvents();
         smsRegister();
+    }
+
+    private void initDatas() {
+        userEntityDao = mDaoSession.getUserEntityDao();
+        toolbarImage.setImageResource(R.mipmap.back_icon);
+        toolbarTitle.setText("注册");
+        toolbarSubtitle.setText("提交");
     }
 
     private void initEvents() {
@@ -65,8 +107,8 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().matches(Constant.YUNYOU_LENGTH_FORMAT)){
-                    textRegisterNick.setError("请输入3-16个字符");
+                if (!editable.toString().matches(Constant.YUNYOU_INVALID_FORMAT)) {
+                    textRegisterNick.setError("非法字符");
                 }
             }
         });
@@ -83,8 +125,8 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().matches(Constant.YUNYOU_LENGTH_FORMAT)){
-                    textRegisterUser.setError("请输入3-16个字符");
+                if (!editable.toString().matches(Constant.YUNYOU_INVALID_FORMAT)) {
+                    textRegisterUser.setError("非法字符");
                 }
             }
         });
@@ -101,8 +143,8 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().matches(Constant.YUNYOU_LENGTH_FORMAT)){
-                    textRegisterPassword.setError("请输入3-16个字符");
+                if (!editable.toString().matches(Constant.YUNYOU_LENGTH_FORMAT)) {
+
                 }
             }
         });
@@ -119,7 +161,7 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().matches(Constant.YUNYOU_EMAIL_FORMAT)){
+                if (!editable.toString().equals("") && !editable.toString().matches(Constant.YUNYOU_EMAIL_FORMAT)) {
                     textRegisterEmail.setError("非法邮箱");
                 }
             }
@@ -137,28 +179,60 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().matches(Constant.YUNYOU_PHONE_FORMAT)){
+                if (!editable.toString().matches(Constant.YUNYOU_PHONE_FORMAT)) {
                     textRegisterPhone.setError("非法手机号码");
                 }
             }
         });
-        buttonRegisterCode.setOnClickListener(new View.OnClickListener() {
+        textRegisterCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CountDownTimer(60000, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        buttonRegisterCode.setText("剩余" + (millisUntilFinished / 1000) + "S");
-                        buttonRegisterCode.setTextColor(getResources().getColor(R.color.gray_bfbfbf));
-                        buttonRegisterCode.setEnabled(false);
+                boolean phoneError = (textRegisterPhone.getError() == null)
+                        && (textRegisterNick.getText().toString().trim().length() != 0);
+                if (phoneError){
+                    SMSSDK.getVerificationCode("86", textRegisterPhone.getText().toString());
+                    new CountDownTimer(60000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            textRegisterCode.setText("剩余" + (millisUntilFinished / 1000) + "S");
+                            textRegisterCode.setTextColor(getResources().getColor(R.color.gray_bfbfbf));
+                            textRegisterCode.setEnabled(false);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            textRegisterCode.setText("获取验证码");
+                            textRegisterCode.setTextColor(getResources().getColor(R.color.white_fffffff));
+                            textRegisterCode.setEnabled(true);
+                        }
+                    }.start();
+                }else {
+                    Snackbar.make(toolbarSubtitle, "手机号码有误，请检查", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+        toolbarSubtitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+                if (isRight()) {
+                    if (isDatabaseExist()) {
+                        SMSSDK.submitVerificationCode("86", textRegisterPhone.getText().toString(), textRegisterCheck.getText().toString().trim());
+                    } else {
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        message.arg1 = 0;
+                        handler.sendMessage(message);
                     }
-                    @Override
-                    public void onFinish() {
-                        buttonRegisterCode.setText("获取验证码");
-                        buttonRegisterCode.setTextColor(getResources().getColor(R.color.white_fffffff));
-                        buttonRegisterCode.setEnabled(true);
-                    }
-                }.start();
+                } else {
+                    Snackbar.make(toolbarSubtitle, "信息有误，请检查", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+        toolbarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityManager.finishActivity(RegisterActivity.this);
             }
         });
     }
@@ -168,23 +242,56 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void afterEvent(int event, int result, Object data) {
-
+                Log.i(TAG, "afterEvent: ==============" + event);
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     //回调完成
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                        //提交验证码成功
+                        insertDatabase();
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        message.arg1 = 1;
+                        handler.sendMessage(message);
+                        ActivityManager.finishActivity(RegisterActivity.this);
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         //获取验证码成功
                     } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
                         //返回支持发送验证码的国家列表
-
                     }
                 } else {
-                    ((Throwable) data).printStackTrace();
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    message.arg1 = 2;
+                    handler.sendMessage(message);
                 }
             }
+
         };
         SMSSDK.registerEventHandler(eh); //注册短信回调
+    }
+
+    private void insertDatabase() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setHead("");
+        userEntity.setUserName(textRegisterUser.getText().toString());
+        userEntity.setNickName(textRegisterNick.getText().toString());
+        userEntity.setPassword(textRegisterPassword.getText().toString());
+        userEntity.setEmail(textRegisterEmail.getText().toString());
+        String sex = "";
+        for (int i = 0; i < radioRegisterSex.getChildCount(); i++) {
+            RadioButton rb = (RadioButton) radioRegisterSex.getChildAt(i);
+            if (rb.isChecked()) {
+                if (i == 0) {
+                    sex = "男";
+                } else {
+                    sex = "女";
+                }
+                break;
+            }
+        }
+        userEntity.setSex(sex);
+        userEntity.setPhoneNumber(textRegisterPhone.getText().toString());
+        userEntity.setUserId(textRegisterPhone.getText().toString());
+        userEntityDao.insert(userEntity);
     }
 
     @Override
@@ -192,15 +299,37 @@ public class RegisterActivity extends BaseActivity {
         return R.layout.activity_register;
     }
 
-    @OnClick(R.id.button_register_reg)
-    public void onClick() {
-        SMSSDK.getVerificationCode("86", "18382470226");
-        Log.i(TAG, "onClick: 点击了");
+    private boolean isDatabaseExist() {
+        List<UserEntity> userList = userEntityDao.queryBuilder().where(UserEntityDao.Properties.UserName.eq(textRegisterUser.getText().toString())).list();
+        if (userList != null && userList.size() > 0) {
+            return false;
+        }
+        List<UserEntity> phoneList = userEntityDao.queryBuilder().where(UserEntityDao.Properties.PhoneNumber.eq(textRegisterPhone.getText().toString())).list();
+        if (phoneList != null && phoneList.size() > 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eh);
+    }
+
+    private boolean isRight() {
+        boolean nickError = (textRegisterNick.getError() == null)
+                && (textRegisterNick.getText().toString().trim().length() <= 16)
+                && (textRegisterNick.getText().toString().trim().length() != 0);
+        boolean userError = (textRegisterUser.getError() == null)
+                && (textRegisterUser.getText().toString().trim().length() <= 16)
+                && (textRegisterUser.getText().toString().trim().length() != 0);
+        boolean passwordError = (textRegisterPassword.getError() == null)
+                && (textRegisterPassword.getText().toString().trim().length() <= 16)
+                && (textRegisterPassword.getText().toString().trim().length() != 0);
+        boolean emailError = (textRegisterEmail.getError() == null);
+        boolean phoneError = (textRegisterPhone.getError() == null)
+                && (textRegisterNick.getText().toString().trim().length() != 0);
+        return nickError && userError && passwordError && emailError && phoneError;
     }
 }

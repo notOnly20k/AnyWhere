@@ -12,24 +12,27 @@ public class UserEntity {
     //   表的id 手机号码 邮箱 性别 昵称 密码 头像
     @Id
     private Long _id;
-    private String mUserId;
-    private String mPhoneNumber;
-    private String mEmail;
-    private String mSex;
-    private String mNickName;
-    private String mPassword;
-    private String mHead;
-    @Generated(hash = 2046057164)
-    public UserEntity(Long _id, String mUserId, String mPhoneNumber, String mEmail,
-            String mSex, String mNickName, String mPassword, String mHead) {
+    private String userName;
+    private String phoneNumber;
+    private String email;
+    private String sex;
+    private String nickName;
+    private String password;
+    private String head;
+    private String userId;
+    @Generated(hash = 964647344)
+    public UserEntity(Long _id, String userName, String phoneNumber, String email,
+            String sex, String nickName, String password, String head,
+            String userId) {
         this._id = _id;
-        this.mUserId = mUserId;
-        this.mPhoneNumber = mPhoneNumber;
-        this.mEmail = mEmail;
-        this.mSex = mSex;
-        this.mNickName = mNickName;
-        this.mPassword = mPassword;
-        this.mHead = mHead;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.sex = sex;
+        this.nickName = nickName;
+        this.password = password;
+        this.head = head;
+        this.userId = userId;
     }
     @Generated(hash = 1433178141)
     public UserEntity() {
@@ -40,46 +43,67 @@ public class UserEntity {
     public void set_id(Long _id) {
         this._id = _id;
     }
-    public String getMUserId() {
-        return this.mUserId;
+    public String getUserName() {
+        return this.userName;
     }
-    public void setMUserId(String mUserId) {
-        this.mUserId = mUserId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-    public String getMPhoneNumber() {
-        return this.mPhoneNumber;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
     }
-    public void setMPhoneNumber(String mPhoneNumber) {
-        this.mPhoneNumber = mPhoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    public String getMEmail() {
-        return this.mEmail;
+    public String getEmail() {
+        return this.email;
     }
-    public void setMEmail(String mEmail) {
-        this.mEmail = mEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public String getMSex() {
-        return this.mSex;
+    public String getSex() {
+        return this.sex;
     }
-    public void setMSex(String mSex) {
-        this.mSex = mSex;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
-    public String getMNickName() {
-        return this.mNickName;
+    public String getNickName() {
+        return this.nickName;
     }
-    public void setMNickName(String mNickName) {
-        this.mNickName = mNickName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
-    public String getMPassword() {
-        return this.mPassword;
+    public String getPassword() {
+        return this.password;
     }
-    public void setMPassword(String mPassword) {
-        this.mPassword = mPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public String getMHead() {
-        return this.mHead;
+    public String getHead() {
+        return this.head;
     }
-    public void setMHead(String mHead) {
-        this.mHead = mHead;
+    public void setHead(String head) {
+        this.head = head;
+    }
+    public String getUserId() {
+        return this.userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "_id=" + _id +
+                ", userName='" + userName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", sex='" + sex + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", head='" + head + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

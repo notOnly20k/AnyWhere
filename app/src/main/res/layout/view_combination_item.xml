@@ -8,8 +8,8 @@
         android:layout_height="wrap_content">
         <ImageView
                 android:id="@+id/image_view_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 tools:src="@mipmap/ic_launcher"
                 android:scaleType="centerCrop"/>
         <TextView
@@ -18,6 +18,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="item"
+                android:textSize="16sp"
+                android:textColor="@color/black_000"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/image_view_image"/>
     <TextView
@@ -25,6 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提示"
+            android:textSize="16sp"
+            android:textColor="@color/black_000"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
 </RelativeLayout>
