@@ -12,13 +12,13 @@ public class ImageEntity {
     //    表的ID  文章ID 图片地址
     @Id
     private Long _id;
-    private String mArticleId;
-    private String mImageUrl;
-    @Generated(hash = 2097378684)
-    public ImageEntity(Long _id, String mArticleId, String mImageUrl) {
+    private String articleId;
+    private String imageUrl;
+    @Generated(hash = 813205590)
+    public ImageEntity(Long _id, String articleId, String imageUrl) {
         this._id = _id;
-        this.mArticleId = mArticleId;
-        this.mImageUrl = mImageUrl;
+        this.articleId = articleId;
+        this.imageUrl = imageUrl;
     }
     @Generated(hash = 2080458212)
     public ImageEntity() {
@@ -29,16 +29,16 @@ public class ImageEntity {
     public void set_id(Long _id) {
         this._id = _id;
     }
-    public String getMArticleId() {
-        return this.mArticleId;
+    public String getArticleId() {
+        return this.articleId;
     }
-    public void setMArticleId(String mArticleId) {
-        this.mArticleId = mArticleId;
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
-    public String getMImageUrl() {
-        return this.mImageUrl;
+    public String getImageUrl() {
+        return this.imageUrl;
     }
-    public void setMImageUrl(String mImageUrl) {
-        this.mImageUrl = mImageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

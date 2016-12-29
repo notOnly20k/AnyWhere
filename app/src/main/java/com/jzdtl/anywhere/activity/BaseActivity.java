@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.db.DaoMaster;
+import com.jzdtl.anywhere.db.DaoSession;
 import com.jzdtl.anywhere.utils.SPUtils;
 
 /**
@@ -15,19 +19,20 @@ import com.jzdtl.anywhere.utils.SPUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
+    private ImageView mToolbarImage;
     private TextView mToolbarTitle;
     private TextView mToolbarSubTitle;
     private Toolbar mToolbar;
     public SPUtils spUtils;
-
+    public DaoSession mDaoSession;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+
         spUtils = new SPUtils(this,"config_file");
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        mToolbarSubTitle = (TextView) findViewById(R.id.toolbar_subtitle);
+        initViews();
+        initDatabase();
         if (mToolbar != null) {
             //将Toolbar显示到界面
             setSupportActionBar(mToolbar);
@@ -38,9 +43,22 @@ public abstract class BaseActivity extends AppCompatActivity {
             //设置默认的标题不显示
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
     }
 
+    protected void initViews(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbarImage = (ImageView) findViewById(R.id.toolbar_image);
+        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        mToolbarSubTitle = (TextView) findViewById(R.id.toolbar_subtitle);
+    }
+
+    protected void initDatabase(){
+        mDaoSession = DaoMaster.newDevSession(this,"yuntu.db");
+    }
+    public void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -79,7 +97,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             setSupportActionBar(getToolbar());
         }
     }
-
     /**
      * this Activity of tool bar.
      * 获取头部.

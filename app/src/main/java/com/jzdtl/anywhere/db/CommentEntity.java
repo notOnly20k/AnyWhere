@@ -12,23 +12,23 @@ public class CommentEntity {
     //    表的id 用户id 文章id 评论内容 是否点赞 是否收藏 评论时间
     @Id
     private Long _id;
-    private String mUserId;
-    private String mArticleId;
-    private String mCommentContent;
-    private String mIsCommend;
-    private String mIsLiked;
-    private String mCommentTime;
-    @Generated(hash = 1569949722)
-    public CommentEntity(Long _id, String mUserId, String mArticleId,
-            String mCommentContent, String mIsCommend, String mIsLiked,
-            String mCommentTime) {
+    private String userId;
+    private String articleId;
+    private String commentContent;
+    private String isCommend;
+    private String isLiked;
+    private String commentTime;
+    @Generated(hash = 2029744778)
+    public CommentEntity(Long _id, String userId, String articleId,
+            String commentContent, String isCommend, String isLiked,
+            String commentTime) {
         this._id = _id;
-        this.mUserId = mUserId;
-        this.mArticleId = mArticleId;
-        this.mCommentContent = mCommentContent;
-        this.mIsCommend = mIsCommend;
-        this.mIsLiked = mIsLiked;
-        this.mCommentTime = mCommentTime;
+        this.userId = userId;
+        this.articleId = articleId;
+        this.commentContent = commentContent;
+        this.isCommend = isCommend;
+        this.isLiked = isLiked;
+        this.commentTime = commentTime;
     }
     @Generated(hash = 339855539)
     public CommentEntity() {
@@ -39,40 +39,40 @@ public class CommentEntity {
     public void set_id(Long _id) {
         this._id = _id;
     }
-    public String getMUserId() {
-        return this.mUserId;
+    public String getUserId() {
+        return this.userId;
     }
-    public void setMUserId(String mUserId) {
-        this.mUserId = mUserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-    public String getMArticleId() {
-        return this.mArticleId;
+    public String getArticleId() {
+        return this.articleId;
     }
-    public void setMArticleId(String mArticleId) {
-        this.mArticleId = mArticleId;
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
-    public String getMCommentContent() {
-        return this.mCommentContent;
+    public String getCommentContent() {
+        return this.commentContent;
     }
-    public void setMCommentContent(String mCommentContent) {
-        this.mCommentContent = mCommentContent;
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
-    public String getMIsCommend() {
-        return this.mIsCommend;
+    public String getIsCommend() {
+        return this.isCommend;
     }
-    public void setMIsCommend(String mIsCommend) {
-        this.mIsCommend = mIsCommend;
+    public void setIsCommend(String isCommend) {
+        this.isCommend = isCommend;
     }
-    public String getMIsLiked() {
-        return this.mIsLiked;
+    public String getIsLiked() {
+        return this.isLiked;
     }
-    public void setMIsLiked(String mIsLiked) {
-        this.mIsLiked = mIsLiked;
+    public void setIsLiked(String isLiked) {
+        this.isLiked = isLiked;
     }
-    public String getMCommentTime() {
-        return this.mCommentTime;
+    public String getCommentTime() {
+        return this.commentTime;
     }
-    public void setMCommentTime(String mCommentTime) {
-        this.mCommentTime = mCommentTime;
+    public void setCommentTime(String commentTime) {
+        this.commentTime = commentTime;
     }
 }
