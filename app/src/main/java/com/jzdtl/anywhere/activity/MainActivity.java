@@ -2,11 +2,16 @@ package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.fragment.ActivitiesFragment;
+import com.jzdtl.anywhere.fragment.IndexFragment;
+import com.jzdtl.anywhere.fragment.NearbyFragment;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
 import butterknife.BindView;
@@ -20,13 +25,27 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     RadioButton radioButtonHome;
     @BindView(R.id.relative_main_register)
     RelativeLayout relativeMainRegister;
+    private FragmentTransaction transation;
+    private FragmentManager manager;
+    private ActivitiesFragment activitiesFragment;
+    private IndexFragment indexFragment;
+    private NearbyFragment nearbyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         groupViewGuide.setOnCheckedChangeListener(this);
+        initFragMent();
         radioButtonHome.setChecked(true);
+
+    }
+
+    private void initFragMent() {
+        manager = getSupportFragmentManager();
+        activitiesFragment = new ActivitiesFragment();
+        indexFragment = new IndexFragment();
+        nearbyFragment = new NearbyFragment();
     }
 
     @Override
@@ -36,6 +55,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        transation = manager.beginTransaction();
         for (int j = 0; j < radioGroup.getChildCount(); j++) {
             RadioButton rb = (RadioButton) radioGroup.getChildAt(j);
             if (rb.isChecked()) {
@@ -43,6 +63,20 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             } else {
                 rb.setTextColor(getResources().getColor(R.color.gray_bfbfbf));
             }
+        }
+        switch (i){
+            case R.id.radio_button_home:
+                transation.replace(R.id.fragment_laout_for_replace,indexFragment);
+                transation.commit();
+                break;
+            case R.id.radio_button_index:
+
+                transation.replace(R.id.fragment_laout_for_replace,activitiesFragment);
+                transation.commit();
+                break;
+            case R.id.radio_button_nearby:
+                transation.replace(R.id.fragment_laout_for_replace,nearbyFragment);
+                transation.commit();
         }
     }
 

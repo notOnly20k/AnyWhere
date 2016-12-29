@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
     <include
-        android:id="@+id/layout_index_head"
-        layout="@layout/item_index_head"/>
+        android:id="@+id/layout_actities_head"
+        layout="@layout/item_activities_head"/>
     <ImageView
-        android:id="@+id/img_index_fristpic"
+        android:id="@+id/img_actities_fristpic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
-   <GridView
-       android:id="@+id/grid_index_pics"
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/rec_actities_pics"
        android:layout_width="match_parent"
-       android:layout_height="80dp">
-   </GridView>
+       android:layout_height="90dp"
+       >
+   </android.support.v7.widget.RecyclerView>
+     <TextView
+         android:id="@+id/tv_actities_title"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="标题"
+         android:textSize="16sp"
+         />
     <TextView
+        android:id="@+id/tv_activities_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13sp"
-        android:maxLines="10"
+        android:maxLines="8"
         android:text="内容"
         />
+        <TextView
+            android:id="@+id/tv_actities_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/colorPrimary"
+            android:text="查看全文"
+            />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -39,38 +58,50 @@
         android:orientation="horizontal"
         >
         <ImageView
-            android:id="@+id/img_index_like"
+            android:id="@+id/img_actities_like"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@mipmap/icon_like_normal"
             android:layout_gravity="center_vertical"
             />
         <TextView
-            android:id="@+id/tv_index_like"
+            android:id="@+id/tv_actities_like"
             android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="13sp"
+            android:text="3"
+            />
         <ImageView
-            android:id="@+id/img_index_comment"
+            android:id="@+id/img_actities_comment"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@mipmap/icon_comment_normal"
             android:layout_gravity="center_vertical"
             />
         <TextView
-            android:id="@+id/tv_index_comment"
+            android:id="@+id/tv_actities_comment"
             android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:layout_height="15dp"
+            android:textSize="13sp"
+            android:layout_gravity="center_vertical"
+            android:text="3"
+            />
         <ImageView
-            android:id="@+id/img_index_collect"
+            android:id="@+id/img_actities_collect"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@mipmap/icon_fav_normal"
             android:layout_gravity="center_vertical"
             />
         <TextView
-            android:id="@+id/tv_index_collect"
+            android:id="@+id/tv_actities_collect"
             android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:layout_height="15dp"
+            android:textSize="13sp"
+            android:layout_gravity="center_vertical"
+            android:text="3"
+            />
         <View
             android:layout_width="0dp"
             android:layout_weight="1.0"

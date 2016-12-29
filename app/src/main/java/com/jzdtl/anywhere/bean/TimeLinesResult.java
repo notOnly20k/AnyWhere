@@ -339,6 +339,32 @@ public class TimeLinesResult {
                 this.categories = categories;
             }
 
+            @Override
+            public String toString() {
+                return "ActivityBean{" +
+                        "id=" + id +
+                        ", made_at='" + made_at + '\'' +
+                        ", likes_count=" + likes_count +
+                        ", comments_count=" + comments_count +
+                        ", topic='" + topic + '\'' +
+                        ", contents_count=" + contents_count +
+                        ", district_id=" + district_id +
+                        ", created_at='" + created_at + '\'' +
+                        ", favorites_count=" + favorites_count +
+                        ", parent_district_id=" + parent_district_id +
+                        ", parent_district_count=" + parent_district_count +
+                        ", level=" + level +
+                        ", description='" + description + '\'' +
+                        ", user=" + user +
+                        ", poi=" + poi +
+                        ", inspiration_activity_id=" + inspiration_activity_id +
+                        ", inspiration_activity=" + inspiration_activity +
+                        ", contents=" + contents +
+                        ", districts=" + districts +
+                        ", categories=" + categories +
+                        '}';
+            }
+
             public static class UserBeanX {
                 /**
                  * id : 10586

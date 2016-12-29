@@ -4,23 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="70dp">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_index_headpic"
+            android:id="@+id/img_activities_headpic"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:src="@mipmap/ic_launcher"
             />
         <TextView
-            android:id="@+id/tv_index_username"
+            android:id="@+id/tv_activities_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:textSize="13sp"
             android:textColor="@color/black_000"
-            android:layout_toRightOf="@id/img_index_headpic"
+            android:layout_toRightOf="@id/img_activities_headpic"
             android:text="user_name"
             />
        <TextView
+           android:id="@+id/tv_actities_fllow"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="关注他"
