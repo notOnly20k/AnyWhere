@@ -17,6 +17,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+
 /**
  * Created by gcy on 2016/12/27.
  */
@@ -149,5 +151,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetLoginInfo(Object object) {
 
+    }
+    //创建存储图片的文件
+    public File getStorageFile() {
+        File imgPath = null;
+        //判断sd卡存在
+        File root = getExternalFilesDir(null);
+        //创建目录
+        File directory = new File(root, "camera");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        //创建文件
+        imgPath = new File(directory, System.currentTimeMillis() + ".jpg");
+        Log.i(TAG, "getStorageFile: "+imgPath);
+        return imgPath;
     }
 }

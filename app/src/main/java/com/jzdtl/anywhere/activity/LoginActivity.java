@@ -82,15 +82,9 @@ public class LoginActivity extends BaseActivity {
                         else
                             userEntity = listByUser.get(0);
                         spUtils.putBoolean("login",true);
-                        spUtils.putString("head",userEntity.getHead());
-                        spUtils.putString("nickname",userEntity.getNickName());
                         spUtils.putString("username",userEntity.getUserName());
-                        spUtils.putString("userid",userEntity.getUserId());
-                        spUtils.putString("phone",userEntity.getPhoneNumber());
-                        spUtils.putString("sex",userEntity.getSex());
-                        spUtils.putString("email",userEntity.getEmail());
-                        EventBus.getDefault().post(userEntity);
                         ActivityManager.finishActivity(this);
+                        EventBus.getDefault().post(userEntity);
                     }
                 } else {
                     Snackbar.make(buttonLoginSubmit, "用户名或密码错误！", Snackbar.LENGTH_SHORT).show();

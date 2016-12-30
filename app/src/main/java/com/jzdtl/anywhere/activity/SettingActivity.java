@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
-import com.jzdtl.anywhere.bean.LoginOutEvent;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,6 +52,11 @@ public class SettingActivity extends BaseActivity {
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("设置");
         toolbarSubtitle.setVisibility(View.GONE);
+        if (spUtils.getBoolean("login",false)){
+            layoutSettingOut.setVisibility(View.VISIBLE);
+        }else {
+            layoutSettingOut.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -77,7 +81,8 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.layout_setting_out:
                 ActivityManager.finishActivity(this);
-                EventBus.getDefault().post(new LoginOutEvent());
+                spUtils.putBoolean("login",false);
+                EventBus.getDefault().post("loginOut");
                 break;
         }
     }

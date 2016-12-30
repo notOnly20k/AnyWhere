@@ -9,7 +9,13 @@
         android:orientation="vertical"
         tools:context="com.jzdtl.anywhere.activity.ModifyInfoActivity">
         <include layout="@layout/base_tool_bar"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
         <RelativeLayout
+                android:id="@+id/layout_modify_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_fffffff"

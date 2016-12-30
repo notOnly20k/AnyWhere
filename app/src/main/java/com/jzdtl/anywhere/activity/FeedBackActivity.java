@@ -1,12 +1,12 @@
 package com.jzdtl.anywhere.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.utils.ActivityManager;
@@ -14,6 +14,9 @@ import com.jzdtl.anywhere.utils.ActivityManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
+
+import static butterknife.OnTextChanged.Callback.AFTER_TEXT_CHANGED;
 
 public class FeedBackActivity extends BaseActivity {
 
@@ -40,8 +43,8 @@ public class FeedBackActivity extends BaseActivity {
     private void initData() {
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("意见反馈");
-        toolbarSubtitle.setVisibility(View.VISIBLE);
         toolbarSubtitle.setText("发送");
+        toolbarSubtitle.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -56,11 +59,17 @@ public class FeedBackActivity extends BaseActivity {
                 ActivityManager.finishActivity(this);
                 break;
             case R.id.toolbar_subtitle:
-                if (editFeedbackContent.getText().toString().trim()!=null){
-                    Snackbar.make(editFeedbackContact,"提交成功",Snackbar.LENGTH_SHORT).show();
-                    ActivityManager.finishActivity(this);
-                }
+                Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show();
+                ActivityManager.finishActivity(this);
                 break;
+        }
+    }
+    @OnTextChanged(value = R.id.edit_feedback_content, callback = AFTER_TEXT_CHANGED)
+    void onAfterTextChanged(CharSequence text) {
+        if (text.length()>0){
+            toolbarSubtitle.setVisibility(View.VISIBLE);
+        }else {
+            toolbarSubtitle.setVisibility(View.INVISIBLE);
         }
     }
 }
