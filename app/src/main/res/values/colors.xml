@@ -7,4 +7,7 @@
     <color name="gray_bfbfbf">#BFBFBF</color>
     <color name="black_000">#000</color>
     <color name="black_8a8a8a">#8a8a8a</color>
+    <color name="red_f00">#FF0000</color>
+    <color name="gray_eeeeee">#EEEEEE</color>
+    <color name="gray_fbfbfb">#FBFBFB</color>
 </resources>

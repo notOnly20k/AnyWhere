@@ -2,6 +2,7 @@ package com.jzdtl.anywhere.callback;
 
 import com.jzdtl.anywhere.bean.BannerResult;
 import com.jzdtl.anywhere.bean.DestinationsResult;
+import com.jzdtl.anywhere.bean.IndexResult;
 import com.jzdtl.anywhere.bean.RegionResult;
 import com.jzdtl.anywhere.bean.TimeLinesResult;
 import com.jzdtl.anywhere.bean.UserActivitiesResult;
@@ -43,6 +44,13 @@ public interface ApiService {
      */
     @GET(Constant.YUNYOU_BANNER)
     Observable<BannerResult> getBannerResult(@Query("market") String market, @Query("first_launch") String first_launch);
+
+    /**
+     *  获得首页结果
+     * @return
+     */
+    @GET(Constant.YUNYOU_INDEX)
+    Observable<IndexResult> getIndexResult();
 
     /**
      * 获得游记

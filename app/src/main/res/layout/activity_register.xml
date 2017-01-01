@@ -83,32 +83,26 @@
                         android:hint="邮箱"/>
             </android.support.design.widget.TextInputLayout>
 
-            <RadioGroup
-                    android:id="@+id/radio_register_sex"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal">
-
-                <RadioButton
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:textColor="@color/gray_bfbfbf"
-                        android:buttonTint="@color/gray_bfbfbf"
-                        android:text="男"/>
-
-                <RadioButton
-                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"
+                        android:text="性别"/>
+                <TextView
+                        android:id="@+id/text_register_sex"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:textColor="@color/gray_bfbfbf"
-                        android:buttonTint="@color/gray_bfbfbf"
-                        android:text="女"/>
-            </RadioGroup>
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:hint="设置性别"/>
+            </LinearLayout>
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
