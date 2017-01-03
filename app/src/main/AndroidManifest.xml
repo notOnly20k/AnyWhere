@@ -50,7 +50,7 @@
 
         <meta-data
                 android:name="com.baidu.lbsapi.API_KEY"
-                android:value="ECUvnGFdSphLVyNOlOFdUUHZONOmjk9i"/>
+                android:value="fYgof5blTjM2qniyTlCYP9cMdFznOyfX"/>
         <!-- 用于定位的服务 -->
         <service
                 android:name="com.baidu.location.f"
