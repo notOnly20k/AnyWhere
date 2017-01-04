@@ -225,6 +225,30 @@ public class UserProfilesResult {
             this.follow_each_other = follow_each_other;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", photo_url='" + photo_url + '\'' +
+                    ", name='" + name + '\'' +
+                    ", gender=" + gender +
+                    ", level=" + level +
+                    ", memo='" + memo + '\'' +
+                    ", email='" + email + '\'' +
+                    ", introduce='" + introduce + '\'' +
+                    ", user_activities_count=" + user_activities_count +
+                    ", followings_count=" + followings_count +
+                    ", followers_count=" + followers_count +
+                    ", wishes_count=" + wishes_count +
+                    ", favorites_count=" + favorites_count +
+                    ", is_device_user=" + is_device_user +
+                    ", unread_notifications_count=" + unread_notifications_count +
+                    ", header_photo=" + header_photo +
+                    ", is_follow=" + is_follow +
+                    ", follow_each_other=" + follow_each_other +
+                    '}';
+        }
+
         public static class UnreadNotificationsCountBean {
             /**
              * systems : 0

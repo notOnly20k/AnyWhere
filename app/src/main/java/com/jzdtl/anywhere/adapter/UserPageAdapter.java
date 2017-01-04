@@ -2,10 +2,10 @@ package com.jzdtl.anywhere.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
-import com.jzdtl.anywhere.activity.UserPageActivity;
-import com.jzdtl.anywhere.bean.TimeLinesResult;
+import com.jzdtl.anywhere.bean.UserActivitiesResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,58 +26,45 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import me.iwf.photopicker.PhotoPreview;
 
 /**
- * Created by cz on 2016/12/28.
+ * Created by cz on 2017/1/3.
  */
 
-public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.MyActivitiesViewHolder> {
 
+public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUserPageViewHolder> {
 
     private Context context;
-    private List<TimeLinesResult.DataBean.ActivityBean> list;
-    private ArrayList<String>url;
+    private List<UserActivitiesResult.DataBean> list;
+    private ArrayList<String> url;
     private FragmentManager manager;
     private Activity ac;
-    private int tag;
 
-    public ActivitiesAdapter(Context context, List<TimeLinesResult.DataBean.ActivityBean> list,Activity activity) {
+    public UserPageAdapter(Context context, List<UserActivitiesResult.DataBean> list, Activity activity) {
         this.context = context;
         this.list = list;
-        this.ac=activity;
+        this.ac = activity;
     }
 
     @Override
-    public MyActivitiesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyUserPageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_activities, parent, false);
-        return new MyActivitiesViewHolder(view);
+        return new MyUserPageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyActivitiesViewHolder holder, final int position) {
-        final TimeLinesResult.DataBean.ActivityBean activityBean=list.get(position);
-            holder.tvActivitiesUsername.setText(activityBean.getUser().getName());
-            Glide.with(context).load(activityBean.getUser().getPhoto_url()).into(holder.imgActivitiesHeadpic);
-            holder.imgActivitiesHeadpic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent();
-                    intent.setClass(context, UserPageActivity.class);
-                    intent.putExtra("user_name",activityBean.getUser().getName());
-                    intent.putExtra("user_headpic",activityBean.getUser().getPhoto_url());
-                    intent.putExtra("user_id",activityBean.getUser().getId());
-                    context.startActivity(intent);
-                }
-            });
-        holder.tvActivitiesInfo.setText(activityBean.getDescription());
-        holder.tvActivitiesTitle.setText(activityBean.getTopic());
-        holder.tvActitiesLike.setText(activityBean.getLikes_count()+"");
-        holder.tvActitiesComment.setText(activityBean.getComments_count()+"");
-        holder.tvActitiesCollect.setText(activityBean.getFavorites_count()+"");
-
+    public void onBindViewHolder(MyUserPageViewHolder holder, int position) {
+        UserActivitiesResult.DataBean dataBean=list.get(position);
+        Log.e("userpage1", "获取databean: "+dataBean.toString());
+        holder.layout.setVisibility(View.GONE);
+        holder.tvActivitiesInfo.setText(dataBean.getDescription());
+        holder.tvActitiesTitle.setText(dataBean.getTopic());
+        holder.tvActitiesLike.setText(dataBean.getLikes_count()+"");
+        holder.tvActitiesComment.setText(dataBean.getComments_count()+"");
+        holder.tvActitiesCollect.setText(dataBean.getFavorites_count()+"");
         url=new ArrayList<>();
-        for (int i = 0; i < activityBean.getContents().size(); i++) {
-            url.add(activityBean.getContents().get(i).getPhoto_url());
+        for (int i = 0; i < dataBean.getContents().size(); i++) {
+            url.add(dataBean.getContents().get(i).getPhoto_url());
             if (i==0) {
-                final String path=activityBean.getContents().get(i).getPhoto_url();
+                final String path=dataBean.getContents().get(i).getPhoto_url();
                 Glide.with(context).load(path).into(holder.imgActitiesFristpic);
                 holder.imgActitiesFristpic.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -88,7 +74,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
                                 .setCurrentItem(0)
                                 .setShowDeleteButton(false)
                                 .start(ac);
-                }
+                    }
                 });
             }
         }
@@ -104,18 +90,26 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
 
     @Override
     public int getItemCount() {
-        return list==null?0:list.size();
+        return list.size();
     }
 
-    class MyActivitiesViewHolder extends RecyclerView.ViewHolder {
+    class MyUserPageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_activities_headpic)
         CircleImageView imgActivitiesHeadpic;
         @BindView(R.id.tv_activities_username)
         TextView tvActivitiesUsername;
+        @BindView(R.id.tv_actities_fllow)
+        TextView tvActitiesFllow;
         @BindView(R.id.img_actities_fristpic)
         ImageView imgActitiesFristpic;
         @BindView(R.id.rec_actities_pics)
         RecyclerView recActitiesPics;
+        @BindView(R.id.tv_actities_title)
+        TextView tvActitiesTitle;
+        @BindView(R.id.tv_activities_info)
+        TextView tvActivitiesInfo;
+        @BindView(R.id.tv_actities_more)
+        TextView tvActitiesMore;
         @BindView(R.id.img_actities_like)
         ImageView imgActitiesLike;
         @BindView(R.id.tv_actities_like)
@@ -128,15 +122,9 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
         ImageView imgActitiesCollect;
         @BindView(R.id.tv_actities_collect)
         TextView tvActitiesCollect;
-        @BindView(R.id.tv_activities_info)
-        TextView tvActivitiesInfo;
-        @BindView(R.id.tv_actities_title)
-        TextView tvActivitiesTitle;
-         @BindView(R.id.tv_actities_more)
-        TextView tvActivitiesMore;
         @BindView(R.id.layout_actities_head)
         RelativeLayout layout;
-        public MyActivitiesViewHolder(View itemView) {
+        public MyUserPageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
