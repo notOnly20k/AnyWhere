@@ -1,7 +1,6 @@
 package com.jzdtl.anywhere.callback;
 
 import com.jzdtl.anywhere.bean.BannerResult;
-import com.jzdtl.anywhere.bean.DestinationsResult;
 import com.jzdtl.anywhere.bean.IndexResult;
 import com.jzdtl.anywhere.bean.RegionResult;
 import com.jzdtl.anywhere.bean.TimeLinesResult;
@@ -11,6 +10,8 @@ import com.jzdtl.anywhere.bean.UserGroupWithActivitiesResult;
 import com.jzdtl.anywhere.bean.UserProfilesResult;
 import com.jzdtl.anywhere.constants.Constant;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -35,7 +36,7 @@ public interface ApiService {
      * @return
      */
     @GET(Constant.YUNYOU_CITY)
-    Observable<DestinationsResult> getDestinationResult(@Path("id") String id);
+    Call<ResponseBody> getDestinationResult(@Path("id") String id);
     /**
      *  获得广告条结果
      * @param market general

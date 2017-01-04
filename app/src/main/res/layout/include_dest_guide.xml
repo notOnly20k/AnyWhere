@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white_fffffff"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        tools:showIn="@layout/activity_destination">
+
+    <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <ImageView
+                android:id="@+id/image_dest_gonglve"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"/>
+
+        <TextView
+                android:id="@+id/text_dest_gonglve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/image_dest_gonglve"
+                android:padding="5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <ImageView
+                android:id="@+id/image_dest_ticket"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"/>
+
+        <TextView
+                android:id="@+id/test_dest_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/image_dest_ticket"
+                android:padding="5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <ImageView
+                android:id="@+id/image_dest_free"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"/>
+
+        <TextView
+                android:id="@+id/test_dest_free"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/image_dest_free"
+                android:padding="5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <ImageView
+                android:id="@+id/image_dest_follow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"/>
+
+        <TextView
+                android:id="@+id/test_dest_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/image_dest_follow"
+                android:padding="5dp"/>
+    </RelativeLayout>
+</LinearLayout>

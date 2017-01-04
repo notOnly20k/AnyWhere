@@ -15,7 +15,8 @@
             android:scaleType="centerCrop"
             app:riv_corner_radius="5dp"
             android:src="@mipmap/yuntu_default"/>
-     <TextView
+
+    <TextView
             android:id="@+id/text_gride_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

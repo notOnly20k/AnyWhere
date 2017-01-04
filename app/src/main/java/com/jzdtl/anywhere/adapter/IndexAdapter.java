@@ -2,10 +2,11 @@ package com.jzdtl.anywhere.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.bean.IndexResult;
+import com.jzdtl.anywhere.callback.OnIndexItemButtonClickListener;
+import com.jzdtl.anywhere.callback.OnIndexItemClickListener;
+import com.jzdtl.anywhere.views.MyGridView;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -21,6 +25,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by gcy on 2016/12/30.
@@ -31,6 +37,15 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Context context;
     private List<IndexResult.DataBean> dataBeen = new ArrayList<>();
     private List<String> headUrl = new ArrayList<>();
+    private OnIndexItemClickListener mOnIndexItemClickListener;
+    private OnIndexItemButtonClickListener mOnIndexItemButtonClickListener;
+    public void setOnIndexItemClickListener(OnIndexItemClickListener mOnIndexItemClickListener) {
+        this.mOnIndexItemClickListener = mOnIndexItemClickListener;
+    }
+
+    public void setmOnIndexItemButtonClickListener(OnIndexItemButtonClickListener mOnIndexItemButtonClickListener) {
+        this.mOnIndexItemButtonClickListener = mOnIndexItemButtonClickListener;
+    }
 
     public IndexAdapter(Context context) {
         this.context = context;
@@ -58,7 +73,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int realPosition = holder.getLayoutPosition()-1;
+        final int realPosition = holder.getLayoutPosition()-1;
         if (getItemViewType(position) == TYPE_LIST){
             IndexViewHolder indexHolder = (IndexViewHolder) holder;
             indexHolder.textItemTitle.setText(dataBeen.get(realPosition).getName());
@@ -71,7 +86,23 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }else {
                 indexHolder.layouItemMore.setVisibility(View.VISIBLE);
                 indexHolder.textItemMore.setText(button_text);
+                indexHolder.layouItemMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String resion = dataBeen.get(realPosition).getRegion();
+                        mOnIndexItemButtonClickListener.onIndexItemClickListener(view,resion);
+                    }
+                });
             }
+            indexHolder.gridItemDestination.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String path = dataBeen.get(realPosition).getDestinations().get(i).getPath();
+                    Log.d(TAG, "onItemClick: "+path);
+                    String realPath = getDestinationsPath(path);
+                    mOnIndexItemClickListener.onIndexItemClick(realPath);
+                }
+            });
         } else {
             HeadViewHolder headHolder =   (HeadViewHolder) holder;
             //设置广告条
@@ -80,6 +111,13 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .setImages(headUrl)
                     .start();
         }
+    }
+
+    public String getDestinationsPath(String path) {
+        //.1.5.166.111.
+        String[] strings = path.split("\\.");
+        String realPath = strings[strings.length-1];
+        return realPath;
     }
 
     @Override
@@ -96,7 +134,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @BindView(R.id.text_item_title)
         TextView textItemTitle;
         @BindView(R.id.grid_item_destination)
-        GridView gridItemDestination;
+        MyGridView gridItemDestination;
         @BindView(R.id.text_item_more)
         TextView textItemMore;
         @BindView(R.id.layout_item_more)

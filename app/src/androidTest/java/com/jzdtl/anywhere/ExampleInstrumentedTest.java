@@ -3,10 +3,14 @@ package com.jzdtl.anywhere;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
+
+import com.jzdtl.anywhere.adapter.IndexAdapter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.content.ContentValues.TAG;
 import static org.junit.Assert.*;
 
 /**
@@ -20,7 +24,8 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
-        assertEquals("com.jzdtl.anywhere", appContext.getPackageName());
+        IndexAdapter adapter = new IndexAdapter(appContext);
+        Log.i(TAG, "useAppContext: "+adapter.getDestinationsPath(".1.5.109."));
+        assertEquals("109", adapter.getDestinationsPath(".1.5.109."));
     }
 }
