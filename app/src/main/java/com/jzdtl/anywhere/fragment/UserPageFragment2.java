@@ -25,7 +25,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by cz  on 2017/1/3.
+ * Created by cz   on 2017/1/3.
  */
 
 public class UserPageFragment2 extends Fragment {
