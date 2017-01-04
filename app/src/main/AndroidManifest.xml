@@ -27,7 +27,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <!-- 不做横屏，只做竖屏 -->
+        <!-- 不做 横屏，只做竖屏 -->
         <activity
                 android:name=".activity.MainActivity"
                 android:screenOrientation="portrait">
@@ -51,7 +51,7 @@
 
         <meta-data
                 android:name="com.baidu.lbsapi.API_KEY"
-                android:value="ECUvnGFdSphLVyNOlOFdUUHZONOmjk9i"/>
+                android:value="fYgof5blTjM2qniyTlCYP9cMdFznOyfX"/>
         <!-- 用于定位的服务 -->
         <service
                 android:name="com.baidu.location.f"
