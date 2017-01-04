@@ -1370,7 +1370,7 @@ public class DestinationsResult {
 
             private String type;
             private String title;
-            private Object url;
+            private String url;
             private String photo_url;
             private WikiDestinationBeanX wiki_destination;
 
@@ -1390,11 +1390,11 @@ public class DestinationsResult {
                 this.title = title;
             }
 
-            public Object getUrl() {
+            public String getUrl() {
                 return url;
             }
 
-            public void setUrl(Object url) {
+            public void setUrl(String url) {
                 this.url = url;
             }
 

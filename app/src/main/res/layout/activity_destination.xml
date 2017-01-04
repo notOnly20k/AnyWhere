@@ -8,9 +8,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="com.jzdtl.anywhere.activity.DestinationActivity">
-
-        <include layout="@layout/base_tool_bar"/>
-
         <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -33,15 +30,13 @@
                                         android:layout_centerInParent="true"
                                         android:textSize="18sp"
                                         android:padding="10dp"
-                                        android:textColor="@color/white_fffffff"
-                                        android:text="云南"/>
+                                        android:textColor="@color/white_fffffff"/>
                                 <TextView
                                         android:id="@+id/text_dest_name_en"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerHorizontal="true"
                                         android:layout_below="@id/text_dest_name_cn"
-                                        android:text="yunnan"
                                         android:textColor="@color/white_fffffff"
                                         android:textSize="16sp"/>
 
@@ -54,4 +49,5 @@
                         <include layout="@layout/include_dest_activities"/>
                 </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+        <include layout="@layout/base_tool_bar"/>
 </android.support.design.widget.CoordinatorLayout>

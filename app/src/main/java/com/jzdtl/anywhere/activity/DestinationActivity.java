@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.DestAdapter;
+import com.jzdtl.anywhere.adapter.GoodsPagerAdapter;
 import com.jzdtl.anywhere.bean.DestBean;
+import com.jzdtl.anywhere.bean.DestinationsResult;
 import com.jzdtl.anywhere.callback.ApiService;
 import com.jzdtl.anywhere.callback.OnDestClickListener;
 import com.jzdtl.anywhere.constants.Constant;
@@ -57,14 +60,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     TextView textDestNameCn;
     @BindView(R.id.text_dest_name_en)
     TextView textDestNameEn;
-    @BindView(R.id.image_dest_gonglve)
-    ImageView imageDestGonglve;
-    @BindView(R.id.image_dest_ticket)
-    ImageView imageDestTicket;
-    @BindView(R.id.image_dest_free)
-    ImageView imageDestFree;
-    @BindView(R.id.image_dest_follow)
-    ImageView imageDestFollow;
     @BindView(R.id.recycler_dest_gride)
     RecyclerView recyclerDestGride;
     @BindView(R.id.text_dest_map)
@@ -85,20 +80,14 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     TextView textDestAllName;
     @BindView(R.id.image_dest_activity_pic)
     ImageView imageDestActivityPic;
-    @BindView(R.id.text_dest_gonglve)
-    TextView textDestGonglve;
-    @BindView(R.id.test_dest_ticket)
-    TextView testDestTicket;
-    @BindView(R.id.test_dest_free)
-    TextView testDestFree;
-    @BindView(R.id.test_dest_follow)
-    TextView testDestFollow;
     @BindView(R.id.layout_dest_gride)
     LinearLayout layoutDestGride;
     @BindView(R.id.text_dest_author)
     TextView textDestAuthor;
     @BindView(R.id.layout_dest_activity)
     LinearLayout layoutDestActivity;
+    @BindView(R.id.pager_dest_goods)
+    ViewPager pagerDestGoods;
     private Retrofit retrofit;
     private ApiService apiService;
     private String city;
@@ -109,7 +98,10 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     private String followUrl = "";
     private Uri ticketUri;
     private ArrayList<String> photoPaths;
-
+    private String userId;
+    private String userPhoto;
+    private GoodsPagerAdapter pagerAdapter;
+    private List<DestinationsResult.DataBean.GoodsBean> goodsData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +122,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
         recyclerDestGride.setAdapter(destAdapter);
         layoutDestGride.setVisibility(View.GONE);
         layoutDestActivity.setVisibility(View.GONE);
-
+        goodsData = new ArrayList<>();
     }
 
     @Override
@@ -169,45 +161,34 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                     textDestNameCn.setText(nameCN);
                     textDestNameEn.setText(nameEN);
 
+                    toolbarTitle.setText(nameCN);
                     /**
                      *解析goods
                      **/
                     //导航栏
                     String goods = dataJson.getString("goods");
                     JSONArray goodsJson = new JSONArray(goods);
-                    //TODO 解析额外信息
-
-                    String gonglveJson = goodsJson.getString(0);
-                    JSONObject gonglveObject = new JSONObject(gonglveJson);
-                    String gonglveTitle = gonglveObject.getString("title");
-                    String gonglvePhotoUrl = gonglveObject.getString("photo_url");
-
-                    textDestGonglve.setText(gonglveTitle);
-                    Glide.with(DestinationActivity.this).load(gonglvePhotoUrl).into(imageDestGonglve);
-
-                    String ticketsJson = goodsJson.getString(1);
-                    JSONObject ticketsObject = new JSONObject(ticketsJson);
-                    String ticketsTitle = ticketsObject.getString("title");
-                    String ticketsPhotoUr1 = ticketsObject.getString("photo_url");
-                    ticketUrl = ticketsObject.getString("url");
-                    testDestTicket.setText(ticketsTitle);
-                    Glide.with(DestinationActivity.this).load(ticketsPhotoUr1).into(imageDestTicket);
-
-                    String freeJson = goodsJson.getString(2);
-                    JSONObject freeObject = new JSONObject(freeJson);
-                    String freeTitle = freeObject.getString("title");
-                    String freePhotoUrl = freeObject.getString("photo_url");
-                    freeUrl = freeObject.getString("url");
-                    testDestFree.setText(freeTitle);
-                    Glide.with(DestinationActivity.this).load(freePhotoUrl).into(imageDestFree);
-
-                    String followJson = goodsJson.getString(3);
-                    JSONObject followObject = new JSONObject(followJson);
-                    String followTitle = followObject.getString("title");
-                    String followPhotoUrl = followObject.getString("photo_url");
-                    followUrl = followObject.getString("url");
-                    testDestFollow.setText(followTitle);
-                    Glide.with(DestinationActivity.this).load(followPhotoUrl).into(imageDestFollow);
+                    int goodsLen = goodsJson.length();
+                    for (int i = 0; i < goodsLen; i++) {
+                        if (i == 0 ){
+                            //TODO add gonglue
+                        }
+                        DestinationsResult.DataBean.GoodsBean goodsBean = new DestinationsResult.DataBean.GoodsBean();
+                        String gonglveJson = goodsJson.getString(i);
+                        JSONObject gonglveObject = new JSONObject(gonglveJson);
+                        String goodsTitle = gonglveObject.getString("title");
+                        String goodsPhotoUrl = gonglveObject.getString("photo_url");
+                        String goodsUrl= gonglveObject.getString("url");
+                        String goodsType = gonglveObject.getString("type");
+                        goodsBean.setTitle(goodsTitle);
+                        goodsBean.setPhoto_url(goodsPhotoUrl);
+                        goodsBean.setUrl(goodsUrl);
+                        goodsBean.setType(goodsType);
+                        goodsData.add(goodsBean);
+                    }
+                    pagerAdapter = new GoodsPagerAdapter(DestinationActivity.this);
+                    pagerAdapter.setData(goodsData,DestinationActivity.this);
+                    pagerDestGoods.setAdapter(pagerAdapter);
 
                     /**
                      *解析sections
@@ -238,7 +219,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                                     String nameEn = tempObject.getString("name_en");
                                     String path = tempObject.getString("path");
                                     String city = getDestinationsPath(path);
-                                    DestBean destBean = new DestBean(city,imgUrl, name, nameEn);
+                                    DestBean destBean = new DestBean(city, imgUrl, name, nameEn);
                                     modelData.add(destBean);
                                     destAdapter.setData(modelData);
                                 }
@@ -262,6 +243,8 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                                 String user = tempActivity.getString("user");
                                 JSONObject userObject = new JSONObject(user);
                                 String userName = userObject.getString("name");
+                                userId = userObject.getString("id");
+                                userPhoto = userObject.getString("photo_url");
                                 //游记图片
                                 photoPaths = new ArrayList<>();
                                 String activityContents = tempActivity.getString("contents");
@@ -296,7 +279,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
         });
     }
 
-    @OnClick({R.id.toolbar_image, R.id.image_dest_head, R.id.image_dest_gonglve, R.id.image_dest_ticket, R.id.image_dest_free, R.id.image_dest_follow, R.id.text_dest_map, R.id.image_dest_activity_pic, R.id.text_dest_author, R.id.text_dest_all, R.id.text_dest_all_name})
+    @OnClick({R.id.toolbar_image, R.id.image_dest_head, R.id.text_dest_map, R.id.image_dest_activity_pic, R.id.text_dest_author, R.id.text_dest_all, R.id.text_dest_all_name})
     public void onClick(View view) {
         Intent intentBrowse = new Intent();
         intentBrowse.setAction("android.intent.action.VIEW");
@@ -305,24 +288,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                 ActivityManager.finishActivity(this);
                 break;
             case R.id.image_dest_head:
-                break;
-            case R.id.image_dest_gonglve:
-
-                break;
-            case R.id.image_dest_ticket:
-                ticketUri = Uri.parse(ticketUrl);
-                intentBrowse.setData(ticketUri);
-                ActivityManager.startActivity(this, intentBrowse);
-                break;
-            case R.id.image_dest_free:
-                Uri freeUri = Uri.parse(freeUrl);
-                intentBrowse.setData(freeUri);
-                ActivityManager.startActivity(this, intentBrowse);
-                break;
-            case R.id.image_dest_follow:
-                Uri followUri = Uri.parse(followUrl);
-                intentBrowse.setData(followUri);
-                ActivityManager.startActivity(this, intentBrowse);
                 break;
             case R.id.text_dest_map:
                 break;
@@ -334,6 +299,10 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                         .start(DestinationActivity.this);
                 break;
             case R.id.text_dest_author:
+                Bundle bundle = new Bundle();
+                bundle.putInt("user_id", Integer.parseInt(userId));
+                bundle.putString("user_headpic", userPhoto);
+                ActivityManager.startActivity(this, new Intent(this, UserPageActivity.class).putExtras(bundle));
                 break;
             case R.id.text_dest_all:
                 textDestContent.setMaxLines(Integer.MAX_VALUE);
@@ -343,15 +312,16 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                 break;
         }
     }
+
     public String getDestinationsPath(String path) {
         //.1.5.166.111.
         String[] strings = path.split("\\.");
-        String realPath = strings[strings.length-1];
+        String realPath = strings[strings.length - 1];
         return realPath;
     }
 
     @Override
     public void onDestClickListener(String city) {
-        ActivityManager.startActivity(this,new Intent(this,DestinationActivity.class).putExtra("city",city));
+        ActivityManager.startActivity(this, new Intent(this, DestinationActivity.class).putExtra("city", city));
     }
 }
