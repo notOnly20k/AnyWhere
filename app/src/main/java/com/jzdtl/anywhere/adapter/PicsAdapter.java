@@ -2,9 +2,7 @@ package com.jzdtl.anywhere.adapter;
 
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +11,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
-import com.jzdtl.anywhere.fragment.PicDiaLog;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by cz on 2016/12/29.
@@ -26,11 +24,11 @@ import butterknife.ButterKnife;
 
 public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.MyPicsViewHolder> {
 
-    private List<String> list;
+    private ArrayList<String> list;
     private Context context;
     private Activity activity;
 
-    public PicsAdapter(List<String> list, Context context,Activity a) {
+    public PicsAdapter(ArrayList<String> list, Context context,Activity a) {
         this.list = list;
         this.context = context;
         this.activity=a;
@@ -45,22 +43,22 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.MyPicsViewHold
 
     @Override
     public void onBindViewHolder(MyPicsViewHolder holder, final int position) {
-            Glide.with(context).load(list.get(position)).into(holder.imgActitiesPics);
+            Glide.with(context).load(list.get(position+1)).into(holder.imgActitiesPics);
             holder.imgActitiesPics.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DialogFragment d=new PicDiaLog();
-                    Bundle b=new Bundle();
-                    b.putString("url",list.get(position));
-                    d.setArguments(b);
-                    d.show(activity.getFragmentManager(),"pics");
+                    PhotoPreview.builder()
+                            .setPhotos(list)
+                            .setCurrentItem(position+1)
+                            .setShowDeleteButton(false)
+                            .start(activity);
                 }
             });
     }
 
     @Override
     public int getItemCount() {
-        return list==null?0:list.size();
+        return list==null?0:(list.size()-1);
     }
 
     class MyPicsViewHolder extends RecyclerView.ViewHolder {

@@ -66,7 +66,7 @@ public interface ApiService {
      * @return
      */
     @GET(Constant.YUNYOU_PROFILES)
-    Observable<UserProfilesResult> getUserProfileResult();
+    Observable<UserProfilesResult> getUserProfileResult(@Path("id")String id);
 
     /**
      * 获得用户所有游记
@@ -74,21 +74,21 @@ public interface ApiService {
      * @return
      */
     @GET(Constant.YUNYOU_USER_ACTIVITIES)
-    Observable<UserActivitiesResult> getUserActivitiesResult(@Query("page") String page);
+    Observable<UserActivitiesResult> getUserActivitiesResult(@Path("id")String id,@Query("page") String page);
 
     /**
      * 获得按组查询的结果，有文章有图片
      * @return
      */
     @GET(Constant.YUNYOU_USER_ACTIVITIES_GROUP_WITH_ARTICLE)
-    Observable<UserGroupWithActivitiesResult> getUserGroupWithActivitiesResult();
+    Observable<UserGroupWithActivitiesResult> getUserGroupWithActivitiesResult(@Path("id")String id);
 
     /**
      * 获得按组查询的结 果，只有图片
      * @return
      */
     @GET(Constant.YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE)
-    Observable<UserGroupNoActivitiesResult> getUserGroupNoActivitiesResult();
+    Observable<UserGroupNoActivitiesResult> getUserGroupNoActivitiesResult(@Path("id")String id);
 
 
 }
