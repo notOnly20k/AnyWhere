@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_dest_gride"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white_fffffff"
+        tools:showIn="@layout/activity_destination">
+
+    <TextView
+            android:id="@+id/text_dest_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="云南目的地"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:textColor="@color/gray_bfbfbf"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_bfbfbf"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_dest_gride"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_bfbfbf"/>
+
+    <TextView
+            android:id="@+id/text_dest_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_fbfbfb"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="概览与地图"
+            android:textColor="@color/colorPrimary"/>
+</LinearLayout>

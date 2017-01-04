@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/layout_dest_activity"
+        android:background="@color/white_fffffff"
+        tools:showIn="@layout/activity_destination">
+
+    <TextView
+            android:id="@+id/text_dest_activity_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相关游记"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:textColor="@color/gray_bfbfbf"/>
+
+    <ImageView
+            android:id="@+id/image_dest_activity_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:padding="10dp"
+                android:text="by"/>
+
+        <TextView
+                android:id="@+id/text_dest_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:text="刘德华"/>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/text_dest_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/black_000"
+            android:text="我是标题"/>
+
+    <TextView
+            android:id="@+id/text_dest_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="6"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:text="用include标签你可以只用一行代码在app的每个页面添加你的toolbar,任何改变都会自动更新到所有页面。除了include,merge也常用来从你的view层次结构中减不必要的view，它会移除没必要的嵌套的layouts，例如，如果被包含布局文件的根是一个LinearLayout,然后你把它include包含在另外一个LinearLayout里面，2个嵌套的LinearLayouts是没有必要的，这个嵌套的layout没有任何作用除了影响UI性能。在这种情况下可以用merage来替换被包含布局的根LinarLayout 移除不必要的view."/>
+
+    <TextView
+            android:id="@+id/text_dest_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:padding="10dp"
+            android:text="查看全文"/>
+    <TextView
+            android:id="@+id/text_dest_all_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_fbfbfb"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"/>
+</LinearLayout>
