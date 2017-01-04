@@ -18,6 +18,7 @@ import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.DestAdapter;
 import com.jzdtl.anywhere.bean.DestBean;
 import com.jzdtl.anywhere.callback.ApiService;
+import com.jzdtl.anywhere.callback.OnDestClickListener;
 import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.utils.ActivityManager;
 import com.jzdtl.anywhere.utils.TextTool;
@@ -40,7 +41,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DestinationActivity extends BaseActivity {
+public class DestinationActivity extends BaseActivity implements OnDestClickListener {
     private static final String TAG = "DestinationActivity";
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
@@ -235,10 +236,13 @@ public class DestinationActivity extends BaseActivity {
                                     String imgUrl = tempObject.getString("photo_url");
                                     String name = tempObject.getString("name");
                                     String nameEn = tempObject.getString("name_en");
-                                    DestBean destBean = new DestBean(imgUrl, name, nameEn);
+                                    String path = tempObject.getString("path");
+                                    String city = getDestinationsPath(path);
+                                    DestBean destBean = new DestBean(city,imgUrl, name, nameEn);
                                     modelData.add(destBean);
                                     destAdapter.setData(modelData);
                                 }
+                                destAdapter.setOnDestClickListener(DestinationActivity.this);
                                 textDestCityName.setText(title);
                                 textDestMap.setText(buttonText);
                                 break;
@@ -338,5 +342,16 @@ public class DestinationActivity extends BaseActivity {
             case R.id.text_dest_all_name:
                 break;
         }
+    }
+    public String getDestinationsPath(String path) {
+        //.1.5.166.111.
+        String[] strings = path.split("\\.");
+        String realPath = strings[strings.length-1];
+        return realPath;
+    }
+
+    @Override
+    public void onDestClickListener(String city) {
+        ActivityManager.startActivity(this,new Intent(this,DestinationActivity.class).putExtra("city",city));
     }
 }

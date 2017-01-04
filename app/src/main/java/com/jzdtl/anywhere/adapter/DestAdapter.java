@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.bean.DestBean;
+import com.jzdtl.anywhere.callback.OnDestClickListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ import butterknife.ButterKnife;
  */
 public class DestAdapter extends RecyclerView.Adapter<DestAdapter.DestViewHolder> {
     private Context context;
+    private OnDestClickListener onDestClickListener;
+
+    public void setOnDestClickListener(OnDestClickListener onDestClickListener) {
+        this.onDestClickListener = onDestClickListener;
+    }
 
     public void setData(List<DestBean> data) {
         this.data = data;
@@ -43,7 +49,7 @@ public class DestAdapter extends RecyclerView.Adapter<DestAdapter.DestViewHolder
     }
 
     @Override
-    public void onBindViewHolder(DestViewHolder holder, int position) {
+    public void onBindViewHolder(final DestViewHolder holder, final int position) {
         DestBean modelsBean = data.get(position);
         String photo_url = modelsBean.getImgUrl();
         Glide.with(context).load(photo_url).into(holder.imageGridePic);
@@ -51,6 +57,15 @@ public class DestAdapter extends RecyclerView.Adapter<DestAdapter.DestViewHolder
         holder.textGrideName.setText(nameCN);
         String nameEN = modelsBean.getNameEN();
         holder.textGrideNameEn.setText(nameEN);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = holder.getLayoutPosition();
+                String city = data.get(pos).getCity();
+//                data.get(pos)
+                onDestClickListener.onDestClickListener(city);
+            }
+        });
     }
 
     @Override

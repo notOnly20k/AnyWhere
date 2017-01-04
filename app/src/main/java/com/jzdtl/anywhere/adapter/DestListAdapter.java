@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.bean.RegionResult;
+import com.jzdtl.anywhere.callback.OnDestListItemClickListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ import butterknife.ButterKnife;
 public class DestListAdapter extends RecyclerView.Adapter<DestListAdapter.ListViewHolder> {
     private Context context;
     private List<RegionResult.DataBean> data = new ArrayList<>();
+    private OnDestListItemClickListener onDestListItemClickListener;
+
+    public void setOnDestListItemClickListener(OnDestListItemClickListener onDestListItemClickListener) {
+        this.onDestListItemClickListener = onDestListItemClickListener;
+    }
 
     public DestListAdapter(Context context) {
         this.context = context;
@@ -41,13 +47,27 @@ public class DestListAdapter extends RecyclerView.Adapter<DestListAdapter.ListVi
     }
 
     @Override
-    public void onBindViewHolder(ListViewHolder holder, int position) {
+    public void onBindViewHolder(final ListViewHolder holder, int position) {
         RegionResult.DataBean dataBean = data.get(position);
         Glide.with(context).load(dataBean.getPhoto_url()).into(holder.imageListPic);
         holder.textListNameCn.setText(dataBean.getName());
         holder.textListNameEn.setText(dataBean.getName_en());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = holder.getLayoutPosition();
+                String path = data.get(pos).getPath();
+                String city = getDestinationsPath(path);
+                onDestListItemClickListener.onDestListItemClickListener(city);
+            }
+        });
     }
-
+    public String getDestinationsPath(String path) {
+        //.1.5.166.111.
+        String[] strings = path.split("\\.");
+        String realPath = strings[strings.length-1];
+        return realPath;
+    }
     @Override
     public int getItemCount() {
         return data.size();

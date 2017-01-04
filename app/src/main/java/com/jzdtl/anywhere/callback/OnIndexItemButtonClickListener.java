@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface OnIndexItemButtonClickListener {
-    void onIndexItemClickListener(View view,String resion);
+    void onIndexItemClickListener(View view,String name,String resion);
 }
