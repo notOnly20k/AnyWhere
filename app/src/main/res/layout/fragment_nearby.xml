@@ -5,9 +5,29 @@
              tools:context="com.jzdtl.anywhere.fragment.NearbyFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map_nearby"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_action_button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_float"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ListView
+            android:id="@+id/lv_poi"
+            android:layout_marginTop="200dp"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </RelativeLayout>
 
 </FrameLayout>
