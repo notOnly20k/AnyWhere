@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,6 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
     @Override
     public void onBindViewHolder(MyUserPageViewHolder holder, int position) {
         UserActivitiesResult.DataBean dataBean=list.get(position);
-        Log.e("userpage1", "获取databean: "+dataBean.toString());
         holder.layout.setVisibility(View.GONE);
         holder.tvActivitiesInfo.setText(dataBean.getDescription());
         holder.tvActitiesTitle.setText(dataBean.getTopic());

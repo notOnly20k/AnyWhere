@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/base_tool_bar"/>
+    <EditText
+        android:id="@+id/tv_write_title"
+        android:layout_width="match_parent"
+       android:maxLines="1"
+        android:layout_height="wrap_content"
+        android:hint="标题（一事一记）"
+        android:textSize="14sp"
+        android:layout_margin="10dp"
+        android:background="@null"
+        />
+    <EditText
+        android:id="@+id/tv_write_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp"
+        android:background="@null"
+        android:hint="记录这感人的瞬间"
+        />
+    <ImageButton
+        android:id="@+id/img_write_add"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:src="@mipmap/add"
+        android:background="@color/gray_bfbfbf"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec_write_showpics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+    
+
+</LinearLayout>
