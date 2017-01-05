@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
             android:name=".others.MyApp"
@@ -78,6 +79,7 @@
         <activity android:name=".activity.DestinationListActivity">
         </activity>
         <activity android:name=".activity.UserPageActivity"/>
+        <activity android:name=".activity.ShakeActivity"/>
     </application>
 
 </manifest>
