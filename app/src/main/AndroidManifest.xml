@@ -18,19 +18,20 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-            android:name=".others.MyApp"
-            android:allowBackup="true"
-            android:icon="@mipmap/yuntu_logo"
-            android:label="@string/app_name"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:name=".others.MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/yuntu_logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
         <!-- 不做 横屏，只做竖屏 -->
         <activity
-                android:name=".activity.MainActivity"
-                android:screenOrientation="portrait">
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -38,25 +39,25 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".activity.RegisterActivity"
-                android:windowSoftInputMode="adjustPan">
+            android:name=".activity.RegisterActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".activity.LoginActivity">
         </activity>
         <activity
-                android:name="com.mob.tools.MobUIShell"
-                android:configChanges="keyboardHidden|orientation|screenSize"
-                android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <meta-data
-                android:name="com.baidu.lbsapi.API_KEY"
-                android:value="fYgof5blTjM2qniyTlCYP9cMdFznOyfX"/>
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="fYgof5blTjM2qniyTlCYP9cMdFznOyfX"/>
         <!-- 用于定位的服务 -->
         <service
-                android:name="com.baidu.location.f"
-                android:enabled="true"
-                android:process=":remote">
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
         </service>
 
         <activity android:name=".test.MapTest">
@@ -68,16 +69,21 @@
         <activity android:name=".activity.ModifyInfoActivity">
         </activity>
         <activity
-                android:name="me.iwf.photopicker.PhotoPickerActivity"
-                android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-                android:name="me.iwf.photopicker.PhotoPagerActivity"
-                android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".activity.DestinationActivity">
         </activity>
         <activity android:name=".activity.DestinationListActivity">
         </activity>
+<<<<<<< Updated upstream
         <activity android:name=".activity.UserPageActivity"/>
+=======
+        <activity android:name=".activity.ShakeActivity">
+        </activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>
