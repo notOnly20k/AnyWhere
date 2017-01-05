@@ -78,12 +78,8 @@
         </activity>
         <activity android:name=".activity.DestinationListActivity">
         </activity>
-<<<<<<< Updated upstream
         <activity android:name=".activity.UserPageActivity"/>
-=======
-        <activity android:name=".activity.ShakeActivity">
-        </activity>
->>>>>>> Stashed changes
+        <activity android:name=".activity.ShakeActivity"/>
     </application>
 
 </manifest>
