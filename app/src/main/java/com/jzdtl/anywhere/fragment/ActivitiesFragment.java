@@ -58,6 +58,7 @@ public class ActivitiesFragment extends Fragment {
         return view;
     }
 
+
     private void initAdapter() {
         list = new ArrayList<>();
         adapter = new ActivitiesAdapter(context, list,getActivity());

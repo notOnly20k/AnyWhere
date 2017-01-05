@@ -78,6 +78,7 @@
         <activity android:name=".activity.DestinationListActivity">
         </activity>
         <activity android:name=".activity.UserPageActivity"/>
+        <activity android:name=".activity.WriteActivity"/>
     </application>
 
 </manifest>

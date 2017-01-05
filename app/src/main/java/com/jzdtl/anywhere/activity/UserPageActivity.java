@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,7 +77,9 @@ public class UserPageActivity extends BaseActivity {
         initViewPage();
         initTab();
         download(user_id + "");
+        setToolBarTitle("个人主页");
     }
+
 
     private void initTab() {
         tabUserpage.setupWithViewPager(vpUserpage);
@@ -100,6 +103,13 @@ public class UserPageActivity extends BaseActivity {
         user_id = intent.getIntExtra("user_id", 1);
         bundle = new Bundle();
         bundle.putString("id",user_id+"");
+        toolbarImage.setImageResource(R.mipmap.back_icon);
+        toolbarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initList() {
@@ -118,6 +128,7 @@ public class UserPageActivity extends BaseActivity {
         icon.add(R.drawable.selector_userpage_two);
         icon.add(R.drawable.selector_userpage_three);
     }
+
 
     private void download(String id) {
         list = new ArrayList<>();

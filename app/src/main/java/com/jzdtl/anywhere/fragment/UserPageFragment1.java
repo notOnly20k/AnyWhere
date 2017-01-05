@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class UserPageFragment1 extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             id = bundle.getString("id");
-            Log.e("userpage1", "获取idonCreateView: "+id);
             download(id);
         }
         View view = inflater.inflate(R.layout.fragment_useroage1, container, false);
@@ -79,13 +77,11 @@ public class UserPageFragment1 extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("userpage1", "内容失败" + e);
                         Toast.makeText(getContext(), "请检查网络连接", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(UserActivitiesResult userActivitiesResult) {
-                        Log.e("userpage1", "内容" + userActivitiesResult);
                         for (int i = 0; i < userActivitiesResult.getData().size(); i++) {
                             list.add(userActivitiesResult.getData().get(i));
                         }

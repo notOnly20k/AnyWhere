@@ -42,6 +42,15 @@ public class UserGroupNoActivitiesResult {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "UserGroupNoActivitiesResult{" +
+                "message='" + message + '\'' +
+                ", status=" + status +
+                ", data=" + data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * id : 64256
@@ -269,6 +278,34 @@ public class UserGroupNoActivitiesResult {
             this.categories = categories;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", made_at='" + made_at + '\'' +
+                    ", likes_count=" + likes_count +
+                    ", comments_count=" + comments_count +
+                    ", topic='" + topic + '\'' +
+                    ", contents_count=" + contents_count +
+                    ", district_id=" + district_id +
+                    ", created_at='" + created_at + '\'' +
+                    ", favorites_count=" + favorites_count +
+                    ", parent_district_id=" + parent_district_id +
+                    ", parent_district_count=" + parent_district_count +
+                    ", description='" + description + '\'' +
+                    ", current_user_liked=" + current_user_liked +
+                    ", current_user_commented=" + current_user_commented +
+                    ", current_user_favorited=" + current_user_favorited +
+                    ", poi=" + poi +
+                    ", user=" + user +
+                    ", inspiration_activity_id=" + inspiration_activity_id +
+                    ", inspiration_activity=" + inspiration_activity +
+                    ", contents=" + contents +
+                    ", districts=" + districts +
+                    ", categories=" + categories +
+                    '}';
+        }
+
         public static class UserBean {
             /**
              * id : 19772
@@ -388,6 +425,18 @@ public class UserGroupNoActivitiesResult {
 
             public void setPosition(int position) {
                 this.position = position;
+            }
+
+            @Override
+            public String toString() {
+                return "ContentsBean{" +
+                        "id=" + id +
+                        ", caption=" + caption +
+                        ", photo_url='" + photo_url + '\'' +
+                        ", width=" + width +
+                        ", height=" + height +
+                        ", position=" + position +
+                        '}';
             }
         }
 
