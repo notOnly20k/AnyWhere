@@ -46,7 +46,7 @@ public class UserPageFragment2 extends Fragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenMain(List<UserActivitiesResult.DataBean>list){
-        Log.e("log", "onEvenMain: "+list.size() );
+        Log.e("log", "onEv enMain: "+list.size() );
         for (int i = 0; i < list.size(); i++) {
             path.add(list.get(i).getContents().get(0).getPhoto_url());
         }
