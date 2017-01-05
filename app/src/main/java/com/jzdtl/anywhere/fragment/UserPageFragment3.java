@@ -69,15 +69,12 @@ public class UserPageFragment3 extends Fragment{
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("log", "失败: "+e);
+
                     }
 
                     @Override
                     public void onNext(UserGroupNoActivitiesResult userGroupNoActivitiesResult) {
-                        Log.e("log", "bean: "+userGroupNoActivitiesResult.getData().toString());
-                        Log.e("log", "on: "+userGroupNoActivitiesResult.getData().get(1).toString() );
                         list.add(userGroupNoActivitiesResult.getData().get(1).getContents().get(i).getPhoto_url());
-                        Log.e("log", "onNext: "+list );
 
                     }
                 });

@@ -3,8 +3,10 @@ package com.jzdtl.anywhere.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import com.jzdtl.anywhere.adapter.UserPageAdapter;
 import com.jzdtl.anywhere.bean.UserActivitiesResult;
 import com.jzdtl.anywhere.callback.ApiService;
 import com.jzdtl.anywhere.constants.Constant;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,8 @@ import rx.schedulers.Schedulers;
 public class UserPageFragment1 extends Fragment {
     @BindView(R.id.rec_userpage1)
     RecyclerView recUserpage1;
+    @BindView(R.id.swipe_userpage1)
+    SwipeRefreshLayout swipeUserpage1;
     private List<UserActivitiesResult.DataBean> list;
     private String id;
     private UserPageAdapter adapter;
@@ -54,12 +60,19 @@ public class UserPageFragment1 extends Fragment {
     }
 
     private void initRec() {
-        adapter = new UserPageAdapter(getContext(),list,getActivity());
+        adapter = new UserPageAdapter(getContext(), list, getActivity());
         recUserpage1.setLayoutManager(new LinearLayoutManager(getContext()));
         recUserpage1.setAdapter(adapter);
+        swipeUserpage1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                download(id);
+            }
+        });
     }
 
     private void download(String id) {
+      //  swipeUserpage1.setRefreshing(true);
         list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.YUNYOU_BASE_URL)
@@ -77,6 +90,7 @@ public class UserPageFragment1 extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("log", "失败: "+e);
                         Toast.makeText(getContext(), "请检查网络连接", Toast.LENGTH_SHORT).show();
                     }
 
@@ -85,7 +99,9 @@ public class UserPageFragment1 extends Fragment {
                         for (int i = 0; i < userActivitiesResult.getData().size(); i++) {
                             list.add(userActivitiesResult.getData().get(i));
                         }
+                        EventBus.getDefault().post(list);
                         adapter.notifyDataSetChanged();
+                        swipeUserpage1.setRefreshing(false);
                     }
                 });
     }

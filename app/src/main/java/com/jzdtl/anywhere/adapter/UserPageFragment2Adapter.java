@@ -68,7 +68,7 @@ public class UserPageFragment2Adapter extends RecyclerView.Adapter<UserPageFragm
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list==null?0:list.size();
     }
 
     class MyUserPageFragment2ViewHolder extends RecyclerView.ViewHolder {

@@ -100,6 +100,8 @@ public class UserPageActivity extends BaseActivity {
         String user_name = intent.getStringExtra("user_name");
         String user_headpic = intent.getStringExtra("user_headpic");
         Glide.with(UserPageActivity.this).load(user_headpic).into(imgUserpageHeadpic);
+        Glide.with(UserPageActivity.this).load(user_headpic).into(imguserpagebacground);
+        tvUserpageName.setText(user_name);
         user_id = intent.getIntExtra("user_id", 1);
         bundle = new Bundle();
         bundle.putString("id",user_id+"");
@@ -154,9 +156,7 @@ public class UserPageActivity extends BaseActivity {
 
                     @Override
                     public void onNext(UserProfilesResult userProfilesResult) {
-                        Glide.with(UserPageActivity.this).load(userProfilesResult.getData().getPhoto_url()).into(imguserpagebacground);
                         tvUserpageFollow.setText(userProfilesResult.getData().getFollowings_count()+"关注|"+userProfilesResult.getData().getFollowers_count()+"粉丝");
-                        tvUserpageName.setText(userProfilesResult.getData().getName());
                        if (userProfilesResult.getData().isIs_follow()==false) {
                            toolbarSubtitle.setText("关注");
                        }else {

@@ -4,6 +4,7 @@ package com.jzdtl.anywhere.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,9 +33,10 @@ import rx.schedulers.Schedulers;
  * A simple { @link Fragment} subclass.
  */
 public class ActivitiesFragment extends Fragment {
-
     @BindView(R.id.recycler_activities)
     RecyclerView recyclerView;
+    @BindView(R.id.swipe_activity)
+    SwipeRefreshLayout swipeActivity;
     private Context context;
     private View view;
     private List<TimeLinesResult.DataBean.ActivityBean> list;
@@ -51,7 +53,7 @@ public class ActivitiesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_activities, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         context = getContext();
         initAdapter();
         downLoad();
@@ -61,20 +63,27 @@ public class ActivitiesFragment extends Fragment {
 
     private void initAdapter() {
         list = new ArrayList<>();
-        adapter = new ActivitiesAdapter(context, list,getActivity());
-        LinearLayoutManager manager=new LinearLayoutManager(context);
+        adapter = new ActivitiesAdapter(context, list, getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        swipeActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                downLoad();
+            }
+        });
     }
 
     private void downLoad() {
-        Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl(Constant.YUNYOU_BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .build();
-        ApiService apiService=retrofit.create(ApiService.class);
-               apiService .getTimeLinesResult("1")
+        swipeActivity.isRefreshing();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.YUNYOU_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
+        apiService.getTimeLinesResult("1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<TimeLinesResult>() {
@@ -93,6 +102,7 @@ public class ActivitiesFragment extends Fragment {
                             list.add(timeLinesResult.getData().get(i).getActivity());
                         }
                         adapter.notifyDataSetChanged();
+                       swipeActivity.setRefreshing(false);
                     }
                 });
 
