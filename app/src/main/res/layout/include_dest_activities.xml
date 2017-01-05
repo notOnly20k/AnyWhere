@@ -45,8 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:text="刘德华"/>
+                android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
     <TextView
@@ -57,8 +56,7 @@
             android:padding="10dp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/black_000"
-            android:text="我是标题"/>
+            android:textColor="@color/black_000"/>
 
     <TextView
             android:id="@+id/text_dest_content"
@@ -67,8 +65,7 @@
             android:maxLines="6"
             android:ellipsize="end"
             android:textSize="16sp"
-            android:padding="10dp"
-            android:text="用include标签你可以只用一行代码在app的每个页面添加你的toolbar,任何改变都会自动更新到所有页面。除了include,merge也常用来从你的view层次结构中减不必要的view，它会移除没必要的嵌套的layouts，例如，如果被包含布局文件的根是一个LinearLayout,然后你把它include包含在另外一个LinearLayout里面，2个嵌套的LinearLayouts是没有必要的，这个嵌套的layout没有任何作用除了影响UI性能。在这种情况下可以用merage来替换被包含布局的根LinarLayout 移除不必要的view."/>
+            android:padding="10dp"/>
 
     <TextView
             android:id="@+id/text_dest_all"

@@ -1,12 +1,13 @@
 package com.jzdtl.anywhere.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by gcy on 2016/12/27.
  */
 
-public class UserActivitiesResult {
+public class UserActivitiesResult implements Serializable{
 
     /**
      * message : ok
@@ -42,7 +43,7 @@ public class UserActivitiesResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 64256
          * made_at : 2016-12-11T08:49:11.000Z

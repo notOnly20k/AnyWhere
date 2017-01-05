@@ -5,9 +5,18 @@ package com.jzdtl.anywhere.bean;
  */
 
 public class DestBean {
+    private String city;
     private String imgUrl;
     private String name;
     private String nameEN;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -36,18 +45,21 @@ public class DestBean {
     @Override
     public String toString() {
         return "DestBean{" +
-                "imgUrl='" + imgUrl + '\'' +
+                "city='" + city + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 ", name='" + name + '\'' +
                 ", nameEN='" + nameEN + '\'' +
                 '}';
     }
 
-    public DestBean(String imgUrl, String name, String nameEN) {
+    public DestBean(String city, String imgUrl, String name, String nameEN) {
+        this.city = city;
         this.imgUrl = imgUrl;
         this.name = name;
         this.nameEN = nameEN;
     }
 
     public DestBean() {
+
     }
 }

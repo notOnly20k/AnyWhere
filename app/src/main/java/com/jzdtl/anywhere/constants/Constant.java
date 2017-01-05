@@ -66,25 +66,25 @@ public class Constant {
      *  用户信息接口
      *  例子：http://q.chanyouji.com/api/v1/users/19772/profiles.json
      */
-    public static final String YUNYOU_PROFILES = "api/v1/users/19772/profiles.json";
+    public static final String YUNYOU_PROFILES = "api/v1/users/{id}/profiles.json";
 
     /**
      *  用户游记接口
      *  参数page = 1
      *  例子：http://q.chanyouji.com/api/v1/users/19772/user_activities.json?page=1
      */
-    public static final String YUNYOU_USER_ACTIVITIES = "api/v1/users/19772/user_activities.json";
+    public static final String YUNYOU_USER_ACTIVITIES = "api/v1/users/{id}/user_activities.json";
 
     /**
      *  用户游记按组分类有文章
      *  例子：http://q.chanyouji.com/api/v1/users/19772/user_activities.json?grouped=0
      */
-    public static final String YUNYOU_USER_ACTIVITIES_GROUP_WITH_ARTICLE = "api/v1/users/19772/user_activities.json?grouped=0";
+    public static final String YUNYOU_USER_ACTIVITIES_GROUP_WITH_ARTICLE = "api/v1/users/{id}/user_activities.json?grouped=0";
     /**
      *  用户游记按组分类无文章
      *  例子：http://q.chanyouji.com/api/v1/users/19772/user_activities.json?grouped=1
      */
-    public static final String YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE = "api/v1/users/19772/user_activities.json?grouped=1";
+    public static final String YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE = "api/v1/users/{id}/user_activities.json?grouped=1";
     /**
      *  用户评论
      *  参数type=UserActivity,id=64157,page=1
