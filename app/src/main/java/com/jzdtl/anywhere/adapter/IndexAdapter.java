@@ -90,7 +90,8 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     @Override
                     public void onClick(View view) {
                         String resion = dataBeen.get(realPosition).getRegion();
-                        mOnIndexItemButtonClickListener.onIndexItemClickListener(view,resion);
+                        String name = dataBeen.get(realPosition).getName();
+                        mOnIndexItemButtonClickListener.onIndexItemClickListener(view,name,resion);
                     }
                 });
             }

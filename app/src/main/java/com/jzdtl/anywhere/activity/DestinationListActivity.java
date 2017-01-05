@@ -1,5 +1,6 @@
 package com.jzdtl.anywhere.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.DestListAdapter;
 import com.jzdtl.anywhere.bean.RegionResult;
 import com.jzdtl.anywhere.callback.ApiService;
+import com.jzdtl.anywhere.callback.OnDestListItemClickListener;
 import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
@@ -29,7 +31,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DestinationListActivity extends BaseActivity {
+public class DestinationListActivity extends BaseActivity implements OnDestListItemClickListener {
 
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
@@ -48,6 +50,7 @@ public class DestinationListActivity extends BaseActivity {
     private ApiService apiService;
     private DestListAdapter destListAdapter;
     private String resion = null;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +96,15 @@ public class DestinationListActivity extends BaseActivity {
             return;
         }
         resion = bundle.getString("resion");
+        name = bundle.getString("name");
         regionData = new ArrayList<>();
         toolbarImage.setImageResource(R.mipmap.back_icon);
+        toolbarTitle.setText(name);
         toolbarSubtitle.setVisibility(View.GONE);
         recyclerListAll.setLayoutManager(new LinearLayoutManager(this));
         destListAdapter = new DestListAdapter(this);
         recyclerListAll.setAdapter(destListAdapter);
+        destListAdapter.setOnDestListItemClickListener(this);
     }
 
     @Override
@@ -109,5 +115,10 @@ public class DestinationListActivity extends BaseActivity {
     @OnClick(R.id.toolbar_image)
     public void onClick() {
         ActivityManager.finishActivity(this);
+    }
+
+    @Override
+    public void onDestListItemClickListener(String city) {
+        ActivityManager.startActivity(this,new Intent(this,DestinationActivity.class).putExtra("city",city));
     }
 }

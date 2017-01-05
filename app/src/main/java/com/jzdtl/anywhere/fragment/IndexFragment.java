@@ -144,7 +144,10 @@ public class IndexFragment extends BaseFragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void onIndexItemClickListener(View view, String resion) {
-        ActivityManager.startActivity(mActivity,new Intent(mActivity, DestinationListActivity.class).putExtra("resion",resion));
+    public void onIndexItemClickListener(View view, String name,String resion) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name",name);
+        bundle.putString("resion",resion);
+        ActivityManager.startActivity(mActivity,new Intent(mActivity, DestinationListActivity.class).putExtras(bundle));
     }
 }
