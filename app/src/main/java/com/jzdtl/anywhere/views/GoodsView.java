@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.StrategyActivity;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
 import butterknife.BindView;
@@ -28,9 +29,10 @@ public class GoodsView extends LinearLayout implements View.OnClickListener {
     @BindView(R.id.text_pager_name)
     TextView textPagerName;
     private View mView;
-    private String url;
+    private String url = null;
     private Context context;
     private Activity activity;
+    private String strategy;
     public GoodsView(Context context) {
         super(context);
         initViews(context);
@@ -61,14 +63,20 @@ public class GoodsView extends LinearLayout implements View.OnClickListener {
         this.url = url;
         this.activity = activity;
     }
+    public void setStrategy(String strategy){
+        this.strategy = strategy;
+    }
     @Override
     public void onClick(View view) {
-        if (url!=null){
+        if (!textPagerName.getText().equals("攻略")){
             Intent intentBrowse = new Intent();
             intentBrowse.setAction("android.intent.action.VIEW");
             Uri ticketUri = Uri.parse(url);
             intentBrowse.setData(ticketUri);
             ActivityManager.startActivity(activity, intentBrowse);
+        }else {
+            Intent intent = new Intent(activity, StrategyActivity.class);
+            ActivityManager.startActivity(activity, intent.putExtra("id",strategy));
         }
     }
 }

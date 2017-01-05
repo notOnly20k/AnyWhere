@@ -85,6 +85,11 @@ public class Constant {
      *  例子：http://q.chanyouji.com/api/v1/users/19772/user_activities.json?grouped=1
      */
     public static final String YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE = "api/v1/users/{id}/user_activities.json?grouped=1";
+
+    /**
+     *  攻略接口
+     */
+    public static final String YUNYOU_STRATEGY = "http://chanyouji.com/api/wiki/destinations/{id}.json";
     /**
      *  用户评论
      *  参数type=UserActivity,id=64157,page=1

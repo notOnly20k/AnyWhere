@@ -170,9 +170,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                     JSONArray goodsJson = new JSONArray(goods);
                     int goodsLen = goodsJson.length();
                     for (int i = 0; i < goodsLen; i++) {
-                        if (i == 0 ){
-                            //TODO add gonglue
-                        }
                         DestinationsResult.DataBean.GoodsBean goodsBean = new DestinationsResult.DataBean.GoodsBean();
                         String gonglveJson = goodsJson.getString(i);
                         JSONObject gonglveObject = new JSONObject(gonglveJson);
@@ -180,6 +177,16 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                         String goodsPhotoUrl = gonglveObject.getString("photo_url");
                         String goodsUrl= gonglveObject.getString("url");
                         String goodsType = gonglveObject.getString("type");
+                        //添加wiki的id
+                        if (i == 0 ){
+                            String wikiDestination = gonglveObject.getString("wiki_destination");
+                            JSONObject wikiObject = new JSONObject(wikiDestination);
+                            String id = wikiObject.getString("id");
+                            Log.d(TAG, "onResponse: ============="+id);
+                            DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX wikiDestinationBeanX = new DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX();
+                            wikiDestinationBeanX.setId(Integer.parseInt(id));
+                            goodsBean.setWiki_destination(wikiDestinationBeanX);
+                        }
                         goodsBean.setTitle(goodsTitle);
                         goodsBean.setPhoto_url(goodsPhotoUrl);
                         goodsBean.setUrl(goodsUrl);
