@@ -43,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShakeActivity extends BaseActivity implements XRefreshView.XRefreshViewListener {
+public class ShakeActivity extends BaseActivity implements XRefreshView.XRefreshViewListener, OnGetPoiSearchResultListener {
 
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
@@ -86,7 +86,6 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
             mBundle = intent.getExtras();
             mIsLocation = mBundle.getBoolean("isLocation",false);
             position = ((LatLng) mBundle.getParcelable("position"));
-            System.out.println(mIsLocation+"------");
         }
 
         ButterKnife.bind(this);
@@ -102,9 +101,17 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
         rcv_poi.setLayoutManager(new LinearLayoutManager(this));
         rcv_poi.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
+        poiSearchInit();
         senserConfig();
 
 
+    }
+
+    private void poiSearchInit() {
+        //创建POI检索实例
+        mPoiSearch = PoiSearch.newInstance();
+        //设置POI检索监听者
+        mPoiSearch.setOnGetPoiSearchResultListener(this);
     }
 
     private void senserConfig() {
@@ -223,61 +230,6 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
     }
 
     private void poiSearch() {
-        //创建POI检索实例
-        mPoiSearch = PoiSearch.newInstance();
-        //创建POI检索监听者
-        OnGetPoiSearchResultListener poiSearchResultListener =
-                new OnGetPoiSearchResultListener() {
-                    @Override
-                    public void onGetPoiResult(PoiResult poiResult) {
-                        if (poiResult == null
-                                || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
-                            Toast.makeText(ShakeActivity.this, "未找到结果",
-                                    Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
-//                            baiduMap.clear();
-//                            PoiOverlay poiOverlay = new PoiOverlay(baiduMap);
-//                            poiOverlay.setData(poiResult);// 设置POI数据
-//                            baiduMap.setOnMarkerClickListener(poiOverlay);
-//                            poiOverlay.addToMap();// 将所有的overlay添加到地图上
-//                            poiOverlay.zoomToSpan();
-
-                            //检索数据加载到RecyclerView里
-                            data = poiResult.getAllPoi();
-                            mAdapter = new PoiResultAdapter(data);
-                            rcv_poi.setAdapter(mAdapter);
-//                            rcv_poi.setVisibility(View.VISIBLE);
-//                            rcv_poi.setBackgroundColor(Color.WHITE);
-//                            rcv_poi.addItemDecoration(
-//                                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-//                            rcv_poi.setLayoutManager(new LinearLayoutManager(mContext));
-//                            mAdapter = new PoiResultAdapter(infos);
-//                            rcv_poi.setAdapter(mAdapter);
-
-
-                            int totalPage = poiResult.getTotalPageNum();// 获取总分页数
-                            Toast.makeText(
-                                    ShakeActivity.this,
-                                    "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
-                                            + totalPage + "页", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-
-                    @Override
-                    public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-
-                    }
-
-                    @Override
-                    public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-
-                    }
-                };
-        //设置POI检索监听者
-        mPoiSearch.setOnGetPoiSearchResultListener(poiSearchResultListener);
 
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption();
         nearbySearchOption.location(position);
@@ -326,6 +278,50 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
 
     @Override
     public void onHeaderMove(double headerMovePercent, int offsetY) {
+
+    }
+
+    @Override
+    public void onGetPoiResult(PoiResult poiResult) {
+        if (poiResult == null || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
+            Toast.makeText(ShakeActivity.this, "未找到结果", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
+//                            baiduMap.clear();
+//                            PoiOverlay poiOverlay = new PoiOverlay(baiduMap);
+//                            poiOverlay.setData(poiResult);// 设置POI数据
+//                            baiduMap.setOnMarkerClickListener(poiOverlay);
+//                            poiOverlay.addToMap();// 将所有的overlay添加到地图上
+//                            poiOverlay.zoomToSpan();
+
+            //检索数据加载到RecyclerView里
+            data = poiResult.getAllPoi();
+            mAdapter = new PoiResultAdapter(data);
+            rcv_poi.setAdapter(mAdapter);
+//                            rcv_poi.setVisibility(View.VISIBLE);
+//                            rcv_poi.setBackgroundColor(Color.WHITE);
+//                            rcv_poi.addItemDecoration(
+//                                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//                            rcv_poi.setLayoutManager(new LinearLayoutManager(mContext));
+//                            mAdapter = new PoiResultAdapter(infos);
+//                            rcv_poi.setAdapter(mAdapter);
+
+
+            int totalPage = poiResult.getTotalPageNum();// 获取总分页数
+            Toast.makeText(ShakeActivity.this,
+                    "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
+                            + totalPage + "页", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+    }
+
+    @Override
+    public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
 
     }
 }
