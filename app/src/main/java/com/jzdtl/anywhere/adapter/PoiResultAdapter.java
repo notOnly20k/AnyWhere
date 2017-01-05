@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.jzdtl.anywhere.R;
 
@@ -15,29 +16,36 @@ import java.util.List;
  * Created by Administrator on 2017/1/4 0004.
  */
 
-public class PoiResultAdapter extends RecyclerView.Adapter<PoiResultAdapter.ViewHolder> {
+public class PoiResultAdapter extends BaseRecyclerAdapter<PoiResultAdapter.ViewHolder> {
 
-    private List<PoiInfo> mList;
+    private List<PoiInfo> data;
 
-    public PoiResultAdapter(List<PoiInfo> list) {
-        mList = list;
+    public PoiResultAdapter(List<PoiInfo> data) {
+        this.data = data;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_poiresult,null,false));
+    public ViewHolder getViewHolder(View view) {
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv_name.setText(mList.get(position).name);
-        holder.tv_addr.setText(mList.get(position).address);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_poiresult,null,false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getItemCount() {
-        return mList==null?0:mList.size();
+    public void onBindViewHolder(ViewHolder holder, int position, boolean isItem) {
+        holder.tv_name.setText(data.get(position).name);
+        holder.tv_addr.setText(data.get(position).address);
+
+    }
+
+    @Override
+    public int getAdapterItemCount() {
+        return data == null?0:data.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -48,7 +56,7 @@ public class PoiResultAdapter extends RecyclerView.Adapter<PoiResultAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            tv_addr = (TextView) itemView.findViewById(R.id.tv_addr);
+            tv_addr = (TextView)itemView.findViewById(R.id.tv_addr);
         }
     }
 }

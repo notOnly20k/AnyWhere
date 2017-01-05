@@ -78,6 +78,7 @@
         <activity android:name=".activity.DestinationListActivity">
         </activity>
         <activity android:name=".activity.UserPageActivity"/>
+        <activity android:name=".activity.ShakeActivity"/>
         <activity android:name=".activity.StrategyActivity">
         </activity>
         <activity android:name=".activity.StrategyDetailActivity">

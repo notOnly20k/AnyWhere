@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,7 +77,9 @@ public class UserPageActivity extends BaseActivity {
         initViewPage();
         initTab();
         download(user_id + "");
+        setToolBarTitle("个人主页");
     }
+
 
     private void initTab() {
         tabUserpage.setupWithViewPager(vpUserpage);
@@ -97,9 +100,18 @@ public class UserPageActivity extends BaseActivity {
         String user_name = intent.getStringExtra("user_name");
         String user_headpic = intent.getStringExtra("user_headpic");
         Glide.with(UserPageActivity.this).load(user_headpic).into(imgUserpageHeadpic);
+        Glide.with(UserPageActivity.this).load(user_headpic).into(imguserpagebacground);
+        tvUserpageName.setText(user_name);
         user_id = intent.getIntExtra("user_id", 1);
         bundle = new Bundle();
         bundle.putString("id",user_id+"");
+        toolbarImage.setImageResource(R.mipmap.back_icon);
+        toolbarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initList() {
@@ -118,6 +130,7 @@ public class UserPageActivity extends BaseActivity {
         icon.add(R.drawable.selector_userpage_two);
         icon.add(R.drawable.selector_userpage_three);
     }
+
 
     private void download(String id) {
         list = new ArrayList<>();
@@ -143,9 +156,7 @@ public class UserPageActivity extends BaseActivity {
 
                     @Override
                     public void onNext(UserProfilesResult userProfilesResult) {
-                        Glide.with(UserPageActivity.this).load(userProfilesResult.getData().getPhoto_url()).into(imguserpagebacground);
                         tvUserpageFollow.setText(userProfilesResult.getData().getFollowings_count()+"关注|"+userProfilesResult.getData().getFollowers_count()+"粉丝");
-                        tvUserpageName.setText(userProfilesResult.getData().getName());
                        if (userProfilesResult.getData().isIs_follow()==false) {
                            toolbarSubtitle.setText("关注");
                        }else {
