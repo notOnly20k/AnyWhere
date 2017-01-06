@@ -71,6 +71,18 @@
         <activity android:name=".activity.UserPageActivity" />
         <activity android:name=".activity.CommentActivity"></activity>
         <activity android:name=".activity.WriteActivity"/>
+                android:name="me.iwf.photopicker.PhotoPagerActivity"
+                android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".activity.DestinationActivity">
+        </activity>
+        <activity android:name=".activity.DestinationListActivity">
+        </activity>
+        <activity android:name=".activity.UserPageActivity"/>
+        <activity android:name=".activity.ShakeActivity"/>
+        <activity android:name=".activity.StrategyActivity">
+        </activity>
+        <activity android:name=".activity.StrategyDetailActivity">
+        </activity>
     </application>
 
 </manifest>

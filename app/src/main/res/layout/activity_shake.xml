@@ -27,5 +27,18 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/img_down"/>
 
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrfv"
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_poi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.andview.refreshview.XRefreshView>
+
+
 
 </RelativeLayout>

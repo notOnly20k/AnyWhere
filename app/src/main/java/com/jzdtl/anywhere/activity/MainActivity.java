@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     @OnClick({R.id.image_view_head, R.id.relative_main_register, R.id.layout_user_login_true, R.id.layout_user_login_false,
-            R.id.image_main_activity, R.id.image_main_like, R.id.image_main_feedback, R.id.image_main_set})
+            R.id.image_main_activity, R.id.image_main_like, R.id.image_main_feedback, R.id.image_main_set,R.id.toolbar_subtitle})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_view_head:
@@ -209,6 +209,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.image_main_set:
                 ActivityManager.startActivity(this, new Intent(this, SettingActivity.class));
+                break;
+            case R.id.toolbar_subtitle:
+                ActivityManager.startActivity(this, new Intent(this, WriteActivity.class));
                 break;
         }
     }

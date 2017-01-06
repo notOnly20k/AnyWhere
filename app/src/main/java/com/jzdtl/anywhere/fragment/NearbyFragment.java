@@ -2,8 +2,8 @@ package com.jzdtl.anywhere.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -39,6 +38,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.ShakeActivity;
 import com.jzdtl.anywhere.adapter.PoiResultAdapter;
 import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
@@ -54,11 +54,10 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
     private BaiduMap baiduMap;
     private LocationClient locationClient;
     private FloatingActionButton float_action_button;
-    private PoiSearch mPoiSearch;
+
     private boolean isLocation = false;
     private LatLng position;
-    private RecyclerView rcv_poi;
-    private PoiResultAdapter mAdapter;
+
     private Context mContext;
 
     public NearbyFragment() {
@@ -93,7 +92,6 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
         View view = inflater.inflate(R.layout.fragment_nearby, container, false);
         map_nearby = ((MapView) view.findViewById(R.id.map_nearby));
         float_action_button = ((FloatingActionButton) view.findViewById(R.id.float_action_button));
-        rcv_poi = ((RecyclerView) view.findViewById(R.id.rcv_poi));
 
         float_action_button.setOnClickListener(this);
         baiduMap = map_nearby.getMap();
@@ -169,74 +167,67 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.float_action_button) {
-            if (isLocation == true) {
 
-                //创建POI检索实例
-                mPoiSearch = PoiSearch.newInstance();
-                //创建POI检索监听者
-                OnGetPoiSearchResultListener poiSearchResultListener =
-                        new OnGetPoiSearchResultListener() {
-                            @Override
-                            public void onGetPoiResult(PoiResult poiResult) {
-                                if (poiResult == null
-                                        || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
-                                    Toast.makeText(getContext(), "未找到结果",
-                                            Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
-                                    //                        baiduMap.clear();
-                                    PoiOverlay poiOverlay = new PoiOverlay(baiduMap);
-                                    poiOverlay.setData(poiResult);// 设置POI数据
-                                    baiduMap.setOnMarkerClickListener(poiOverlay);
-                                    poiOverlay.addToMap();// 将所有的overlay添加到地图上
-                                    poiOverlay.zoomToSpan();
-
-                                    //检索数据加载到RecyclerView里
-                                    List<PoiInfo> infos = poiResult.getAllPoi();
-                                    rcv_poi.setVisibility(View.VISIBLE);
-                                    rcv_poi.setBackgroundColor(Color.WHITE);
-                                    rcv_poi.addItemDecoration(
-                                            new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-                                    rcv_poi.setLayoutManager(new LinearLayoutManager(mContext));
-                                    mAdapter = new PoiResultAdapter(infos);
-                                    rcv_poi.setAdapter(mAdapter);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isLocation",isLocation);
+            bundle.putParcelable("position",position);
+            Intent intent = new Intent(getActivity(),ShakeActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
 
 
-                                    int totalPage = poiResult.getTotalPageNum();// 获取总分页数
-                                    Toast.makeText(
-                                            getContext(),
-                                            "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
-                                                    + totalPage + "页", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-
-                            @Override
-                            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-
-                            }
-
-                            @Override
-                            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-
-                            }
-                        };
-                //设置POI检索监听者
-                mPoiSearch.setOnGetPoiSearchResultListener(poiSearchResultListener);
-
-                PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption();
-                nearbySearchOption.location(position);
-                nearbySearchOption.keyword("景点");
-                nearbySearchOption.radius(1000);
-                mPoiSearch.searchNearby(nearbySearchOption);
-
-            } else {
-                Toast.makeText(getContext(), "未定位或定位失败，无法查看周边", Toast.LENGTH_SHORT).show();
-            }
         }
 
     }
 
 
+//    public abstract class EndLessOnScrollListener extends RecyclerView.OnScrollListener{
+//        //声明一个LinearLayoutManager
+//        private LinearLayoutManager mLinearLayoutManager;
+//
+//        //当前页，从0开始    private int currentPage = 0;
+//        //已经加载出来的Item的数量
+//        private int totalItemCount;
+//
+//        //主要用来存储上一个totalItemCount
+//        private int previousTotal = 0;
+//
+//        //在屏幕上可见的item数量
+//        private int visibleItemCount;
+//
+//        //在屏幕可见的Item中的第一个
+//        private int firstVisibleItem;
+//
+//        //是否正在上拉数据
+//        private boolean loading = true;
+//
+//        public EndLessOnScrollListener(LinearLayoutManager linearLayoutManager) {
+//            this.mLinearLayoutManager = linearLayoutManager;
+//        }
+//
+//        @Override
+//        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//            super.onScrolled(recyclerView, dx, dy);
+//            visibleItemCount = recyclerView.getChildCount();
+//            totalItemCount = mLinearLayoutManager.getItemCount();
+//            firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+//            if(loading){
+//                //Log.d("wnwn","firstVisibleItem: " +firstVisibleItem);
+//                //Log.d("wnwn","totalPageCount:" +totalItemCount);
+//                //Log.d("wnwn", "visibleItemCount:" + visibleItemCount)；
+//
+//                if(totalItemCount > previousTotal){
+//                    //说明数据已经加载结束
+//                    loading = false;
+//                    previousTotal = totalItemCount;
+//                }
+//            }
+//            //这里需要好好理解
+//            if (!loading && totalItemCount-visibleItemCount <= firstVisibleItem){
+//                onLoadMore(1);
+//                loading = true;
+//            }
+//        }
+//        public abstract void onLoadMore(int currentPage);
+//    }
 }

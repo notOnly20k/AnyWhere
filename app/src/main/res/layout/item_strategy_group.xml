@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_eeeeee">
+        <TextView
+                android:id="@+id/text_strategy_groupname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/gray_bfbfbf"
+                android:padding="10dp"
+                android:textSize="18sp"/>
+</LinearLayout>

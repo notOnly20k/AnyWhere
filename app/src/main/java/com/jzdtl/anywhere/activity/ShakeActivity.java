@@ -1,5 +1,6 @@
 package com.jzdtl.anywhere.activity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +10,7 @@ import android.media.SoundPool;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +21,21 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.andview.refreshview.XRefreshView;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.adapter.PoiResultAdapter;
+import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
 import java.util.List;
 
@@ -28,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShakeActivity extends BaseActivity {
+public class ShakeActivity extends BaseActivity implements XRefreshView.XRefreshViewListener, OnGetPoiSearchResultListener {
 
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
@@ -40,27 +55,66 @@ public class ShakeActivity extends BaseActivity {
     ImageView imgUp;
     @BindView(R.id.img_down)
     ImageView imgDown;
+    @BindView(R.id.rcv_poi)
+    RecyclerView rcv_poi;
+    @BindView(R.id.xrfv)
+    XRefreshView xrfv;
 
     Sensor sensor;
     SensorEventListener sensorEventListener;
     SensorManager sensorManager;
-
-    //震动器
     Vibrator vibrator;
-    //播放音频
     SoundPool soundPool;
     int soundId=0;
+    private PoiSearch mPoiSearch;
+    private Bundle mBundle;
+    private LatLng position;
+    private boolean mIsLocation;
+    private boolean shakeValid = true;
+    private boolean isSleeping = false;
+    private PoiResultAdapter mAdapter;
+    private List<PoiInfo> data;
+    private int page = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        if (intent !=null){
+            mBundle = intent.getExtras();
+            mIsLocation = mBundle.getBoolean("isLocation",false);
+            position = ((LatLng) mBundle.getParcelable("position"));
+        }
 
         ButterKnife.bind(this);
 
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("摇一摇搜周边");
         toolbarSubtitle.setText("");
+        xrfv.setAutoLoadMore(false);
+        xrfv.enableRecyclerViewPullUp(true);
+        xrfv.enablePullUpWhenLoadCompleted(true);
+        xrfv.enableReleaseToLoadMore(true);
+        xrfv.setXRefreshViewListener(this);
+        rcv_poi.setLayoutManager(new LinearLayoutManager(this));
+        rcv_poi.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
+        poiSearchInit();
+        senserConfig();
+
+
+    }
+
+    private void poiSearchInit() {
+        //创建POI检索实例
+        mPoiSearch = PoiSearch.newInstance();
+        //设置POI检索监听者
+        mPoiSearch.setOnGetPoiSearchResultListener(this);
+    }
+
+    private void senserConfig() {
         /**
          * 参数1： 通过的最大流的数量
          * 参数2：流的类型
@@ -68,21 +122,21 @@ public class ShakeActivity extends BaseActivity {
          */
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
-        soundId =  soundPool.load(this,R.raw.shake,0);
+        soundId =  soundPool.load(this, R.raw.shake,0);
         //获取震动器类的对象
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         //获取传感器的管理类
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         //获取手机中的所有传感器
-        List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        for (int i = 0; i < sensorList.size(); i++) {
-            Sensor s = sensorList.get(i);
-            Log.e("======", "====供应商===" + s.getVendor());
-            Log.e("======", "====传感器的名字===" + s.getName());
-            Log.e("======", "====功率===" + s.getPower());
-            Log.e("======", "====类型===" + s.getType());
-            Log.e("======", "====版本===" + s.getVersion());
-        }
+//        List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
+//        for (int i = 0; i < sensorList.size(); i++) {
+//            Sensor s = sensorList.get(i);
+//            Log.e("======", "====供应商===" + s.getVendor());
+//            Log.e("======", "====传感器的名字===" + s.getName());
+//            Log.e("======", "====功率===" + s.getPower());
+//            Log.e("======", "====类型===" + s.getType());
+//            Log.e("======", "====版本===" + s.getVersion());
+//        }
 
         //仿微信摇一摇效果(加速度传感器X，Y,Z)
 
@@ -102,34 +156,62 @@ public class ShakeActivity extends BaseActivity {
 
                 if (Math.abs(x) > 19 || Math.abs(y) > 19 || Math.abs(z) > 19) {
                     Log.e("=====", "===表示手机晃动===");
-                    //设置震动时间
-                    vibrator.vibrate(1000);
-                    /**
-                     * 参数1:soundId，通过load()返回
-                     * 参数2:左音量0-1
-                     * 参数3:右音量0-1
-                     * 参数4:优先级，最低为0
-                     * 参数5:循环次数，－1无限循环，0不循环，
-                     * 参数6:播放速率0.5-2,1表示正常速率
-                     */
-                    soundPool.play(soundId,1,1,0,0,1);
+                    if (shakeValid) {
+                        shakeValid = false;
+                        //设置震动时间
+                        vibrator.vibrate(1000);
+                        /**
+                         * 参数1:soundId，通过load()返回
+                         * 参数2:左音量0-1
+                         * 参数3:右音量0-1
+                         * 参数4:优先级，最低为0
+                         * 参数5:循环次数，－1无限循环，0不循环，
+                         * 参数6:播放速率0.5-2,1表示正常速率
+                         */
+                        soundPool.play(soundId, 1, 1, 0, 0, 1);
 
-                    TranslateAnimation animationUp = new TranslateAnimation(
-                            Animation.RELATIVE_TO_SELF,0,
-                            Animation.RELATIVE_TO_SELF,0,
-                            Animation.RELATIVE_TO_SELF,-1f,
-                            Animation.RELATIVE_TO_SELF,0);
-                    TranslateAnimation animationDown = new TranslateAnimation(
-                            Animation.RELATIVE_TO_SELF,0,
-                            Animation.RELATIVE_TO_SELF,0,
-                            Animation.RELATIVE_TO_SELF,1f,
-                            Animation.RELATIVE_TO_SELF,0);
-                    animationUp.setDuration(1000);
-                    animationDown.setDuration(1000);
-                    imgUp.startAnimation(animationUp);
-                    imgDown.startAnimation(animationDown);
+                        TranslateAnimation animationUp = new TranslateAnimation(
+                                Animation.RELATIVE_TO_SELF, 0,
+                                Animation.RELATIVE_TO_SELF, 0,
+                                Animation.RELATIVE_TO_SELF, -1f,
+                                Animation.RELATIVE_TO_SELF, 0);
+                        TranslateAnimation animationDown = new TranslateAnimation(
+                                Animation.RELATIVE_TO_SELF, 0,
+                                Animation.RELATIVE_TO_SELF, 0,
+                                Animation.RELATIVE_TO_SELF, 1f,
+                                Animation.RELATIVE_TO_SELF, 0);
+                        animationUp.setDuration(1000);
+                        animationDown.setDuration(1000);
+                        imgUp.startAnimation(animationUp);
+                        imgDown.startAnimation(animationDown);
 
+                        if (mIsLocation) {
+                            poiSearch();
+                        } else {
+                            Toast.makeText(ShakeActivity.this, "未获取到定位信息", Toast.LENGTH_SHORT).show();
+                        }
+                        poiSearch();
 
+                    }else {
+                        if (isSleeping == false){
+                            isSleeping = true;
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(5000);
+                                        shakeValid = true;
+                                        isSleeping = false;
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }).start();
+                        }else {
+                            Toast.makeText(ShakeActivity.this,"客官太频繁了，休息哈哦",Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
 
@@ -145,7 +227,17 @@ public class ShakeActivity extends BaseActivity {
          * 参数3:sensor事件传递的速率
          */
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
 
+    private void poiSearch() {
+
+        PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption();
+        nearbySearchOption.location(position);
+        nearbySearchOption.keyword("景点");
+        nearbySearchOption.radius(1000);
+        nearbySearchOption.pageCapacity(12);
+        nearbySearchOption.pageNum(page);
+        mPoiSearch.searchNearby(nearbySearchOption);
     }
 
     @OnClick(R.id.toolbar_image)
@@ -167,5 +259,69 @@ public class ShakeActivity extends BaseActivity {
         super.onDestroy();
         //注销加速度传感器
         sensorManager.unregisterListener(sensorEventListener, sensor);
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore(boolean isSilence) {
+
+    }
+
+    @Override
+    public void onRelease(float direction) {
+
+    }
+
+    @Override
+    public void onHeaderMove(double headerMovePercent, int offsetY) {
+
+    }
+
+    @Override
+    public void onGetPoiResult(PoiResult poiResult) {
+        if (poiResult == null || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
+            Toast.makeText(ShakeActivity.this, "未找到结果", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
+//                            baiduMap.clear();
+//                            PoiOverlay poiOverlay = new PoiOverlay(baiduMap);
+//                            poiOverlay.setData(poiResult);// 设置POI数据
+//                            baiduMap.setOnMarkerClickListener(poiOverlay);
+//                            poiOverlay.addToMap();// 将所有的overlay添加到地图上
+//                            poiOverlay.zoomToSpan();
+
+            //检索数据加载到RecyclerView里
+            data = poiResult.getAllPoi();
+            mAdapter = new PoiResultAdapter(data);
+            rcv_poi.setAdapter(mAdapter);
+//                            rcv_poi.setVisibility(View.VISIBLE);
+//                            rcv_poi.setBackgroundColor(Color.WHITE);
+//                            rcv_poi.addItemDecoration(
+//                                    new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//                            rcv_poi.setLayoutManager(new LinearLayoutManager(mContext));
+//                            mAdapter = new PoiResultAdapter(infos);
+//                            rcv_poi.setAdapter(mAdapter);
+
+
+            int totalPage = poiResult.getTotalPageNum();// 获取总分页数
+            Toast.makeText(ShakeActivity.this,
+                    "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
+                            + totalPage + "页", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+    }
+
+    @Override
+    public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+
     }
 }

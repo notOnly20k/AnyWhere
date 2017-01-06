@@ -38,6 +38,14 @@ public interface ApiService {
      */
     @GET(Constant.YUNYOU_CITY)
     Call<ResponseBody> getDestinationResult(@Path("id") String id);
+
+    /**
+     * 获得攻略结果
+     * @param id 城市id
+     * @return
+     */
+    @GET(Constant.YUNYOU_STRATEGY)
+    Call<ResponseBody> getStrategyResult(@Path("id") String id);
     /**
      *  获得广告条结果
      * @param market general

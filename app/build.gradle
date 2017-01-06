@@ -60,4 +60,5 @@ dependencies {
     compile 'me.iwf.photopicker:PhotoPicker:0.9.0@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.huxq17.xrefreshview:xrefreshview:3.5.7'
 }

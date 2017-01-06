@@ -37,28 +37,29 @@ public class GoodsPagerAdapter extends PagerAdapter {
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,4));
         if (position==0){
-            for (int i = 0; i < 4; i++) {
-                GoodsView goodsView = new GoodsView(context);
-                goodsView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1));
-                goodsView.setImagePic(data.get(i).getPhoto_url());
-                goodsView.setTextName(data.get(i).getTitle());
-                goodsView.setUrl(data.get(i).getUrl(),activity);
-                goodsView.setGravity(Gravity.CENTER);
-                linearLayout.addView(goodsView);
+            int count = data.size()<4?data.size():4;
+            for (int i = 0; i < count; i++) {
+                addViews(linearLayout, i);
             }
         }else {
             for (int i = 4; i < data.size(); i++) {
-                GoodsView goodsView = new GoodsView(context);
-                goodsView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1));
-                goodsView.setImagePic(data.get(i).getPhoto_url());
-                goodsView.setTextName(data.get(i).getTitle());
-                goodsView.setUrl(data.get(i).getUrl(),activity);
-                goodsView.setGravity(Gravity.CENTER);
-                linearLayout.addView(goodsView);
+                addViews(linearLayout, i);
             }
         }
         container.addView(linearLayout);
         return linearLayout;
+    }
+
+    private void addViews(LinearLayout linearLayout, int i) {
+        GoodsView goodsView = new GoodsView(context);
+        goodsView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1));
+        goodsView.setImagePic(data.get(i).getPhoto_url());
+        goodsView.setTextName(data.get(i).getTitle());
+        goodsView.setUrl(data.get(i).getUrl(),activity);
+        goodsView.setGravity(Gravity.CENTER);
+        if (data.get(i).getWiki_destination()!=null)
+            goodsView.setStrategy(data.get(i).getWiki_destination().getId()+"");
+        linearLayout.addView(goodsView);
     }
 
     @Override
