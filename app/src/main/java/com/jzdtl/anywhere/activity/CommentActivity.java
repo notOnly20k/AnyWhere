@@ -64,6 +64,7 @@ public class CommentActivity extends BaseActivity {
 
     private void initTitle() {
         setToolBarTitle("评论");
+        toolbarSubtitle.setVisibility(View.GONE);
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
