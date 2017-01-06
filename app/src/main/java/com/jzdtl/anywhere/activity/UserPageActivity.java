@@ -64,7 +64,6 @@ public class UserPageActivity extends BaseActivity {
     private List<Integer> icon;
     private UserPageFragment1 userPage1;
     private UserPageFragment2 userPage2;
-    private UserPageFragment3 userPage3;
     private Bundle bundle;
 
     @Override
