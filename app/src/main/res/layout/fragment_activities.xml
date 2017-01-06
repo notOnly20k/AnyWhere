@@ -3,6 +3,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
+              android:background="@color/gray_eeeeee"
 tools:context="com.jzdtl.anywhere.fragment.ActivitiesFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout

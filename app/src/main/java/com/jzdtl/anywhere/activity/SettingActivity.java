@@ -11,15 +11,18 @@ import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.utils.ActivityManager;
+import com.jzdtl.anywhere.utils.DataCleanManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 public class SettingActivity extends BaseActivity {
 
+    private static final String TAG = "SettingActivity";
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
     @BindView(R.id.toolbar_subtitle)
@@ -57,6 +60,18 @@ public class SettingActivity extends BaseActivity {
         }else {
             layoutSettingOut.setVisibility(View.GONE);
         }
+        boolean ispush = spUtils.getBoolean("ispush", false);
+        layoutSettingCheck.setChecked(ispush);
+        if (!ispush){
+            JPushInterface.stopPush(getApplicationContext());
+        } else {
+            JPushInterface.resumePush(getApplicationContext());
+        }
+        try {
+            layoutSettingCache.setText(DataCleanManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -64,17 +79,24 @@ public class SettingActivity extends BaseActivity {
         return R.layout.activity_setting;
     }
 
-    @OnClick({R.id.toolbar_image, R.id.layout_setting_push, R.id.layout_setting_clear, R.id.layout_setting_update, R.id.layout_setting_out})
+    @OnClick({R.id.layout_setting_check,R.id.toolbar_image, R.id.layout_setting_push, R.id.layout_setting_clear, R.id.layout_setting_update, R.id.layout_setting_out})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.layout_setting_check:
+                boolean isPush = layoutSettingCheck.isChecked();
+                if (!isPush){
+                    JPushInterface.stopPush(getApplicationContext());
+                } else {
+                    JPushInterface.resumePush(getApplicationContext());
+                }
+                spUtils.putBoolean("ispush",isPush);
+                break;
             case R.id.toolbar_image:
                 ActivityManager.finishActivity(this);
                 break;
-            case R.id.layout_setting_push:
-                layoutSettingCheck.setChecked(!layoutSettingCheck.isChecked());
-                break;
             case R.id.layout_setting_clear:
-                layoutSettingCache.setText("0M");
+                DataCleanManager.clearAllCache(this);
+                layoutSettingCache.setText("0K");
                 break;
             case R.id.layout_setting_update:
                 Snackbar.make(layoutSettingOut,"当前已是最新版本",Snackbar.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, SlidingPaneLayout.PanelSlideListener {
     private static final int LOGIN_CODE = 0;
     private static final int MODIFY_CODE = 1;
     @BindView(R.id.group_view_guide)
@@ -77,6 +78,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @BindView(R.id.text_view_name_false)
     TextView textViewNameFalse;
     private static final String TAG = "MainActivity";
+    @BindView(R.id.slide_main_menu)
+    SlidingPaneLayout slideMainMenu;
     private boolean login;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
@@ -115,6 +118,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         toolbarTitle.setText("首页");
         toolbarSubtitle.setVisibility(View.GONE);
         login = spUtils.getBoolean("login", false);
+        slideMainMenu.setPanelSlideListener(this);
     }
 
     private void checkLogin() {
@@ -176,7 +180,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     @OnClick({R.id.image_view_head, R.id.relative_main_register, R.id.layout_user_login_true, R.id.layout_user_login_false,
-            R.id.image_main_activity, R.id.image_main_like, R.id.image_main_feedback, R.id.image_main_set,R.id.toolbar_subtitle})
+            R.id.image_main_activity, R.id.image_main_like, R.id.image_main_feedback, R.id.image_main_set, R.id.toolbar_subtitle, R.id.toolbar_image})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_view_head:
@@ -212,6 +216,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.toolbar_subtitle:
                 ActivityManager.startActivity(this, new Intent(this, WriteActivity.class));
+                break;
+            case R.id.toolbar_image:
+                if (slideMainMenu.isOpen()){
+                    slideMainMenu.closePane();
+                }else {
+                    slideMainMenu.openPane();
+                }
                 break;
         }
     }
@@ -256,10 +267,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             if (entityList != null && entityList.size() > 0) {
                 UserEntity userEntity = entityList.get(0);
                 String imageUrl = userEntity.getHead();
-                if (imageUrl.equals(""))
+                if (imageUrl.equals("")) {
                     Glide.with(this).load(R.mipmap.yuntu_logo).into(imageViewHead);
-                else
+                } else {
                     Glide.with(this).load(imageUrl).into(imageViewHead);
+                }
                 String nickName = userEntity.getNickName();
                 textViewNameTrue.setText(nickName);
                 //TODO 添加关注数量  粉丝数量
@@ -273,5 +285,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             Glide.with(this).load(R.mipmap.yuntu_logo).into(imageViewHead);
             //TODO 设置收藏数和游记数等
         }
+    }
+
+    @Override
+    public void onPanelSlide(View panel, float slideOffset) {
+        panel.setAlpha(1-slideOffset*0.2f);
+        toolbarImage.setRotation(360f*slideOffset);
+    }
+
+    @Override
+    public void onPanelOpened(View panel) {
+
+    }
+
+    @Override
+    public void onPanelClosed(View panel) {
+
     }
 }
