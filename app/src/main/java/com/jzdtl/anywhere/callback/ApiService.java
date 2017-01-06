@@ -1,6 +1,7 @@
 package com.jzdtl.anywhere.callback;
 
 import com.jzdtl.anywhere.bean.BannerResult;
+import com.jzdtl.anywhere.bean.CommentsResult;
 import com.jzdtl.anywhere.bean.IndexResult;
 import com.jzdtl.anywhere.bean.RegionResult;
 import com.jzdtl.anywhere.bean.TimeLinesResult;
@@ -90,5 +91,7 @@ public interface ApiService {
     @GET(Constant.YUNYOU_USER_ACTIVITIES_GROUP_NO_ARTICLE)
     Observable<UserGroupNoActivitiesResult> getUserGroupNoActivitiesResult(@Path("id")String id);
 
+    @GET(Constant.YUNYOU_USER_COMMENT)
+    Observable<CommentsResult>getCommentResult(@Query("type")String type,@Query("id")String id,@Query("page")String page);
 
 }

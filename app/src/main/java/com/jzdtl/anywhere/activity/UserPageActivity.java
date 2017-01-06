@@ -120,15 +120,11 @@ public class UserPageActivity extends BaseActivity {
         userPage1.setArguments(bundle);
         userPage2 = new UserPageFragment2();
         userPage2.setArguments(bundle);
-        userPage3 = new UserPageFragment3();
-        userPage3.setArguments(bundle);
         fragmentlist.add(userPage1);
         fragmentlist.add(userPage2);
-        fragmentlist.add(userPage3);
         icon = new ArrayList<>();
         icon.add(R.drawable.selector_userpage_one);
         icon.add(R.drawable.selector_userpage_two);
-        icon.add(R.drawable.selector_userpage_three);
     }
 
 

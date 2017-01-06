@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="18dp"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,11 +59,12 @@
         >
         <ImageView
             android:id="@+id/img_actities_like"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/icon_like_normal"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:tag="0"
             />
         <TextView
             android:id="@+id/tv_actities_like"
@@ -71,12 +72,13 @@
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
             android:textSize="13sp"
+            android:layout_marginLeft="3dp"
             android:text="3"
             />
         <ImageView
             android:id="@+id/img_actities_comment"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/icon_comment_normal"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
@@ -87,21 +89,24 @@
             android:layout_height="15dp"
             android:textSize="13sp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="3dp"
             android:text="3"
             />
         <ImageView
             android:id="@+id/img_actities_collect"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/icon_fav_normal"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:tag="0"
             />
         <TextView
             android:id="@+id/tv_actities_collect"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:textSize="13sp"
+            android:layout_marginLeft="3dp"
             android:layout_gravity="center_vertical"
             android:text="3"
             />
@@ -112,8 +117,8 @@
             android:visibility="invisible"
             />
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/icon_share_item_normal"
             android:layout_marginRight="10dp"
