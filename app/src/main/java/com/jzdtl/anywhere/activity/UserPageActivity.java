@@ -20,7 +20,6 @@ import com.jzdtl.anywhere.callback.ApiService;
 import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.fragment.UserPageFragment1;
 import com.jzdtl.anywhere.fragment.UserPageFragment2;
-import com.jzdtl.anywhere.fragment.UserPageFragment3;
 
 import java.util.ArrayList;
 import java.util.List;
