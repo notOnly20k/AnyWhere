@@ -7,8 +7,8 @@
         android:padding="5dp">
     <ImageView
             android:id="@+id/image_strategy_pic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_margin="5dp"
             android:layout_gravity="center"
             android:src="@mipmap/tips_overview"/>

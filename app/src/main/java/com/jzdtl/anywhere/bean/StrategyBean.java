@@ -3,7 +3,7 @@ package com.jzdtl.anywhere.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by gcy on 2017/1/6.
@@ -11,20 +11,20 @@ import java.util.List;
 
 public class StrategyBean implements Parcelable{
     private String type;
-    private List<Page> pages;
+    private ArrayList<Page> pages;
 
     public static class Page implements Parcelable{
         private String title;
-        private List<Children> childrens;
+        private ArrayList<Children> childrens;
 
         public static class Children implements Parcelable{
             private String title;
-            private List<Section> sections;
+            private ArrayList<Section> sections;
 
             public static class Section implements Parcelable{
                 private String title;
                 private String description;
-                private List<String> photos;
+                private ArrayList<String> photos;
 
                 public String getTitle() {
                     return title;
@@ -42,11 +42,11 @@ public class StrategyBean implements Parcelable{
                     this.description = description;
                 }
 
-                public List<String> getPhotos() {
+                public ArrayList<String> getPhotos() {
                     return photos;
                 }
 
-                public void setPhotos(List<String> photos) {
+                public void setPhotos(ArrayList<String> photos) {
                     this.photos = photos;
                 }
 
@@ -92,11 +92,11 @@ public class StrategyBean implements Parcelable{
                 this.title = title;
             }
 
-            public List<Section> getSections() {
+            public ArrayList<Section> getSections() {
                 return sections;
             }
 
-            public void setSections(List<Section> sections) {
+            public void setSections(ArrayList<Section> sections) {
                 this.sections = sections;
             }
 
@@ -140,11 +140,11 @@ public class StrategyBean implements Parcelable{
             this.title = title;
         }
 
-        public List<Children> getChildrens() {
+        public ArrayList<Children> getChildrens() {
             return childrens;
         }
 
-        public void setChildrens(List<Children> childrens) {
+        public void setChildrens(ArrayList<Children> childrens) {
             this.childrens = childrens;
         }
 
@@ -188,11 +188,11 @@ public class StrategyBean implements Parcelable{
         this.type = type;
     }
 
-    public List<Page> getPages() {
+    public ArrayList<Page> getPages() {
         return pages;
     }
 
-    public void setPages(List<Page> pages) {
+    public void setPages(ArrayList<Page> pages) {
         this.pages = pages;
     }
 

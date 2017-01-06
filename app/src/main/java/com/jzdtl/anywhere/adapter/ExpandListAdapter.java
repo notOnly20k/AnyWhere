@@ -1,7 +1,10 @@
 package com.jzdtl.anywhere.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +13,25 @@ import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.bean.StrategyBean;
+import com.jzdtl.anywhere.callback.OnStrategyPhotoClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by gcy on 2017/1/5.
  */
 public class ExpandListAdapter implements ExpandableListAdapter{
     private Context context;
-    private List<StrategyBean.Page.Children> data = new ArrayList<>();
-    public ExpandListAdapter(Context context) {
+    private Activity mActivity;
+    private ArrayList<StrategyBean.Page.Children> data = new ArrayList<>();
+    public ExpandListAdapter(Context context,Activity mActivity) {
         this.context = context;
+        this.mActivity = mActivity;
     }
 
-    public void setData(List<StrategyBean.Page.Children> data) {
+    public void setData(ArrayList<StrategyBean.Page.Children> data) {
         this.data = data;
     }
 
@@ -90,7 +97,7 @@ public class ExpandListAdapter implements ExpandableListAdapter{
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        ChildHolder childHolder;
+        final ChildHolder childHolder;
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.item_strategy_child,viewGroup,false);
             childHolder = new ChildHolder(view);
@@ -98,8 +105,39 @@ public class ExpandListAdapter implements ExpandableListAdapter{
         }else {
             childHolder = (ChildHolder) view.getTag();
         }
-        childHolder.childName.setText(data.get(i).getSections().get(i1).getTitle());
-        childHolder.childValue.setText(data.get(i).getSections().get(i1).getDescription());
+        String title = data.get(i).getSections().get(i1).getTitle();
+        if (title == null || title.equals("")){
+            childHolder.childName.setVisibility(View.GONE);
+        }else {
+            childHolder.childName.setText(title);
+        }
+
+        String description = data.get(i).getSections().get(i1).getDescription();
+        if (description == null || description.equals("")){
+            childHolder.childValue.setVisibility(View.GONE);
+        }else {
+            childHolder.childValue.setText(description);
+        }
+        ArrayList<String> photos = data.get(i).getSections().get(i1).getPhotos();
+        if (photos == null || photos.size() == 0){
+            childHolder.childPhoto.setVisibility(View.GONE);
+        }else {
+            childHolder.childPhoto.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            ExpandPhotoAdapter photoAdapter = new ExpandPhotoAdapter(context);
+            childHolder.childPhoto.setAdapter(photoAdapter);
+            photoAdapter.setData(photos);
+            photoAdapter.setmOnStrategyPhotoClickListener(new OnStrategyPhotoClickListener() {
+                @Override
+                public void onStrategyPhotoClickListener(int pos, ArrayList<String> photo) {
+
+                    PhotoPreview.builder()
+                            .setPhotos(photo)
+                            .setCurrentItem(pos)
+                            .setShowDeleteButton(false)
+                            .start(mActivity);
+                }
+            });
+        }
         return view;
     }
 
@@ -149,10 +187,12 @@ public class ExpandListAdapter implements ExpandableListAdapter{
     class ChildHolder {
         private TextView childName;
         private TextView childValue;
+        private RecyclerView childPhoto;
 
         public ChildHolder(View itemView) {
             childName = (TextView) itemView.findViewById(R.id.text_strategy_child_title);
             childValue = (TextView) itemView.findViewById(R.id.text_strategy_child_content);
+            childPhoto = (RecyclerView) itemView.findViewById(R.id.recycler_strategy_photo);
         }
     }
 }

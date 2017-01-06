@@ -1,5 +1,6 @@
 package com.jzdtl.anywhere.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -21,9 +22,10 @@ public class PagerStrategyAdapter extends PagerAdapter {
     private List<StrategyBean> data = new ArrayList<>();
     private ExpandListAdapter adapter;
     private int count;
-
-    public PagerStrategyAdapter(Context context) {
+    private Activity mActivity;
+    public PagerStrategyAdapter(Context context,Activity mActivity) {
         this.context = context;
+        this.mActivity = mActivity;
     }
 
     public void setData(List<StrategyBean> data) {
@@ -48,8 +50,7 @@ public class PagerStrategyAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ExpandableListView expandableListView = (ExpandableListView) LayoutInflater.from(context).inflate(R.layout.view_expand_listview, null);
-//        expandableListView.expandGroup(0);
-        adapter = new ExpandListAdapter(context);
+        adapter = new ExpandListAdapter(context,mActivity);
         expandableListView.setAdapter(adapter);
         List<StrategyBean.Page> lists =new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
@@ -59,6 +60,7 @@ public class PagerStrategyAdapter extends PagerAdapter {
             }
         }
         adapter.setData(lists.get(position).getChildrens());
+        expandableListView.expandGroup(0);
         container.addView(expandableListView);
         return expandableListView;
     }

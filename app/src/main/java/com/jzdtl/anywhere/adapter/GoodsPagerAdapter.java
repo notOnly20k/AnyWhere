@@ -37,7 +37,8 @@ public class GoodsPagerAdapter extends PagerAdapter {
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT,4));
         if (position==0){
-            for (int i = 0; i < 4; i++) {
+            int count = data.size()<4?data.size():4;
+            for (int i = 0; i < count; i++) {
                 addViews(linearLayout, i);
             }
         }else {
@@ -56,7 +57,7 @@ public class GoodsPagerAdapter extends PagerAdapter {
         goodsView.setTextName(data.get(i).getTitle());
         goodsView.setUrl(data.get(i).getUrl(),activity);
         goodsView.setGravity(Gravity.CENTER);
-        if (i == 0)
+        if (data.get(i).getWiki_destination()!=null)
             goodsView.setStrategy(data.get(i).getWiki_destination().getId()+"");
         linearLayout.addView(goodsView);
     }

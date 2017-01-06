@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +54,7 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
     private String id;
     private Retrofit retrofit;
     private ApiService apiService;
-    private List<StrategyTypeBean> strateData;
+    private ArrayList<StrategyTypeBean> strateData;
     private StrategyAdapter adapter;
     private ArrayList<StrategyBean> expandData;
 
@@ -83,28 +85,28 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
                                 String categoryType = jsonObject.getString("category_type");
                                 switch (categoryType) {
                                     case "0"://概览
-                                        addData(jsonObject,R.mipmap.tips_overview,"概览","Overview");
-                                        expandData.add(getStrategyDetailData(jsonObject,categoryType));
+                                        addData(jsonObject, R.mipmap.tips_overview, "概览", "Overview");
+                                        expandData.add(getStrategyDetailData(jsonObject, categoryType));
                                         break;
                                     case "5"://娱乐
-                                        addData(jsonObject,R.mipmap.tips_entertainment,"娱乐","Entertainment");
-                                        expandData.add(getStrategyDetailData(jsonObject,categoryType));
+                                        addData(jsonObject, R.mipmap.tips_entertainment, "娱乐", "Entertainment");
+                                        expandData.add(getStrategyDetailData(jsonObject, categoryType));
                                         break;
                                     case "7"://美食
-                                        addData(jsonObject,R.mipmap.tips_food,"美食","Food");
-                                        expandData.add(getStrategyDetailData(jsonObject,categoryType));
+                                        addData(jsonObject, R.mipmap.tips_food, "美食", "Food");
+                                        expandData.add(getStrategyDetailData(jsonObject, categoryType));
                                         break;
                                     case "8"://购物
-                                        addData(jsonObject,R.mipmap.tips_shopping,"购物","Shopping");
-                                        expandData.add(getStrategyDetailData(jsonObject,categoryType));
+                                        addData(jsonObject, R.mipmap.tips_shopping, "购物", "Shopping");
+                                        expandData.add(getStrategyDetailData(jsonObject, categoryType));
                                         break;
                                     case "11"://其他
-                                        addData(jsonObject,R.mipmap.tips_more,"其他","Other");
-                                        expandData.add(getStrategyDetailData(jsonObject,categoryType));
+                                        addData(jsonObject, R.mipmap.tips_more, "其他", "Other");
+                                        expandData.add(getStrategyDetailData(jsonObject, categoryType));
                                         break;
                                 }
                                 adapter.setData(strateData);
-                                Log.d(TAG, "onResponse: "+expandData.toString());
+                                Log.d(TAG, "onResponse: " + expandData.toString());
                             }
 
                         } catch (Exception e) {
@@ -119,13 +121,13 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
                 });
     }
 
-    private StrategyBean getStrategyDetailData(JSONObject jsonObject,String type) throws JSONException {
+    private StrategyBean getStrategyDetailData(JSONObject jsonObject, String type) throws JSONException {
         StrategyBean strategyBean = new StrategyBean();
         strategyBean.setType(type);
         String pages = jsonObject.getString("pages");
         JSONArray titleArray = new JSONArray(pages);
         //多个项目，游玩指南、旅行行程规划、节假日出行……
-        List<StrategyBean.Page> strategyPages = new ArrayList<>();
+        ArrayList<StrategyBean.Page> strategyPages = new ArrayList<>();
         //解析pages
         for (int j = 0; j < titleArray.length(); j++) {
             StrategyBean.Page strategyPage = new StrategyBean.Page();
@@ -137,7 +139,7 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
             JSONArray childArray = new JSONArray(children);
             //多个类型，如：四川游玩概览、适宜气候、当地节日……
             //解析children
-            List<StrategyBean.Page.Children> strategyChildrens = new ArrayList<>();
+            ArrayList<StrategyBean.Page.Children> strategyChildrens = new ArrayList<>();
             for (int k = 0; k < childArray.length(); k++) {
                 StrategyBean.Page.Children strategyChildren = new StrategyBean.Page.Children();
                 String tempChild = childArray.getString(k);
@@ -147,7 +149,7 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
                 strategyChildren.setTitle(groupTitle);
                 String sections = tempObject.getString("sections");
                 JSONArray sectionsArray = new JSONArray(sections);
-                List<StrategyBean.Page.Children.Section> strategySections = new ArrayList<>();
+                ArrayList<StrategyBean.Page.Children.Section> strategySections = new ArrayList<>();
                 //多个条目，标题、内容、图片
                 for (int l = 0; l < sectionsArray.length(); l++) {
                     StrategyBean.Page.Children.Section strategySection = new StrategyBean.Page.Children.Section();
@@ -156,13 +158,13 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
                     //添加标题
                     String contentTitle = object.getString("title");
                     strategySection.setTitle(contentTitle);
-                    Log.d(TAG, "===========contentTitle===========: "+contentTitle);
+                    Log.d(TAG, "===========contentTitle===========: " + contentTitle);
                     //添加描述
                     String contentDescription = object.getString("description");
                     strategySection.setDescription(contentDescription);
                     String contentPhotos = object.getString("photos");
                     JSONArray photoArray = new JSONArray(contentPhotos);
-                    List<String> photoData = new ArrayList<>();
+                    ArrayList<String> photoData = new ArrayList<>();
                     //添加图片数组
                     for (int m = 0; m < photoArray.length(); m++) {
                         String photo = photoArray.getString(m);
@@ -183,7 +185,7 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
         return strategyBean;
     }
 
-    private void addData(JSONObject jsonObject,int res,String cn,String en) throws JSONException {
+    private void addData(JSONObject jsonObject, int res, String cn, String en) throws JSONException {
         StrategyTypeBean bean = new StrategyTypeBean();
         bean.setRes(res);
         bean.setNameCN(cn);
@@ -213,6 +215,10 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
         adapter = new StrategyAdapter(this);
         recyclerStrategyContent.setAdapter(adapter);
         adapter.setmOnStrategyItemClickListener(this);
+
+        toolbarImage.setImageResource(R.mipmap.back_icon);
+        toolbarTitle.setText("攻略");
+        toolbarSubtitle.setVisibility(View.GONE);
     }
 
     @Override
@@ -223,9 +229,14 @@ public class StrategyActivity extends BaseActivity implements OnStrategyItemClic
     @Override
     public void onStrategyItemClickListener(int group, int child) {
         Bundle bundle = new Bundle();
-        bundle.putInt("group",group);
-        bundle.putInt("child",child);
-        bundle.putParcelableArrayList("data",expandData);
-        ActivityManager.startActivity(this,new Intent(this,StrategyDetailActivity.class).putExtras(bundle));
+        bundle.putInt("group", group);
+        bundle.putInt("child", child);
+        bundle.putParcelableArrayList("data", expandData);
+        ActivityManager.startActivity(this, new Intent(this, StrategyDetailActivity.class).putExtras(bundle));
+    }
+
+    @OnClick(R.id.toolbar_image)
+    public void onClick() {
+        ActivityManager.finishActivity(this);
     }
 }

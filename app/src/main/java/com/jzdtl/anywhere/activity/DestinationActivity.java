@@ -172,21 +172,26 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                     for (int i = 0; i < goodsLen; i++) {
                         DestinationsResult.DataBean.GoodsBean goodsBean = new DestinationsResult.DataBean.GoodsBean();
                         String gonglveJson = goodsJson.getString(i);
+                        Log.d(TAG, "onResponse: =============正常执行0==========="+gonglveJson);
                         JSONObject gonglveObject = new JSONObject(gonglveJson);
                         String goodsTitle = gonglveObject.getString("title");
                         String goodsPhotoUrl = gonglveObject.getString("photo_url");
                         String goodsUrl= gonglveObject.getString("url");
                         String goodsType = gonglveObject.getString("type");
+                        Log.d(TAG, "onResponse: =============正常执行1===========");
                         //添加wiki的id
-                        if (i == 0 ){
+                        if (gonglveJson.contains("wiki_destination")){
                             String wikiDestination = gonglveObject.getString("wiki_destination");
-                            JSONObject wikiObject = new JSONObject(wikiDestination);
-                            String id = wikiObject.getString("id");
-                            Log.d(TAG, "onResponse: ============="+id);
-                            DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX wikiDestinationBeanX = new DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX();
-                            wikiDestinationBeanX.setId(Integer.parseInt(id));
-                            goodsBean.setWiki_destination(wikiDestinationBeanX);
+                            if (wikiDestination !=null && !wikiDestination.equals("")){
+                                JSONObject wikiObject = new JSONObject(wikiDestination);
+                                String id = wikiObject.getString("id");
+                                Log.d(TAG, "onResponse: ============="+id);
+                                DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX wikiDestinationBeanX = new DestinationsResult.DataBean.GoodsBean.WikiDestinationBeanX();
+                                wikiDestinationBeanX.setId(Integer.parseInt(id));
+                                goodsBean.setWiki_destination(wikiDestinationBeanX);
+                            }
                         }
+                        Log.d(TAG, "onResponse: =============正常执行2===========");
                         goodsBean.setTitle(goodsTitle);
                         goodsBean.setPhoto_url(goodsPhotoUrl);
                         goodsBean.setUrl(goodsUrl);
