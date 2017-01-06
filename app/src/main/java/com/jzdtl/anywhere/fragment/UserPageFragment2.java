@@ -31,25 +31,30 @@ import butterknife.ButterKnife;
 public class UserPageFragment2 extends Fragment {
     @BindView(R.id.rec_userpage2)
     RecyclerView recUserpage2;
-    private ArrayList<String>path;
+    private ArrayList<String>path=new ArrayList<>();
     private String id;
     private UserPageFragment2Adapter adapter;
+    private List<UserActivitiesResult.DataBean.ContentsBean>mlist=new ArrayList<>();
+    private UserActivitiesResult.DataBean.ContentsBean bean;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_useroage2, container, false);
         ButterKnife.bind(this, view);
-        EventBus.getDefault().register(this);
         initRec();
+        EventBus.getDefault().register(this);
         return view;
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenMain(List<UserActivitiesResult.DataBean>list){
-        Log.e("log", "onEv enMain: "+list.size() );
         for (int i = 0; i < list.size(); i++) {
-            path.add(list.get(i).getContents().get(0).getPhoto_url());
+            for (int j = 0; j < list.get(i).getContents().size(); j++) {
+//                Log.e("log", "onEv enMain: "+bean.getPhoto_url() );
+                path.add(list.get(i).getContents().get(j).getPhoto_url());
+            }
         }
+        Log.e("log", "onEv enMain: "+path.toString());
         adapter.notifyDataSetChanged();
     }
 

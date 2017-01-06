@@ -86,6 +86,7 @@ public class UserPageFragment1 extends Fragment {
                 .subscribe(new Subscriber<UserActivitiesResult>() {
                     @Override
                     public void onCompleted() {
+                        EventBus.getDefault().post(list);
                     }
 
                     @Override
@@ -99,7 +100,6 @@ public class UserPageFragment1 extends Fragment {
                         for (int i = 0; i < userActivitiesResult.getData().size(); i++) {
                             list.add(userActivitiesResult.getData().get(i));
                         }
-                        EventBus.getDefault().post(list);
                         adapter.notifyDataSetChanged();
                         swipeUserpage1.setRefreshing(false);
                     }

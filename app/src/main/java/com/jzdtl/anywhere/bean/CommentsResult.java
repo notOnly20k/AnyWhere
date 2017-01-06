@@ -42,6 +42,15 @@ public class CommentsResult {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "CommentsResult{" +
+                "message='" + message + '\'' +
+                ", status=" + status +
+                ", data=" + data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * user : {"id":1119208,"photo_url":"http://images4.c-ctrip.com/target/t1/headphoto/646/318/109/a865fe5f5465407d8befd5dc487a8554_C_180_180.jpg","name":"aaa","level":1}
@@ -115,6 +124,19 @@ public class CommentsResult {
 
         public void setCommentable_type(String commentable_type) {
             this.commentable_type = commentable_type;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "user=" + user +
+                    ", photo_url=" + photo_url +
+                    ", id=" + id +
+                    ", comment='" + comment + '\'' +
+                    ", created_at='" + created_at + '\'' +
+                    ", commentable_id=" + commentable_id +
+                    ", commentable_type='" + commentable_type + '\'' +
+                    '}';
         }
 
         public static class UserBean {

@@ -71,7 +71,7 @@ public class WriteActivity extends BaseActivity {
         if (data != null) {
             ArrayList<String> photos =
                     data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            Log.i("照片路径", "onActivityResult: " + photos);
+            Log.i("照片 路径", "onActivityResult: " + photos);
             photoPath.addAll(photos);
             if (photoPath.size() != 0) {
                 for (int i = 0; i < photoPath.size(); i++) {

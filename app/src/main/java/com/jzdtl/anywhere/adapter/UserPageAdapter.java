@@ -2,6 +2,7 @@ package com.jzdtl.anywhere.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.CommentActivity;
 import com.jzdtl.anywhere.bean.UserActivitiesResult;
 
 import java.util.ArrayList;
@@ -50,8 +52,8 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
     }
 
     @Override
-    public void onBindViewHolder(MyUserPageViewHolder holder, int position) {
-        UserActivitiesResult.DataBean dataBean=list.get(position);
+    public void onBindViewHolder(final MyUserPageViewHolder holder, final int position) {
+        final UserActivitiesResult.DataBean dataBean=list.get(position);
         holder.layout.setVisibility(View.GONE);
         holder.tvActivitiesInfo.setText(dataBean.getDescription());
         holder.tvActitiesTitle.setText(dataBean.getTopic());
@@ -84,6 +86,43 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
         }else {
             holder.recActitiesPics.setVisibility(View.GONE);
         }
+        holder.imgActitiesComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(context, CommentActivity.class);
+                intent.putExtra("id",list.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
+        holder.imgActitiesLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(String.valueOf(holder.imgActitiesLike.getTag()))==1){
+                    holder.imgActitiesLike.setImageResource(R.mipmap.icon_like_normal);
+                    holder.tvActitiesLike.setText((dataBean.getLikes_count()) + "");
+                    holder.imgActitiesLike.setTag(0);
+                }else {
+                    holder.imgActitiesLike.setImageResource(R.mipmap.icon_like_highlight);
+                    holder.tvActitiesLike.setText((dataBean.getLikes_count() + 1) + "");
+                    holder.imgActitiesLike.setTag(1);
+                }
+            }
+        });
+        holder.imgActitiesCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(String.valueOf(holder.imgActitiesCollect.getTag()))==1){
+                    holder.imgActitiesCollect.setImageResource(R.mipmap.icon_fav_normal);
+                    holder.tvActitiesCollect.setText((dataBean.getFavorites_count()) + "");
+                    holder.imgActitiesCollect.setTag(0);
+                }else {
+                    holder.imgActitiesCollect.setImageResource(R.mipmap.icon_fav_highlight);
+                    holder.tvActitiesCollect.setText((dataBean.getFavorites_count() + 1) + "");
+                    holder.imgActitiesCollect.setTag(1);
+                }
+            }
+        });
     }
 
     @Override

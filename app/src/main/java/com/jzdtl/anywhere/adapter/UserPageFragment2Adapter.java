@@ -2,8 +2,8 @@ package com.jzdtl.anywhere.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.baidu.location.d.a.i;
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by cz on 2017/1/4.
@@ -26,12 +25,12 @@ import static com.baidu.location.d.a.i;
 
 public class UserPageFragment2Adapter extends RecyclerView.Adapter<UserPageFragment2Adapter.MyUserPageFragment2ViewHolder> {
 
-    private List<String> list;
+    private ArrayList<String> list;
     private Context context;
     private Activity activity;
     private List<String>pics;
 
-    public UserPageFragment2Adapter(List<String> list, Context context, Activity activity) {
+    public UserPageFragment2Adapter(ArrayList<String> list, Context context, Activity activity) {
         this.list = list;
         this.context = context;
         this.activity = activity;
@@ -45,29 +44,26 @@ public class UserPageFragment2Adapter extends RecyclerView.Adapter<UserPageFragm
 
     @Override
     public void onBindViewHolder(MyUserPageFragment2ViewHolder holder, final int position) {
-        LinearLayoutCompat.LayoutParams params= (LinearLayoutCompat.LayoutParams) holder.imgActitiesPics.getLayoutParams();
-        params.height=300;
-        params.width=300;
-       holder.imgActitiesPics.setLayoutParams(params);
-        Glide.with(context).load(list.get(i)).into(holder.imgActitiesPics);
-        pics= new ArrayList<>();
-        for (int j = 0; j < list.size(); j++) {
-            pics.add(list.get(i));
-        }
+//        holder.imgActitiesPics.getLayoutParams();
+//        params.height=300;
+//        params.width=300;
+//       holder.imgActitiesPics.setLayoutParams(params);
+        Glide.with(context).load(list.get(position)).into(holder.imgActitiesPics);
         holder.imgActitiesPics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                PhotoPreview.builder()
-//                        .setPhotos(list)
-//                        .setCurrentItem(position)
-//                        .setShowDeleteButton(false)
-//                        .start(activity);
+                PhotoPreview.builder()
+                        .setPhotos(list)
+                        .setCurrentItem(position)
+                        .setShowDeleteButton(false)
+                        .start(activity);
             }
         });
     }
 
     @Override
     public int getItemCount() {
+        Log.e("log", "getItemCount: "+list.size() );
         return list==null?0:list.size();
     }
 

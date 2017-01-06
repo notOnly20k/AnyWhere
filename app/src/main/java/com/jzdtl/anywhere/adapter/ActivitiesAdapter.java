@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.CommentActivity;
 import com.jzdtl.anywhere.activity.UserPageActivity;
 import com.jzdtl.anywhere.bean.TimeLinesResult;
 
@@ -53,7 +54,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyActivitiesViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyActivitiesViewHolder holder, final int position) {
         final TimeLinesResult.DataBean.ActivityBean activityBean=list.get(position);
             holder.tvActivitiesUsername.setText(activityBean.getUser().getName());
             Glide.with(context).load(activityBean.getUser().getPhoto_url()).into(holder.imgActivitiesHeadpic);
@@ -100,6 +101,43 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
         }else {
             holder.recActitiesPics.setVisibility(View.GONE);
         }
+        holder.imgActitiesComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(context, CommentActivity.class);
+                intent.putExtra("id",list.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
+        holder.imgActitiesLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(String.valueOf(holder.imgActitiesLike.getTag()))==1){
+                    holder.imgActitiesLike.setImageResource(R.mipmap.icon_like_normal);
+                    holder.tvActitiesLike.setText((activityBean.getLikes_count()) + "");
+                    holder.imgActitiesLike.setTag(0);
+                }else {
+                    holder.imgActitiesLike.setImageResource(R.mipmap.icon_like_highlight);
+                    holder.tvActitiesLike.setText((activityBean.getLikes_count() + 1) + "");
+                    holder.imgActitiesLike.setTag(1);
+                }
+            }
+        });
+        holder.imgActitiesCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Integer.parseInt(String.valueOf(holder.imgActitiesCollect.getTag()))==1){
+                    holder.imgActitiesCollect.setImageResource(R.mipmap.icon_fav_normal);
+                    holder.tvActitiesCollect.setText((activityBean.getFavorites_count()) + "");
+                    holder.imgActitiesCollect.setTag(0);
+                }else {
+                    holder.imgActitiesCollect.setImageResource(R.mipmap.icon_fav_highlight);
+                    holder.tvActitiesCollect.setText((activityBean.getFavorites_count() + 1) + "");
+                    holder.imgActitiesCollect.setTag(1);
+                }
+            }
+        });
     }
 
     @Override
