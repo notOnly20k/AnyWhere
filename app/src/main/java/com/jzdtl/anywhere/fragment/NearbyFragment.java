@@ -38,6 +38,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.OverviewActivity;
 import com.jzdtl.anywhere.activity.ShakeActivity;
 import com.jzdtl.anywhere.adapter.PoiResultAdapter;
 import com.jzdtl.anywhere.overlayutil.PoiOverlay;
@@ -174,6 +175,10 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
             Intent intent = new Intent(getActivity(),ShakeActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
+
+//            Intent intent = new Intent(getActivity(), OverviewActivity.class);
+//            intent.putExtra("url","http://q.chanyouji.com/api/v2/destinations/109/groupings.json");
+//            startActivity(intent);
 
 
         }

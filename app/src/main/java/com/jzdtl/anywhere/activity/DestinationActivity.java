@@ -2,6 +2,7 @@ package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.HttpAuthHeader;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
@@ -102,6 +103,8 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     private String userPhoto;
     private GoodsPagerAdapter pagerAdapter;
     private List<DestinationsResult.DataBean.GoodsBean> goodsData;
+    private int url_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +157,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                     JSONObject infoJson = new JSONObject(destination);
                     //背景图
                     String headUrl = infoJson.getString("photo_url");
+                    url_id = infoJson.optInt("id");//得到跳转网址
                     Glide.with(DestinationActivity.this).load(headUrl).into(imageDestHead);
                     //名称
                     String nameCN = infoJson.getString("name");
@@ -302,6 +306,9 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
             case R.id.image_dest_head:
                 break;
             case R.id.text_dest_map:
+                Intent intent = new Intent(this, OverviewActivity.class);
+                 intent.putExtra("url","http://q.chanyouji.com/api/v2/destinations/"+url_id+"/groupings.json");
+                 startActivity(intent);
                 break;
             case R.id.image_dest_activity_pic:
                 PhotoPreview.builder()
