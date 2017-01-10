@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,17 +15,26 @@ import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.db.UserEntity;
 import com.jzdtl.anywhere.db.UserEntityDao;
 import com.jzdtl.anywhere.utils.ActivityManager;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.tencent.weibo.TencentWeibo;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements PlatformActionListener {
 
+    private static final String TAG = "LoginActivity";
     @BindView(R.id.toolbar_subtitle)
     TextView toolbarSubtitle;
     @BindView(R.id.toolbar_title)
@@ -39,6 +49,12 @@ public class LoginActivity extends BaseActivity {
     Button buttonLoginSubmit;
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
+    @BindView(R.id.image_login_qq)
+    RoundedImageView imageLoginQq;
+    @BindView(R.id.image_login_sina)
+    RoundedImageView imageLoginSina;
+    @BindView(R.id.image_login_tencent)
+    RoundedImageView imageLoginTencent;
     private UserEntityDao userEntityDao;
 
     @Override
@@ -60,7 +76,7 @@ public class LoginActivity extends BaseActivity {
         return R.layout.activity_login;
     }
 
-    @OnClick({R.id.toolbar_image,R.id.toolbar_subtitle, R.id.button_login_submit})
+    @OnClick({R.id.toolbar_image, R.id.toolbar_subtitle, R.id.button_login_submit,R.id.image_login_qq,R.id.image_login_sina,R.id.image_login_tencent})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_subtitle:
@@ -81,8 +97,8 @@ public class LoginActivity extends BaseActivity {
                             userEntity = listByPhone.get(0);
                         else
                             userEntity = listByUser.get(0);
-                        spUtils.putBoolean("login",true);
-                        spUtils.putString("username",userEntity.getUserName());
+                        spUtils.putBoolean("login", true);
+                        spUtils.putString("username", userEntity.getUserName());
                         ActivityManager.finishActivity(this);
                         EventBus.getDefault().post(userEntity);
                     }
@@ -93,7 +109,24 @@ public class LoginActivity extends BaseActivity {
             case R.id.toolbar_image:
                 ActivityManager.finishActivity(this);
                 break;
+            case R.id.image_login_qq:
+                thirdLogin(QQ.NAME);
+                break;
+            case R.id.image_login_tencent:
+                thirdLogin(TencentWeibo.NAME);
+                break;
+            case R.id.image_login_sina:
+                thirdLogin(SinaWeibo.NAME);
+                break;
         }
+    }
+
+    private void thirdLogin(String name) {
+        ShareSDK.initSDK(this);
+        Platform p = ShareSDK.getPlatform(this, name);
+        p.SSOSetting(false);
+        p.showUser(null);
+        p.setPlatformActionListener(this);
     }
 
     private boolean isRight() {
@@ -104,5 +137,30 @@ public class LoginActivity extends BaseActivity {
                 && (textLoginPassword.getText().toString().trim().length() <= 16)
                 && (textLoginPassword.getText().toString().trim().length() != 0);
         return userError && passwordError;
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        String icon = platform.getDb().getUserIcon();
+        String name = platform.getDb().getUserName();
+        String id = platform.getDb().getUserId();
+
+        UserEntity userEntity = new UserEntity(name,"","","",name,"",icon,id);
+        userEntityDao.insertOrReplace(userEntity);
+        spUtils.putBoolean("login", true);
+        spUtils.putString("username", userEntity.getUserName());
+        ActivityManager.finishActivity(this);
+        EventBus.getDefault().post(userEntity);
+        Log.d(TAG, "onComplete: "+name+"============"+icon);
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+
     }
 }

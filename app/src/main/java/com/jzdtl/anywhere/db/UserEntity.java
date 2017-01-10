@@ -34,6 +34,18 @@ public class UserEntity {
         this.head = head;
         this.userId = userId;
     }
+    public UserEntity(String userName, String phoneNumber, String email,
+                      String sex, String nickName, String password, String head,
+                      String userId) {
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.sex = sex;
+        this.nickName = nickName;
+        this.password = password;
+        this.head = head;
+        this.userId = userId;
+    }
     @Generated(hash = 1433178141)
     public UserEntity() {
     }
