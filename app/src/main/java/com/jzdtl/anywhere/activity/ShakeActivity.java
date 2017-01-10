@@ -20,6 +20,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.PoiResultAdapter;
 import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,8 +58,8 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
     ImageView imgUp;
     @BindView(R.id.img_down)
     ImageView imgDown;
-    @BindView(R.id.rcv_poi)
-    RecyclerView rcv_poi;
+    @BindView(R.id.lv_poi)
+    ListView lv_poi;
     @BindView(R.id.xrfv)
     XRefreshView xrfv;
 
@@ -73,8 +76,10 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
     private boolean shakeValid = true;
     private boolean isSleeping = false;
     private PoiResultAdapter mAdapter;
-    private List<PoiInfo> data;
-    private int page = 2;
+    private List<PoiInfo> data = new ArrayList<>();
+    private int page = 0;
+    private int totalPage;
+    private boolean isClear = true;
 
 
     @Override
@@ -85,7 +90,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
         if (intent !=null){
             mBundle = intent.getExtras();
             mIsLocation = mBundle.getBoolean("isLocation",false);
-            position = ((LatLng) mBundle.getParcelable("position"));
+            position =  mBundle.getParcelable("position");
         }
 
         ButterKnife.bind(this);
@@ -94,12 +99,14 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
         toolbarTitle.setText("摇一摇搜周边");
         toolbarSubtitle.setText("");
         xrfv.setAutoLoadMore(false);
-        xrfv.enableRecyclerViewPullUp(true);
-        xrfv.enablePullUpWhenLoadCompleted(true);
+        xrfv.setPullLoadEnable(true);
         xrfv.enableReleaseToLoadMore(true);
+        xrfv.enablePullUpWhenLoadCompleted(true);
         xrfv.setXRefreshViewListener(this);
-        rcv_poi.setLayoutManager(new LinearLayoutManager(this));
-        rcv_poi.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
+
+        mAdapter = new PoiResultAdapter(data,this);
+        lv_poi.setAdapter(mAdapter);
 
         poiSearchInit();
         senserConfig();
@@ -186,10 +193,12 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
                         imgDown.startAnimation(animationDown);
 
                         if (mIsLocation) {
+                            page = 0;
                             poiSearch();
                         } else {
                             Toast.makeText(ShakeActivity.this, "未获取到定位信息", Toast.LENGTH_SHORT).show();
                         }
+                        isClear = true;
                         poiSearch();
 
                     }else {
@@ -235,7 +244,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
         nearbySearchOption.location(position);
         nearbySearchOption.keyword("景点");
         nearbySearchOption.radius(1000);
-        nearbySearchOption.pageCapacity(12);
+        nearbySearchOption.pageCapacity(10);
         nearbySearchOption.pageNum(page);
         mPoiSearch.searchNearby(nearbySearchOption);
     }
@@ -264,10 +273,18 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
     @Override
     public void onRefresh() {
 
+        xrfv.stopRefresh();
     }
 
     @Override
     public void onLoadMore(boolean isSilence) {
+        if (++page >= totalPage){
+            Toast.makeText(this,"最后一页了",Toast.LENGTH_SHORT).show();
+        }else {
+            isClear = false;
+            poiSearch();
+        }
+        xrfv.stopLoadMore();
 
     }
 
@@ -296,9 +313,11 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
 //                            poiOverlay.zoomToSpan();
 
             //检索数据加载到RecyclerView里
-            data = poiResult.getAllPoi();
-            mAdapter = new PoiResultAdapter(data);
-            rcv_poi.setAdapter(mAdapter);
+            if (isClear){
+                data.clear();
+            }
+            data.addAll(poiResult.getAllPoi());
+            mAdapter.notifyDataSetChanged();
 //                            rcv_poi.setVisibility(View.VISIBLE);
 //                            rcv_poi.setBackgroundColor(Color.WHITE);
 //                            rcv_poi.addItemDecoration(
@@ -308,7 +327,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
 //                            rcv_poi.setAdapter(mAdapter);
 
 
-            int totalPage = poiResult.getTotalPageNum();// 获取总分页数
+            totalPage = poiResult.getTotalPageNum();// 获取总分页数
             Toast.makeText(ShakeActivity.this,
                     "总共查到" + poiResult.getTotalPoiNum() + "个兴趣点, 分为"
                             + totalPage + "页", Toast.LENGTH_SHORT).show();
