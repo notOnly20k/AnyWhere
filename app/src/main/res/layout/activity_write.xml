@@ -24,18 +24,12 @@
         android:background="@null"
         android:hint="记录这感人的瞬间"
         />
-    <ImageButton
-        android:id="@+id/img_write_add"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:src="@mipmap/add"
-        android:background="@color/gray_bfbfbf"
-        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_write_showpics"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
     </android.support.v7.widget.RecyclerView>
 
     
