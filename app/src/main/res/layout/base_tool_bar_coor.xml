@@ -4,8 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:layout_height="100dp"
         android:gravity="top"
         app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
@@ -40,6 +39,6 @@
             android:text="title"
             android:scrollHorizontally="true"
             android:textColor="@color/white_fffffff"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal" />
 
 </android.support.v7.widget.Toolbar>

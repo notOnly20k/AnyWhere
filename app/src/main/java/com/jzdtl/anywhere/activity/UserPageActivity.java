@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +20,13 @@ import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.fragment.UserPageFragment1;
 import com.jzdtl.anywhere.fragment.UserPageFragment2;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -55,8 +55,6 @@ public class UserPageActivity extends BaseActivity {
     TabLayout tabUserpage;
     @BindView(R.id.vp_userpage)
     ViewPager vpUserpage;
-    @BindView(R.id.activity_user_page)
-    LinearLayout activityUserPage;
     private List<UserProfilesResult> list;
     private ViewPageAdapter adapter;
     private int user_id;
