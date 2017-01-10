@@ -78,7 +78,7 @@ public class CityActivity extends BaseActivity {
         list2.add("酒店");
         list2.add("购物");
         list3 = new ArrayList<>();
-        list3.add("默认排序");
+        list3.add("默认  排序");
         list3.add("最近出行");
         list3.add("最新发布");
         list3.add("最多点赞");
