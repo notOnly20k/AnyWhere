@@ -43,4 +43,57 @@
             android:textColor="@color/white_fffffff"
             android:background="@drawable/shape_button_register"
             android:text="登录"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+        <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_1dp"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_gravity="center"
+                android:background="@color/bule_94DEFB"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="第三方登录"
+                android:textColor="@color/black_000"
+                android:textSize="12sp"/>
+        <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_1dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_gravity="center"
+                android:background="@color/bule_94DEFB"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+        <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image_login_qq"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/margin_10dp"
+                app:riv_corner_radius="@dimen/radius_5dp"
+                android:src="@drawable/ssdk_oks_classic_qq"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image_login_sina"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/margin_10dp"
+                app:riv_corner_radius="@dimen/radius_5dp"
+                android:src="@drawable/ssdk_oks_classic_sinaweibo"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image_login_tencent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/margin_10dp"
+                app:riv_corner_radius="@dimen/radius_5dp"
+                android:src="@drawable/ssdk_oks_classic_tencentweibo"/>
+    </LinearLayout>
 </LinearLayout>
