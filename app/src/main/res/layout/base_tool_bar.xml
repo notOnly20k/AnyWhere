@@ -8,8 +8,7 @@
         app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
         android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_behavior="com.jzdtl.anywhere.others.ToolbarAlphaBehavior">
+        android:minHeight="?attr/actionBarSize">
     <!--自定义toolbar的title 和subtitle -->
     <ImageView
             android:id="@+id/toolbar_image"

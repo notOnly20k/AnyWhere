@@ -26,10 +26,12 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="关注他"
+           android:padding="5dp"
            android:layout_alignParentRight="true"
            android:layout_marginRight="10dp"
            android:layout_centerVertical="true"
            android:textSize="10sp"
+           android:background="@drawable/shape_follow"
            android:textColor="@color/colorPrimary"
            />
     </RelativeLayout>

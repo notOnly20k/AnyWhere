@@ -167,4 +167,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.i(TAG, "getStorageFile: "+imgPath);
         return imgPath;
     }
+
 }

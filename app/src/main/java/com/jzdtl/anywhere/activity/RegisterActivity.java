@@ -93,7 +93,6 @@ public class RegisterActivity extends BaseActivity implements OptionsPickerView.
     private ActionSheetDialog dialog;
     private File file;
     private String headUrl = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +186,7 @@ public class RegisterActivity extends BaseActivity implements OptionsPickerView.
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dialog.dismiss();
         SMSSDK.unregisterEventHandler(eh);
     }
 

@@ -10,7 +10,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/gray_bfbfbf"
+                android:textColor="@color/black_000"
                 android:padding="10dp"
                 android:textSize="18sp"/>
 </LinearLayout>

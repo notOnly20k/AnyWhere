@@ -1,9 +1,7 @@
 package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,8 +68,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     TextView textDestContent;
     @BindView(R.id.text_dest_all)
     TextView textDestAll;
-    @BindView(R.id.activity_destination)
-    CoordinatorLayout activityDestination;
     @BindView(R.id.text_dest_city_name)
     TextView textDestCityName;
     @BindView(R.id.text_dest_activity_name)
@@ -93,10 +89,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     private String city;
     private List<DestBean> modelData;
     private DestAdapter destAdapter;
-    private String ticketUrl = "";
-    private String freeUrl = "";
-    private String followUrl = "";
-    private Uri ticketUri;
     private ArrayList<String> photoPaths;
     private String userId;
     private String userPhoto;
@@ -115,7 +107,6 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("动态");
         toolbarSubtitle.setVisibility(View.GONE);
-        toolbar.getBackground().setAlpha(0);
         modelData = new ArrayList<>();
         recyclerDestGride.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         destAdapter = new DestAdapter(this);

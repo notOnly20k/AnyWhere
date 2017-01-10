@@ -9,7 +9,7 @@
     <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/marin_20dp"
             app:counterMaxLength="16"
             app:counterEnabled="true"
             app:passwordToggleTint="@color/gray_bfbfbf">
@@ -38,7 +38,7 @@
             android:id="@+id/button_login_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/marin_20dp"
             android:textSize="16sp"
             android:textColor="@color/white_fffffff"
             android:background="@drawable/shape_button_register"

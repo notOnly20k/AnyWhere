@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="com.jzdtl.anywhere.activity.DestinationActivity">
+        <include layout="@layout/base_tool_bar"/>
         <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -49,5 +50,4 @@
                         <include layout="@layout/include_dest_activities"/>
                 </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-        <include layout="@layout/base_tool_bar"/>
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
