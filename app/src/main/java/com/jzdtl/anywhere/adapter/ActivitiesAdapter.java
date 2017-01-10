@@ -146,6 +146,24 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
                 showShare(position);
             }
         });
+        holder.tvActivitiesMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.tvActivitiesInfo.setMaxLines(Integer.MAX_VALUE);
+                holder.tvActivitiesMore.setVisibility(View.GONE);
+            }
+        });
+        holder.tvActitiesFllow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s= (String) holder.tvActitiesFllow.getText();
+                if (s.equals("关注他")) {
+                    holder.tvActitiesFllow.setText("已关注");
+                }else {
+                    holder.tvActitiesFllow.setText("关注他");
+                }
+            }
+        });
     }
     private void showShare(int position) {
         OnekeyShare oks = new OnekeyShare();
@@ -210,6 +228,8 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
         RelativeLayout layout;
         @BindView(R.id.img_actities_share)
         ImageView getImgActitiesShare;
+        @BindView(R.id.tv_actities_fllow)
+        TextView tvActitiesFllow;
         public MyActivitiesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.iwf.photopicker.PhotoPreview;
 
@@ -38,6 +39,7 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
     private ArrayList<String> url;
     private FragmentManager manager;
     private Activity ac;
+    private UserActivitiesResult.DataBean dataBean;
 
     public UserPageAdapter(Context context, List<UserActivitiesResult.DataBean> list, Activity activity) {
         this.context = context;
@@ -53,7 +55,7 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
 
     @Override
     public void onBindViewHolder(final MyUserPageViewHolder holder, final int position) {
-        final UserActivitiesResult.DataBean dataBean=list.get(position);
+        dataBean = list.get(position);
         holder.layout.setVisibility(View.GONE);
         holder.tvActivitiesInfo.setText(dataBean.getDescription());
         holder.tvActitiesTitle.setText(dataBean.getTopic());
@@ -64,7 +66,7 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
         for (int i = 0; i < dataBean.getContents().size(); i++) {
             url.add(dataBean.getContents().get(i).getPhoto_url());
             if (i==0) {
-                final String path=dataBean.getContents().get(i).getPhoto_url();
+                final String path= dataBean.getContents().get(i).getPhoto_url();
                 Glide.with(context).load(path).into(holder.imgActitiesFristpic);
                 holder.imgActitiesFristpic.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -123,6 +125,39 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
                 }
             }
         });
+        holder.getImgActitiesShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showShare(position);
+            }
+        });
+
+    }
+    private void showShare(int position) {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        // title标题，印象笔记、邮箱、信息、微信、人人网、QQ和QQ空间使用
+        oks.setTitle(dataBean.getTopic());
+        // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
+        oks.setTitleUrl("http://sharesdk.cn");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(dataBean.getDescription());
+        //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+        oks.setImageUrl(dataBean.getContents().get(0).getPhoto_url());
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite("ShareSDK");
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+
+// 启动分享GUI
+        oks.show(context);
     }
 
     @Override
@@ -161,6 +196,8 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
         TextView tvActitiesCollect;
         @BindView(R.id.layout_actities_head)
         RelativeLayout layout;
+        @BindView(R.id.img_actities_share)
+        ImageView getImgActitiesShare;
         public MyUserPageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

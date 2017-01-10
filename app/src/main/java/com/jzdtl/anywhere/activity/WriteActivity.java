@@ -87,6 +87,12 @@ public class WriteActivity extends BaseActivity {
                 finish();
             }
         });
+        toolbarSubtitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //// TODO: 2017/1/10 添加点击事件发布
+            }
+        });
     }
 
     @Override

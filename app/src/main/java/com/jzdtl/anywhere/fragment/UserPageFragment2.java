@@ -50,7 +50,6 @@ public class UserPageFragment2 extends Fragment {
     public void onEvenMain(List<UserActivitiesResult.DataBean>list){
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list.get(i).getContents().size(); j++) {
-//                Log.e("log", "onEv enMain: "+bean.getPhoto_url() );
                 path.add(list.get(i).getContents().get(j).getPhoto_url());
             }
         }
