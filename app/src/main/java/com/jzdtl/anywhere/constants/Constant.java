@@ -96,6 +96,12 @@ public class Constant {
      *  例子：http://q.chanyouji.com/api/v1/comments.json?type=UserActivity&id=64157&page=1
      */
     public static final String YUNYOU_USER_COMMENT = "api/v1/comments.json";
+    /**
+     * 更多游记及分类排序
+     * 参数：district_id=100007，月份filter=month_1，默认排序sort=made_desc，主题category_id=10，page=1，
+     * http://q.chanyouji.com/api/v1/user_activities.json?district_id=100007&filter=month_1&sort=made_desc&category_id=10&page=1
+     */
+    public static final String YUNYOU_CITY_ACYIVITY="api/v1/user_activities.json";
     
     public static final String YUNYOU_EMAIL_FORMAT = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
 

@@ -1,6 +1,7 @@
 package com.jzdtl.anywhere.callback;
 
 import com.jzdtl.anywhere.bean.BannerResult;
+import com.jzdtl.anywhere.bean.CityActivityResult;
 import com.jzdtl.anywhere.bean.CommentsResult;
 import com.jzdtl.anywhere.bean.IndexResult;
 import com.jzdtl.anywhere.bean.RegionResult;
@@ -101,5 +102,11 @@ public interface ApiService {
 
     @GET(Constant.YUNYOU_USER_COMMENT)
     Observable<CommentsResult>getCommentResult(@Query("type")String type,@Query("id")String id,@Query("page")String page);
+    /**
+     * 更多游记
+     */
+    @GET(Constant.YUNYOU_CITY_ACYIVITY)
+    Observable<CityActivityResult>getCityActivityResult(@Query("district_id")String id, @Query("filter")String month, @Query("sort")String sort,
+                                                        @Query("category_id")String category_id, @Query("page")String page);
 
 }

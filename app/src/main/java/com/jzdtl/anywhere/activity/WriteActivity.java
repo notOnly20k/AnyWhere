@@ -2,22 +2,24 @@ package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.adapter.WriteAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.iwf.photopicker.PhotoPicker;
 
 /**
@@ -37,32 +39,24 @@ public class WriteActivity extends BaseActivity {
     EditText tvWriteTitle;
     @BindView(R.id.tv_write_info)
     EditText tvWriteInfo;
-    @BindView(R.id.img_write_add)
-    ImageButton imgWriteAdd;
     @BindView(R.id.rec_write_showpics)
     RecyclerView recWriteShowpics;
-    private List<String>photoPath=new ArrayList<>();
+    private ArrayList<String>photoPath=new ArrayList<>();
     private List<File>list=new ArrayList<>();
+    private WriteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         initToolbar();
-        choosePics();
+        initRec();
     }
 
-    private void choosePics() {
-        imgWriteAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PhotoPicker.builder()
-                        .setPhotoCount(9)
-                        .setShowCamera(true)
-                        .setPreviewEnabled(false)
-                        .start(WriteActivity.this);
-                imgWriteAdd.setVisibility(View.GONE);
-            }
-        });
+    private void initRec() {
+        adapter = new WriteAdapter(photoPath,this,WriteActivity.this);
+        recWriteShowpics.setLayoutManager(new GridLayoutManager(this,3));
+        recWriteShowpics.setAdapter(adapter);
     }
 
     @Override
@@ -80,6 +74,7 @@ public class WriteActivity extends BaseActivity {
                 }
             }
         }
+        adapter.notifyDataSetChanged();
     }
 
     private void initToolbar() {
