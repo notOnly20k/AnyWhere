@@ -6,19 +6,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.google.gson.Gson;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.OverviewExpandListAdapter;
 import com.jzdtl.anywhere.bean.OverviewBean;
 import com.jzdtl.anywhere.callback.ApiService;
+import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +51,30 @@ public class OverviewActivity extends BaseActivity {
     TextView toolbarSubtitle;
     @BindView(R.id.elv_overview)
     ExpandableListView elv_overview;
+//    @BindView(R.id.map_header)
+    MapView mapHeader;
     private String url_overview;
-    private OverviewBean data;
+    private List<OverviewBean.DataBean.DestinationsBean> data;
     private OverviewExpandListAdapter mAdapter;
+    private BaiduMap baiduMap;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapHeader.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapHeader.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapHeader.onPause();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +86,20 @@ public class OverviewActivity extends BaseActivity {
         ButterKnife.bind(this);
         toolbarInit();
         getDataFromNet(url_overview);
-        initData();
+//        baiduMap = mapHeader.getMap();
+        data = new ArrayList<>();
+        mAdapter = new OverviewExpandListAdapter(OverviewActivity.this,data);
+        elv_overview.setAdapter(mAdapter);
 
-//        View view = LayoutInflater.from(this).inflate(R.layout.item_header_expandlist,)
-//        elv_overview.addHeaderView();
+
+        View view = LayoutInflater.from(this).inflate(R.layout.item_header_expandlist,null);
+        mapHeader = (MapView)view.findViewById(R.id.map_header);
+        baiduMap = mapHeader.getMap();
+        mapHeader.showZoomControls(false);
+        mapHeader.showScaleControl(false);
+
+        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+        elv_overview.addHeaderView(view);
         elv_overview.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
@@ -79,11 +122,6 @@ public class OverviewActivity extends BaseActivity {
         }
     }
 
-
-    private void initData() {
-        data = new OverviewBean();
-    }
-
     private void getDataFromNet(String url_overview) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url_overview).build();
@@ -102,13 +140,37 @@ public class OverviewActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Gson gson = new Gson();
-                OverviewBean bean = gson.fromJson(response.body().string(), OverviewBean.class);
-                data = bean;
+                final OverviewBean bean = gson.fromJson(response.body().string(), OverviewBean.class);
+                data.addAll(bean.getData().getDestinations());
+                final OverviewBean.DataBean.DestinationBean destination = bean.getData().getDestination();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter = new OverviewExpandListAdapter(data,OverviewActivity.this);
-                        elv_overview.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
+                        MapStatusUpdate u = MapStatusUpdateFactory
+                                .newLatLng(new LatLng(destination.getLat(),destination.getLng()));
+//                        baiduMap.animateMapStatus(u);
+                        baiduMap.setMapStatus(u);
+                        //定义Maker坐标点
+//                        LatLng point = new LatLng(destination.getLat(), destination.getLng());
+//                        BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                                .fromResource(R.mipmap.icon_gcoding);
+//                        OverlayOptions options = new MarkerOptions()
+//                                .position(point).icon(bitmap);
+//                        baiduMap.addOverlay(options);
+
+
+
+//                        baiduMap.clear();
+//                        PoiOverlay poiOverlay = new PoiOverlay(baiduMap);
+//                        poiOverlay.
+//                        poiOverlay.setData(poiResult);// 设置POI数据
+//                        baiduMap.setOnMarkerClickListener(poiOverlay);
+//                        poiOverlay.addToMap();// 将所有的overlay添加到地图上
+//                        poiOverlay.zoomToSpan();
+                        toolbarTitle.setText(destination.getName()+"目的地");
+
                     }
                 });
 

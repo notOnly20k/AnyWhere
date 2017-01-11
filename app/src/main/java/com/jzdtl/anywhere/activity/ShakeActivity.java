@@ -189,6 +189,8 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
                                 Animation.RELATIVE_TO_SELF, 0);
                         animationUp.setDuration(1000);
                         animationDown.setDuration(1000);
+                        imgUp.setVisibility(View.VISIBLE);
+                        imgDown.setVisibility(View.VISIBLE);
                         imgUp.startAnimation(animationUp);
                         imgDown.startAnimation(animationDown);
 
@@ -317,6 +319,8 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
                 data.clear();
             }
             data.addAll(poiResult.getAllPoi());
+            imgUp.setVisibility(View.INVISIBLE);
+            imgDown.setVisibility(View.INVISIBLE);
             mAdapter.notifyDataSetChanged();
 //                            rcv_poi.setVisibility(View.VISIBLE);
 //                            rcv_poi.setBackgroundColor(Color.WHITE);
