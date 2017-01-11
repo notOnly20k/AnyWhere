@@ -73,7 +73,9 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.5.7'
-
-    compile 'cn.jiguang.sdk:jpush:3.0.0'  // 此处以JPush 3.0.0 版本为例。
-    compile 'cn.jiguang.sdk:jcore:1.0.0'  // 此处以JCore 1.0.0 版本为例。
+    compile 'cn.jiguang.sdk:jpush:3.0.0'
+    // 此处以JPush 3.0.0 版本为例。
+    compile 'cn.jiguang.sdk:jcore:1.0.0'
+    // 此处以JCore 1.0.0 版本为例。
+    compile files('libs/MobCommons-2016.1222.1756.jar')
 }

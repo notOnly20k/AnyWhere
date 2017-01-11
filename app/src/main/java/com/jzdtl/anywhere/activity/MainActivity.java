@@ -25,8 +25,6 @@ import com.jzdtl.anywhere.fragment.NearbyFragment;
 import com.jzdtl.anywhere.utils.ActivityManager;
 import com.jzdtl.anywhere.views.ItemView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -35,6 +33,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, SlidingPaneLayout.PanelSlideListener {
     private static final int LOGIN_CODE = 0;

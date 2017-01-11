@@ -3,7 +3,6 @@ package com.jzdtl.anywhere.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,6 @@ public class UserPageFragment2Adapter extends RecyclerView.Adapter<UserPageFragm
 
     @Override
     public int getItemCount() {
-        Log.e("log", "getItemCount: "+list.size() );
         return list==null?0:list.size();
     }
 

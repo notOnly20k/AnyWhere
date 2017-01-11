@@ -5,6 +5,7 @@ import android.app.Application;
 import com.baidu.mapapi.SDKInitializer;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.SMSSDK;
 
 /**
@@ -19,5 +20,6 @@ public class MyApp extends Application {
         SMSSDK.initSDK(this, "1a563f659fd8f", "4ba95726495b8009827d93eb53af8a58");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        ShareSDK.initSDK(this);
     }
 }

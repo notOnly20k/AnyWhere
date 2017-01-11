@@ -1,10 +1,7 @@
 package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.net.http.HttpAuthHeader;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -112,6 +109,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
         toolbarImage.setImageResource(R.mipmap.back_icon);
         toolbarTitle.setText("动态");
         toolbarSubtitle.setVisibility(View.GONE);
+        toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         modelData = new ArrayList<>();
         recyclerDestGride.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         destAdapter = new DestAdapter(this);
@@ -321,6 +319,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                 textDestAll.setVisibility(View.GONE);
                 break;
             case R.id.text_dest_all_name:
+                ActivityManager.startActivity(this,new Intent(this,UserPageActivity.class).putExtra("id",city));
                 break;
         }
     }

@@ -33,6 +33,7 @@
            android:textSize="10sp"
            android:background="@drawable/shape_follow"
            android:textColor="@color/colorPrimary"
+           android:clickable="true"
            />
     </RelativeLayout>
 

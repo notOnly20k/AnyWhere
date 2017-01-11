@@ -4,10 +4,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:gravity="top"
         app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
-        android:background="@color/colorPrimary"
+        app:layout_collapseMode="pin"
         android:minHeight="?attr/actionBarSize">
     <!--自定义toolbar的title 和subtitle -->
     <ImageView

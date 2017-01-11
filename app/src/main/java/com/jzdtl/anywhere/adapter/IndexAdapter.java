@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by gcy on 2016/12/30.
+ * Created by gc y on 2016/12/30.
  */
 public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEAD = 0;
