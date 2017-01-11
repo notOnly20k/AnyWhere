@@ -97,6 +97,7 @@ public class OverviewActivity extends BaseActivity {
         baiduMap = mapHeader.getMap();
         mapHeader.showZoomControls(false);
         mapHeader.showScaleControl(false);
+
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         elv_overview.addHeaderView(view);
         elv_overview.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
