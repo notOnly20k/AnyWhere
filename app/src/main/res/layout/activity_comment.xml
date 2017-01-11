@@ -7,13 +7,11 @@
     android:orientation="vertical"
     tools:context="com.jzdtl.anywhere.activity.CommentActivity">
     <include  layout="@layout/base_tool_bar"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_comment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         >
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
@@ -41,6 +39,5 @@
             android:src="@mipmap/send"
             />
     </LinearLayout>
-    </RelativeLayout>
 
 </LinearLayout>

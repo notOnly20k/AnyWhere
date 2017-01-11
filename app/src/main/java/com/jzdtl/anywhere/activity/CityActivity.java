@@ -69,6 +69,7 @@ public class CityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         id=getIntent().getStringExtra("id");
+        toolbarSubtitle.setVisibility(View.GONE);
         initSpanner();
         setSpanner();
         download(id,"", "", "");
