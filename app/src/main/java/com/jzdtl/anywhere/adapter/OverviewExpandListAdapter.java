@@ -22,36 +22,18 @@ import java.util.Map;
  */
 
 public class OverviewExpandListAdapter extends BaseExpandableListAdapter {
-    private OverviewBean overviewBean;
+//    private OverviewBean overviewBean;
     private Context mContext;
-    private ArrayList<Object> dataList = new ArrayList<>();
-    private int[] sectionCount;
     private List<OverviewBean.DataBean.DestinationsBean> mDestinations;
 
-    public OverviewExpandListAdapter(OverviewBean data, Context context) {
-        overviewBean = data;
+    public OverviewExpandListAdapter(Context context, List<OverviewBean.DataBean.DestinationsBean> destinations) {
         mContext = context;
-        mDestinations = overviewBean.getData().getDestinations();
-//        List<OverviewBean.DataBean.GroupingsBean> groupings = overviewBean.getData().getGroupings();
-//        sectionCount = new int[groupings.size()];
-//        for (int i = 0; i < sectionCount.length; i++) {
-//            sectionCount[i] = groupings.get(i).getSections().size()+1;
-//        }
-//        for (int i = 0; i < groupings.size(); i++) {
-//            dataList.add(groupings.get(i).getName());
-//            for (int j = 0; j < groupings.get(i).getSections().size(); j++) {
-//                OverviewBean.DataBean.GroupingsBean.SectionsBean.DestinationBeanX destination
-//                        = groupings.get(i).getSections().get(j).getDestination();
-//                dataList.add(destination.getName()+","+destination.getTitle());
-//            }
-//        }
+        mDestinations = destinations;
     }
-
-
 
     @Override
     public int getGroupCount() {
-        return overviewBean.getData().getDestinations().size();
+        return mDestinations == null ?0:mDestinations.size();
     }
 
     @Override

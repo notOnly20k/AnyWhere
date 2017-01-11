@@ -80,6 +80,8 @@
         </activity>
         <activity android:name=".activity.OverviewActivity">
         </activity>
+        <activity android:name=".activity.MapActivity">
+        </activity>
     </application>
 
 </manifest>
