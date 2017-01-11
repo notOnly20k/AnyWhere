@@ -187,7 +187,7 @@ public class CityActivity extends BaseActivity {
 
                     @Override
                     public void onNext(CityActivityResult cityActivityResult) {
-                        Log.e("msg", "onNext: "+cityActivityResult.getData().getUser_activities());
+                        Log.e("msg", "onNex t: "+cityActivityResult.getData().getUser_activities());
                         Log.e("msg", "onNext: "+cityActivityResult.toString());
                         info.addAll(cityActivityResult.getData().getUser_activities());
                         for (int i = 0; i <  cityActivityResult.getData().getUser_activities().size(); i++) {
