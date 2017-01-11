@@ -319,7 +319,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
                 textDestAll.setVisibility(View.GONE);
                 break;
             case R.id.text_dest_all_name:
-                ActivityManager.startActivity(this,new Intent(this,UserPageActivity.class).putExtra("id",city));
+                ActivityManager.startActivity(this,new Intent(this,CityActivity.class).putExtra("id",city));
                 break;
         }
     }

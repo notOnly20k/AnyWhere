@@ -77,6 +77,7 @@ public class ActivitiesFragment extends Fragment {
 
     private void downLoad() {
         swipeActivity.isRefreshing();
+        list.clear();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.YUNYOU_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
