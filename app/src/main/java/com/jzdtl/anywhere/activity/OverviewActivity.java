@@ -1,33 +1,25 @@
 package com.jzdtl.anywhere.activity;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.google.gson.Gson;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.OverviewExpandListAdapter;
 import com.jzdtl.anywhere.bean.OverviewBean;
-import com.jzdtl.anywhere.callback.ApiService;
-import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,7 +90,8 @@ public class OverviewActivity extends BaseActivity {
         mapHeader.showZoomControls(false);
         mapHeader.showScaleControl(false);
 
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+        //view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+        view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         elv_overview.addHeaderView(view);
         elv_overview.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
