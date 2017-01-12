@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,7 +99,8 @@ public class OverviewActivity extends BaseActivity {
         mapHeader.showZoomControls(false);
         mapHeader.showScaleControl(false);
 
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+//        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+        view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         elv_overview.addHeaderView(view);
         elv_overview.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
