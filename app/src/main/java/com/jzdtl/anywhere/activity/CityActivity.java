@@ -58,7 +58,6 @@ public class CityActivity extends BaseActivity {
     private String sort;
     private String month;
     private List<CityActivityResult.DataBean.UserActivitiesBean>info=new ArrayList<>();
-    private ArrayList<String>path=new ArrayList<>();
     private List<String> list3;
     private List<String> list2;
     private List<String> list1;
@@ -77,7 +76,7 @@ public class CityActivity extends BaseActivity {
     }
 
     private void initRec() {
-        adapter = new CityActivityAdapter(this,info,path,this);
+        adapter = new CityActivityAdapter(this,info,this);
         recCity.setLayoutManager(new LinearLayoutManager(this));
         recCity.setAdapter(adapter);
         swipCity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -191,11 +190,6 @@ public class CityActivity extends BaseActivity {
                         Log.e("msg", "onNex t: "+cityActivityResult.getData().getUser_activities());
                         Log.e("msg", "onNe xt: "+cityActivityResult.toString());
                         info.addAll(cityActivityResult.getData().getUser_activities());
-                        for (int i = 0; i <  cityActivityResult.getData().getUser_activities().size(); i++) {
-                            for (int j = 0; j <cityActivityResult.getData().getUser_activities().get(i).getContents().size(); j++) {
-                                path.add( cityActivityResult.getData().getUser_activities().get(i).getContents().get(j).getPhoto_url());
-                            }
-                        }
                         adapter.notifyDataSetChanged();
                         swipCity.setRefreshing(false);
                     }

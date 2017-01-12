@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +64,9 @@ public class ActivitiesFragment extends Fragment {
 
     private void initAdapter() {
         list = new ArrayList<>();
-        adapter = new ActivitiesAdapter(context, list, getActivity());
+        adapter = new ActivitiesAdapter(context,list, getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
         swipeActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,7 +77,7 @@ public class ActivitiesFragment extends Fragment {
 
     private void downLoad() {
         swipeActivity.isRefreshing();
-        list.clear();
+        //list.clear();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.YUNYOU_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -102,6 +102,8 @@ public class ActivitiesFragment extends Fragment {
                         for (int i = 0; i < timeLinesResult.getData().size(); i++) {
                             list.add(timeLinesResult.getData().get(i).getActivity());
                         }
+                        Log.e("tag", "onNext: "+list.size() );
+                        recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                        swipeActivity.setRefreshing(false);
                     }

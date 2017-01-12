@@ -36,12 +36,10 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
 
 
     private Context context;
-    private List<TimeLinesResult.DataBean.ActivityBean> list;
-    private ArrayList<String>url;
+    private List<TimeLinesResult.DataBean.ActivityBean> list=new ArrayList<>();
     private FragmentManager manager;
     private Activity ac;
     private int tag;
-    private TimeLinesResult.DataBean.ActivityBean activityBean;
 
     public ActivitiesAdapter(Context context, List<TimeLinesResult.DataBean.ActivityBean> list,Activity activity) {
         this.context = context;
@@ -57,7 +55,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
 
     @Override
     public void onBindViewHolder(final MyActivitiesViewHolder holder, final int position) {
-        activityBean = list.get(position);
+        final TimeLinesResult.DataBean.ActivityBean activityBean = list.get(position);
             holder.tvActivitiesUsername.setText(activityBean.getUser().getName());
             Glide.with(context).load(activityBean.getUser().getPhoto_url()).into(holder.imgActivitiesHeadpic);
             holder.imgActivitiesHeadpic.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +75,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
         holder.tvActitiesComment.setText(activityBean.getComments_count()+"");
         holder.tvActitiesCollect.setText(activityBean.getFavorites_count()+"");
 
-        url=new ArrayList<>();
+        final ArrayList<String>url=new ArrayList<>();
         for (int i = 0; i < activityBean.getContents().size(); i++) {
             url.add(activityBean.getContents().get(i).getPhoto_url());
             if (i==0) {
@@ -143,7 +141,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
         holder.getImgActitiesShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showShare(position);
+                showShare(activityBean);
             }
         });
         holder.tvActivitiesMore.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +163,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
             }
         });
     }
-    private void showShare(int position) {
+    private void showShare( TimeLinesResult.DataBean.ActivityBean activityBean) {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();

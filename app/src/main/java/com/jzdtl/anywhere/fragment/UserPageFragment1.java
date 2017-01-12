@@ -62,7 +62,7 @@ public class UserPageFragment1 extends Fragment {
     private void initRec() {
         adapter = new UserPageAdapter(getContext(), list, getActivity());
         recUserpage1.setLayoutManager(new LinearLayoutManager(getContext()));
-        recUserpage1.setAdapter(adapter);
+
         swipeUserpage1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -100,6 +100,7 @@ public class UserPageFragment1 extends Fragment {
                         for (int i = 0; i < userActivitiesResult.getData().size(); i++) {
                             list.add(userActivitiesResult.getData().get(i));
                         }
+                        recUserpage1.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                         swipeUserpage1.setRefreshing(false);
                     }

@@ -33,14 +33,11 @@ import me.iwf.photopicker.PhotoPreview;
 public class CityActivityAdapter extends RecyclerView.Adapter<CityActivityAdapter.MyCityViewHolder>{
     private Context context;
     private List<CityActivityResult.DataBean.UserActivitiesBean> list;
-    private ArrayList<String> url;
     private Activity ac;
-    private CityActivityResult.DataBean.UserActivitiesBean activityBean;
 
-    public CityActivityAdapter(Context context, List<CityActivityResult.DataBean.UserActivitiesBean> list, ArrayList<String> url, Activity ac) {
+    public CityActivityAdapter(Context context, List<CityActivityResult.DataBean.UserActivitiesBean> list, Activity ac) {
         this.context = context;
         this.list = list;
-        this.url = url;
         this.ac = ac;
     }
 
@@ -52,7 +49,7 @@ public class CityActivityAdapter extends RecyclerView.Adapter<CityActivityAdapte
 
     @Override
     public void onBindViewHolder(final MyCityViewHolder holder, final int position) {
-        activityBean = list.get(position);
+        final CityActivityResult.DataBean.UserActivitiesBean activityBean = list.get(position);
         holder.tvActivitiesUsername.setText(activityBean.getUser().getName());
         Glide.with(context).load(activityBean.getUser().getPhoto_url()).into(holder.imgActivitiesHeadpic);
         holder.imgActivitiesHeadpic.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +69,7 @@ public class CityActivityAdapter extends RecyclerView.Adapter<CityActivityAdapte
         holder.tvActitiesComment.setText(activityBean.getComments_count()+"");
         holder.tvActitiesCollect.setText(activityBean.getFavorites_count()+"");
 
-        url=new ArrayList<>();
+        final ArrayList<String> url=new ArrayList<>();
         for (int i = 0; i < activityBean.getContents().size(); i++) {
             url.add(activityBean.getContents().get(i).getPhoto_url());
             if (i==0) {
@@ -138,7 +135,7 @@ public class CityActivityAdapter extends RecyclerView.Adapter<CityActivityAdapte
         holder.imgActitiesShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            showShare(position);
+            showShare(activityBean);
             }
         });
         holder.tvActitiesMore.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +158,7 @@ public class CityActivityAdapter extends RecyclerView.Adapter<CityActivityAdapte
         });
 
     }
-    private void showShare(int position) {
+    private void showShare(CityActivityResult.DataBean.UserActivitiesBean activityBean) {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();

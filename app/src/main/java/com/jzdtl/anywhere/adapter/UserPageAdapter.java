@@ -36,10 +36,8 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
 
     private Context context;
     private List<UserActivitiesResult.DataBean> list;
-    private ArrayList<String> url;
     private FragmentManager manager;
     private Activity ac;
-    private UserActivitiesResult.DataBean dataBean;
 
     public UserPageAdapter(Context context, List<UserActivitiesResult.DataBean> list, Activity activity) {
         this.context = context;
@@ -55,14 +53,14 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
 
     @Override
     public void onBindViewHolder(final MyUserPageViewHolder holder, final int position) {
-        dataBean = list.get(position);
+        final UserActivitiesResult.DataBean dataBean= list.get(position);
         holder.layout.setVisibility(View.GONE);
         holder.tvActivitiesInfo.setText(dataBean.getDescription());
         holder.tvActitiesTitle.setText(dataBean.getTopic());
         holder.tvActitiesLike.setText(dataBean.getLikes_count()+"");
         holder.tvActitiesComment.setText(dataBean.getComments_count()+"");
         holder.tvActitiesCollect.setText(dataBean.getFavorites_count()+"");
-        url=new ArrayList<>();
+        final ArrayList<String> url=new ArrayList<>();
         for (int i = 0; i < dataBean.getContents().size(); i++) {
             url.add(dataBean.getContents().get(i).getPhoto_url());
             if (i==0) {
@@ -128,12 +126,12 @@ public class UserPageAdapter extends RecyclerView.Adapter<UserPageAdapter.MyUser
         holder.getImgActitiesShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showShare(position);
+                showShare(dataBean);
             }
         });
 
     }
-    private void showShare(int position) {
+    private void showShare(UserActivitiesResult.DataBean dataBean) {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
