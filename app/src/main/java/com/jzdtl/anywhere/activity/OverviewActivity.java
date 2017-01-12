@@ -100,6 +100,7 @@ public class OverviewActivity extends BaseActivity {
         mapHeader.showScaleControl(false);
 
 //        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
+
         view.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         elv_overview.addHeaderView(view);
         elv_overview.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
