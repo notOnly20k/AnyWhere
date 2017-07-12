@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <com.youth.banner.Banner
             android:id="@+id/layout_item_banner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/banner_200dp"
             />
+    <android.support.v7.widget.SearchView
+        android:id="@+id/layout_item_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/white_fffffff"
+        >
+    </android.support.v7.widget.SearchView>
 </LinearLayout>

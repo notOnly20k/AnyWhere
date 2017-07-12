@@ -11,10 +11,9 @@ import android.widget.TextView;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.utils.ActivityManager;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StartActivity extends BaseActivity {
 

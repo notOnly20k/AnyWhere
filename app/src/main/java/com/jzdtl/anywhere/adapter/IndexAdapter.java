@@ -1,7 +1,10 @@
 package com.jzdtl.anywhere.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jzdtl.anywhere.R;
+import com.jzdtl.anywhere.activity.DestinationActivity;
 import com.jzdtl.anywhere.bean.IndexResult;
+import com.jzdtl.anywhere.bean.SearchResult;
+import com.jzdtl.anywhere.callback.ApiService;
 import com.jzdtl.anywhere.callback.OnIndexItemButtonClickListener;
 import com.jzdtl.anywhere.callback.OnIndexItemClickListener;
+import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.views.MyGridView;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -25,6 +32,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,6 +48,8 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_HEAD = 0;
     private static final int TYPE_LIST = 1;
     private Context context;
+    private Retrofit retrofit;
+    private ApiService apiService;
     private List<IndexResult.DataBean> dataBeen = new ArrayList<>();
     private List<String> headUrl = new ArrayList<>();
     private OnIndexItemClickListener mOnIndexItemClickListener;
@@ -111,6 +126,52 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .setImageLoader(new GlideImageLoader())
                     .setImages(headUrl)
                     .start();
+            headHolder.searchView.setSubmitButtonEnabled(true);
+            headHolder.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (!TextUtils.isEmpty(query)) {
+                        retrofit = new Retrofit.Builder()
+                                .baseUrl(Constant.YUNYOU_BASE_URL)
+                                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+                        apiService = retrofit.create(ApiService.class);
+                       apiService.getSearchResult(query)
+                              .subscribeOn(Schedulers.io())
+                               .observeOn(AndroidSchedulers.mainThread())
+                               .subscribe(new Subscriber<SearchResult>() {
+                                   @Override
+                                   public void onCompleted() {
+
+                                   }
+
+                                   @Override
+                                   public void onError(Throwable e) {
+                                       Log.e("=======", "onError: "+e);
+                                   }
+
+                                   @Override
+                                   public void onNext(SearchResult responseBody) {
+
+                                       if (responseBody.getData().getHitted().getDestination()!=null) {
+                                           String id = String.valueOf(responseBody.getData().getHitted().getDestination().getId());
+                                           Intent intent = new Intent(context, DestinationActivity.class);
+                                           intent.putExtra("city", id);
+                                           context.startActivity(intent);
+                                       }
+                                   }
+                               });
+
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
         }
     }
 
@@ -148,6 +209,8 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class HeadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.layout_item_banner)
         Banner layoutItemBanner;
+        @BindView(R.id.layout_item_search)
+        SearchView searchView;
         public HeadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

@@ -20,13 +20,12 @@ import com.jzdtl.anywhere.constants.Constant;
 import com.jzdtl.anywhere.fragment.UserPageFragment1;
 import com.jzdtl.anywhere.fragment.UserPageFragment2;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

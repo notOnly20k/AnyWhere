@@ -49,6 +49,12 @@ public class Constant {
     public static final String YUNYOU_CITY = "api/v3/destinations/{id}.json";
 
     /**
+     * 搜索城市接口
+     * http://q.chanyouji.com/api/v2/search.json?q=%E6%88%90%E9%83%BD
+     */
+    public static final String YUNYOU_SEARCH = "api/v2/search.json?";
+
+    /**
      * 广告条接口
      * 参数market = general，first_launch=true(是否第一次启动)
      * 例子：http://q.chanyouji.com/api/v1/adverts.json?market=general&first_launch=false

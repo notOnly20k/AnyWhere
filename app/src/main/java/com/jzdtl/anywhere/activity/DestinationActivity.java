@@ -95,6 +95,7 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
     private GoodsPagerAdapter pagerAdapter;
     private List<DestinationsResult.DataBean.GoodsBean> goodsData;
     private int url_id;
+    private String search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class DestinationActivity extends BaseActivity implements OnDestClickList
         ButterKnife.bind(this);
         initData();
         city = getIntent().getStringExtra("city");
+        search = getIntent().getStringExtra("search");
+         Log.e(TAG, "onCreate: "+city );
         requestData(city);
     }
 

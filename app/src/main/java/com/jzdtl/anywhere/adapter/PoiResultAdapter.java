@@ -1,14 +1,12 @@
 package com.jzdtl.anywhere.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.jzdtl.anywhere.R;
 
@@ -60,6 +58,7 @@ public class PoiResultAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
     class ViewHolder{
         TextView tv_name;

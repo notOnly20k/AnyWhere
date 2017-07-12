@@ -42,14 +42,14 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.My
     private int tag;
 
     public ActivitiesAdapter(Context context, List<TimeLinesResult.DataBean.ActivityBean> list,Activity activity) {
-        this.context = context;
+        this.context =  context;
         this.list = list;
         this.ac=activity;
     }
 
     @Override
     public MyActivitiesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_activities, parent, false);
+        View view =   LayoutInflater.from(context).inflate(R.layout.item_activities, parent, false);
         return new MyActivitiesViewHolder(view);
     }
 

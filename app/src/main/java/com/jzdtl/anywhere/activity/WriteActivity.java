@@ -91,6 +91,7 @@ public class WriteActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //// TODO: 2017/1/10 添加点击事件发布
+                finish();
             }
         });
     }

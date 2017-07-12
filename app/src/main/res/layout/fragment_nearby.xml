@@ -14,6 +14,10 @@
                 android:id="@+id/map_nearby"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <android.support.design.widget.FloatingActionButton
                 android:id="@+id/float_action_button"
@@ -23,6 +27,25 @@
                 android:src="@drawable/ic_float"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_food_button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:src="@mipmap/food"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/float_spot_button"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/spot"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_poi"

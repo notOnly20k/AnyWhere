@@ -1,15 +1,16 @@
 package com.jzdtl.anywhere.fragment;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,33 +30,20 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
-import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiIndoorResult;
-import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
-import com.baidu.mapapi.search.poi.PoiResult;
-import com.baidu.mapapi.search.poi.PoiSearch;
 import com.jzdtl.anywhere.R;
-import com.jzdtl.anywhere.activity.OverviewActivity;
 import com.jzdtl.anywhere.activity.ShakeActivity;
-import com.jzdtl.anywhere.adapter.PoiResultAdapter;
-import com.jzdtl.anywhere.overlayutil.PoiOverlay;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NearbyFragment extends Fragment implements BDLocationListener, View.OnClickListener{
 
-
+    private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
     private MapView map_nearby;
     private BaiduMap baiduMap;
     private LocationClient locationClient;
-    private FloatingActionButton float_action_button;
-
+    private FloatingActionButton float_action_button,float_food_button,float_spot_button;
+    private boolean vis =true;
     private boolean isLocation = false;
     private LatLng position;
 
@@ -87,14 +75,33 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mContext = getActivity().getApplicationContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//如果 API level 是大于等于 23(Android 6.0) 时
+            //判断是否具有权限
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //判断是否需要向用户解释为什么需要申请该权限
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    Toast.makeText(getActivity(),"自Android 6.0开始需要打开位置权限",Toast.LENGTH_SHORT).show();
+                }
+                //请求权限
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_CODE_ACCESS_COARSE_LOCATION
+                        );
+            }
+        }
+        // Inflate the layout for this fragment
+
         SDKInitializer.initialize(mContext);
         View view = inflater.inflate(R.layout.fragment_nearby, container, false);
         map_nearby = ((MapView) view.findViewById(R.id.map_nearby));
         float_action_button = ((FloatingActionButton) view.findViewById(R.id.float_action_button));
-
+        float_spot_button = ((FloatingActionButton) view.findViewById(R.id.float_spot_button));
+        float_food_button = ((FloatingActionButton) view.findViewById(R.id.float_food_button));
         float_action_button.setOnClickListener(this);
+        float_spot_button.setOnClickListener(this);
+        float_food_button.setOnClickListener(this);
         baiduMap = map_nearby.getMap();
         //1.初始化定位对象
         locationClient = new LocationClient(getActivity().getApplicationContext());
@@ -135,6 +142,7 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         int typeCode = bdLocation.getLocType();
+        Log.e("info", "onReceiveLocation: "+typeCode );
         if (typeCode == 61 || typeCode == 161) {
 
             isLocation = true;
@@ -142,7 +150,7 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
             String c = bdLocation.getCity();
             String s = bdLocation.getStreet();
             String address = bdLocation.getAddrStr();
-            Log.i("info", "====定位成功=======" + p + c + s + address);
+            Log.e("info", "====定位成功=======" + p + c + s + address);
 
             //获取当前定位的经纬度
             double lat = bdLocation.getLatitude();
@@ -168,19 +176,39 @@ public class NearbyFragment extends Fragment implements BDLocationListener, View
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.float_action_button) {
+            if (vis) {
+                float_spot_button.setVisibility(View.VISIBLE);
+                float_food_button.setVisibility(View.VISIBLE);
+                vis=false;
+            }else {
+                float_spot_button.setVisibility(View.GONE);
+                float_food_button.setVisibility(View.GONE);
+                vis=true;
+            }
+//            Bundle bundle = new Bundle();
+//            bundle.putBoolean("isLocation",isLocation);
+//            bundle.putParcelable("position",position);
+//            Intent intent = new Intent(getActivity(),ShakeActivity.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+        }else if (id == R.id.float_spot_button) {
 
             Bundle bundle = new Bundle();
             bundle.putBoolean("isLocation",isLocation);
             bundle.putParcelable("position",position);
+            bundle.putInt("type",1);
             Intent intent = new Intent(getActivity(),ShakeActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
+        }else if (id == R.id.float_food_button) {
 
-//            Intent intent = new Intent(getActivity(), OverviewActivity.class);
-//            intent.putExtra("url","http://q.chanyouji.com/api/v2/destinations/109/groupings.json");
-//            startActivity(intent);
-
-
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isLocation",isLocation);
+            bundle.putParcelable("position",position);
+            bundle.putInt("type",2);
+            Intent intent = new Intent(getActivity(),ShakeActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
     }

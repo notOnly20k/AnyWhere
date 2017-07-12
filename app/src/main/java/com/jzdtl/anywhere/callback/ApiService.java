@@ -5,6 +5,7 @@ import com.jzdtl.anywhere.bean.CityActivityResult;
 import com.jzdtl.anywhere.bean.CommentsResult;
 import com.jzdtl.anywhere.bean.IndexResult;
 import com.jzdtl.anywhere.bean.RegionResult;
+import com.jzdtl.anywhere.bean.SearchResult;
 import com.jzdtl.anywhere.bean.TimeLinesResult;
 import com.jzdtl.anywhere.bean.UserActivitiesResult;
 import com.jzdtl.anywhere.bean.UserGroupNoActivitiesResult;
@@ -40,6 +41,9 @@ public interface ApiService {
     @GET(Constant.YUNYOU_CITY)
     Call<ResponseBody> getDestinationResult(@Path("id") String id);
 
+
+
+
     /**
      * 获得攻略结果
      * @param id 城市id
@@ -70,6 +74,14 @@ public interface ApiService {
      */
     @GET(Constant.YUNYOU_TIMELINES)
     Observable<TimeLinesResult> getTimeLinesResult(@Query("page") String page);
+
+    /**
+     * 获得搜索结果
+     * @param city 城市
+     * @return
+     */
+    @GET(Constant.YUNYOU_SEARCH)
+    Observable<SearchResult> getSearchResult(@Query("q") String city);
 
     /**
      * 获得用户信息

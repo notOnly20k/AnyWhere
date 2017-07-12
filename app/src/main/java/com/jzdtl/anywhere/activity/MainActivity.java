@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,10 +35,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, SlidingPaneLayout.PanelSlideListener {
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, SlidingPaneLayout.PanelSlideListener, DrawerLayout.DrawerListener {
     private static final int LOGIN_CODE = 0;
     private static final int MODIFY_CODE = 1;
     @BindView(R.id.group_view_guide)
@@ -79,7 +80,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     TextView textViewNameFalse;
     private static final String TAG = "MainActivity";
     @BindView(R.id.slide_main_menu)
-    SlidingPaneLayout slideMainMenu;
+    DrawerLayout slideMainMenu;
+//    SlidingPaneLayout slideMainMenu;
     private boolean login;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
@@ -118,7 +120,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         toolbarTitle.setText("首页");
         toolbarSubtitle.setVisibility(View.GONE);
         login = spUtils.getBoolean("login", false);
-        slideMainMenu.setPanelSlideListener(this);
+        slideMainMenu.addDrawerListener(this);
+//        slideMainMenu.setPanelSlideListener(this);
     }
 
     private void checkLogin() {
@@ -218,11 +221,18 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 ActivityManager.startActivity(this, new Intent(this, WriteActivity.class));
                 break;
             case R.id.toolbar_image:
-                if (slideMainMenu.isOpen()){
-                    slideMainMenu.closePane();
-                }else {
-                    slideMainMenu.openPane();
+//                if (slideMainMenu.isOpen()){
+//                    slideMainMenu.closePane();
+//                }else {
+//                    slideMainMenu.openPane();
+//                }
+
+                if(slideMainMenu.isDrawerOpen(GravityCompat.START)){
+                    slideMainMenu.closeDrawer(GravityCompat.START);
+                }else{
+                    slideMainMenu.openDrawer(GravityCompat.START);
                 }
+
                 break;
         }
     }
@@ -300,6 +310,27 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void onPanelClosed(View panel) {
+
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+//        drawerView.setAlpha(slideOffset*0.2f);
+        toolbarImage.setRotation(360f*slideOffset);
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
 
     }
 }

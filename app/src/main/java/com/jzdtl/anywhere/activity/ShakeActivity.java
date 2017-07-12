@@ -7,21 +7,16 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +32,6 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.jzdtl.anywhere.R;
 import com.jzdtl.anywhere.adapter.PoiResultAdapter;
-import com.jzdtl.anywhere.overlayutil.PoiOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +74,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
     private int page = 0;
     private int totalPage;
     private boolean isClear = true;
+    private String type ;
 
 
     @Override
@@ -91,6 +86,11 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
             mBundle = intent.getExtras();
             mIsLocation = mBundle.getBoolean("isLocation",false);
             position =  mBundle.getParcelable("position");
+            if (mBundle.getInt("type")==1){
+                type="景点";
+            }else if(mBundle.getInt("type")==2){
+                type="美食";
+            }
         }
 
         ButterKnife.bind(this);
@@ -107,6 +107,19 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
 
         mAdapter = new PoiResultAdapter(data,this);
         lv_poi.setAdapter(mAdapter);
+        lv_poi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intentBrowse = new Intent();
+                intentBrowse.setAction("android.intent.action.VIEW");
+//                String url="http://api.map.baidu.com/geocoder?"+latLng;
+               //Uri ticketUri =Uri.parse("baidumap://map/geocoder?src=openApiDemo&address="+data.get(position).name);
+                Uri ticketUri =Uri.parse("http://api.map.baidu.com/geocoder?address="+
+                                data.get(position).name+"&output=html  ");
+                intentBrowse.setData(ticketUri);
+                startActivity(intentBrowse);
+            }
+        });
 
         poiSearchInit();
         senserConfig();
@@ -244,7 +257,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
 
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption();
         nearbySearchOption.location(position);
-        nearbySearchOption.keyword("景点");
+        nearbySearchOption.keyword(type);
         nearbySearchOption.radius(1000);
         nearbySearchOption.pageCapacity(10);
         nearbySearchOption.pageNum(page);
@@ -318,6 +331,7 @@ public class ShakeActivity extends BaseActivity implements XRefreshView.XRefresh
             if (isClear){
                 data.clear();
             }
+
             data.addAll(poiResult.getAllPoi());
             imgUp.setVisibility(View.INVISIBLE);
             imgDown.setVisibility(View.INVISIBLE);

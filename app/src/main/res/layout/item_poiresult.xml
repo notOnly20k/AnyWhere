@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:background="@color/white_fffffff"
+    >
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
@@ -10,14 +12,16 @@
         android:paddingLeft="18dp"
         android:layout_marginTop="18dp"
         android:gravity="center_vertical"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textColor="#000"
+        />
     <TextView
         android:id="@+id/tv_addr"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:paddingLeft="18dp"
         android:layout_marginBottom="18dp"
-        android:textColor="#ccc"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        />
 
 </LinearLayout>

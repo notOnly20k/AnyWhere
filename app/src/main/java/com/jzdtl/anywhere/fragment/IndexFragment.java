@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,13 +114,10 @@ public class IndexFragment extends BaseFragment implements SwipeRefreshLayout.On
                     @Override
                     public void onNext(BannerResult bannerResult) {
                         List<String> imgUrlList = new ArrayList<String>();
-                        Log.i(TAG, "onNext: " + bannerResult.toString());
-                        Log.i(TAG, "onNext: " + bannerResult.getData().size());
                         for (int i = 0; i < bannerResult.getData().size(); i++) {
                             String imgUrl = bannerResult.getData().get(i).getPhoto().getPhoto_url();
                             imgUrlList.add(imgUrl);
                         }
-                        Log.i(TAG, "onNext: " + imgUrlList.toString());
                         indexAdapter.setBanner(imgUrlList);
                         isBannerOk = true;
                         if (isBannerOk && isContentOk)
